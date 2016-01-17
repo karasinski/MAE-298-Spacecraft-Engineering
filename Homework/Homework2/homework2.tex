@@ -1,0 +1,122 @@
+\documentclass[onecolumn,10pt]{jhwhw}
+
+\usepackage{epsfig} %% for loading postscript figures
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{pdfpages}
+\usepackage{algpseudocode}
+\usepackage{wrapfig}
+\usepackage{pgfplots}
+\usepackage{amsfonts}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{commath}
+\usepackage{rotating}
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+% Custom colors
+\usepackage{color}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{caption}
+\usepackage{bm}
+\captionsetup[lstlisting]{font={small,tt}}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\ttfamily\footnotesize, % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,                    % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  columns=flexible,
+  keywordstyle=\color{blue},       % keyword style
+  language=Python,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=4,                       % sets default tabsize to 2 spaces
+}
+
+\author{John Karasinski}
+\title{Homework 2}
+
+\begin{document}
+%\maketitle
+
+\problem{Trapped Particle Radiation}
+Assume two spacecraft orbit Earth, one at an altitude of 3000km, the other at 20,000km.
+\part{Remind yourself --- are these orbits above or below geostationary?}
+\part{Assuming they are both shielded with 4mm aluminum and have the same electronics, which spacecraft is more likely to suffer Single-Event Upsets? Why?}
+
+\problem{Upper Atmosphere Physics}
+\part{What is the change in density of the exosphere at Hubble Space Telescope (HST) altitude between the date of its fourth Shuttle re-boost (Servicing Mission 3B) and the date of your new spacecraft’s re-boost?}
+\part{Using the NASA NRLMSISE-100 atmosphere model, list the following parameters for today’s date and the HST altitude:}
+\begin{enumerate}
+\item Atomic oxygen species density
+\item Atmosphere mass density
+\item Exosphere temperature
+\end{enumerate}
+\part{What role do each of these environmental parameters play in the mission design of your spacecraft?
+}
+
+\problem{Orbital Debris and Ballistic Limit Equations (BLE)}
+\part{Using eqn 2-3 of the NASA MMOD handbook and Fig 2-4 of the NASA Orbital Debris Engineering Model (both in MMOD folder on SmartSite), determine the critical particle diameter for a Probability of No Penetration (PNP) of 0.877. Assume 1m$^2$ exposed area and
+a two-week mission.}
+\part{What would the critical particle diameter be for the same PNP if your spacecraft stayed attached to HST for a second re-boost in 2 years?}
+\part{Consider a perpendicular impact of a particle of the size found in part a and another particle with 1mm diameter. Use the Design Equations 4-1 and 4-2 to compute the penetration depth for:}
+\begin{enumerate}
+\item Silicate particle at 0.5gm/cm$^3$ and 23 km/sec (micro-meteroid)
+\item Steel particle at 7 km/sec (orbital debris)
+\end{enumerate}
+With target materials of:
+\begin{enumerate}
+\item 6061-T6 Alum
+\item 7075-T6 Alum
+\end{enumerate}
+\part{No protection case: Use Performance Equation 4-6 to estimate the required spacecraft wall thickness to avoid detached spall due to impact of the 1mm particle for the four material cases in part c.}
+\part{Compare your answers in part d to equation 4-4.}
+\part{Whipple Shield design: For the two 1mm particle compositions/velocities in part c, use equations 4-21 and 4-22 to estimate the bumper and rear-wall thickness required to defeat the threat particles. Assume}
+\begin{enumerate}
+\item Particles are spherical
+\item Bumper standoff = 10.2cm (Fig 4-1)
+\item Rear wall: 2219-T87 Alum, 0.5cm thickness
+\item Perpendicular velocity impact ($\theta=0$)
+\end{enumerate}
+\part{Estimate the protection capability limits for your Whipple Shields: Compute the critical projectile performance diameter using equations 4-23, 4-24, and 4-25 for various relative velocities, for two types of spherical particle, one silicate, the other steel. Assume the same parameters as for part f.}
+
+\problem{Acoustic Shielding}
+\part{Download and install a sound-level app on your smartphone.}
+\part{Measure the sound pressure level (dB) in some noisy environment (home stereo? EFL?).}
+\part{Remind yourself: what is the definition of the Decibel, and how is the reference soundpressure level defined?}
+\part{Use a Styrofoam cup (or similar) as a payload shroud for your phone. Plug the open end of the shroud with isolation (tissues?). Measure the change in dB sensed by your phone.}
+\part{Add some kind of insulation to the inside walls of your payload shroud and repeat part d.}
+\part{Discuss results.}
+
+\problem{Numerical Integration Review}
+Consider the first-order initial-value problem:
+$\dfrac{dy}{dt} = t + y$, $y(0)=0$ with exact solution $y(t) = e^t-t-1$
+\part{Program Euler and Runge-Kutta solvers (write your own) and plot the results over a range t=0 to 1.0, with step sizes h=0.01, 0.1, and 0.5. Plot results (y vs t) and compare to the exact solution.}
+\part{Repeat step a with library functions for Euler and RK4}
+
+\end{document}
