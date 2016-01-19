@@ -172,37 +172,81 @@ For $\dfrac{\rho_p}{\rho_t} \geq 1.5,$
 \begin{align*}
 P_{\infty} &= 5.24 d^{(19/18)} BHN^{-0.25} \left(\dfrac{\rho_p}{\rho_t}\right)^{2/3} \left(\dfrac{V cos \theta}{C_t}\right)^{2/3}
 \end{align*}
-
 \noindent For a silicate particle impacting 6061, we have
 \begin{align*}
 \dfrac{\rho_p}{\rho_t} &= 0.5/2.7 = 0.19 < 1.5 \\
-P_{\infty} &= 5.24 (0.1)^{(19/18)} (95)^{-0.25} \left(\dfrac{0.5}{2.7}\right)^{0.5} \left(\dfrac{23}{5.433}\right)^{2/3} \\
-P_{\infty} &= 0.17 cm
+P_{\infty} &= 5.24 (0.1)^{(19/18)} (95)^{-0.25} \left(\dfrac{0.5}{2.7}\right)^{0.5} \left(\dfrac{23}{5.433}\right)^{2/3} = 0.17 cm
 \end{align*}
-
 \noindent For a silicate particle impacting 7075, we have
 \begin{align*}
 \dfrac{\rho_p}{\rho_t} &= 0.5/2.81 = 0.18 < 1.5 \\
-P_{\infty} &= 5.24 (0.1)^{(19/18)} (150)^{-0.25} \left(\dfrac{0.5}{2.81}\right)^{0.5} \left(\dfrac{23}{6.350}\right)^{2/3} \\
-P_{\infty} &= 0.13 cm
+P_{\infty} &= 5.24 (0.1)^{(19/18)} (150)^{-0.25} \left(\dfrac{0.5}{2.81}\right)^{0.5} \left(\dfrac{23}{6.350}\right)^{2/3} = 0.13 cm
 \end{align*}
-
 \noindent For a steel particle impacting 6061, we have
 \begin{align*}
 \dfrac{\rho_p}{\rho_t} &= 7.8/2.7 = 2.9 > 1.5 \\
-P_{\infty} &= 5.24 (0.1)^{(19/18)} (95)^{-0.25} \left(\dfrac{7.8}{2.7}\right)^{2/3} \left(\dfrac{7}{5.433}\right)^{2/3} \\
-P_{\infty} &= 0.35 cm
+P_{\infty} &= 5.24 (0.1)^{(19/18)} (95)^{-0.25} \left(\dfrac{7.8}{2.7}\right)^{2/3} \left(\dfrac{7}{5.433}\right)^{2/3} = 0.35 cm
 \end{align*}
-
 \noindent For a steel particle impacting 7075, we have
 \begin{align*}
 \dfrac{\rho_p}{\rho_t} &= 7.8/2.81 = 2.8 > 1.5 \\
-P_{\infty} &= 5.24 (0.1)^{(19/18)} (150)^{-0.25} \left(\dfrac{7.8}{2.81}\right)^{2/3} \left(\dfrac{7}{6.350}\right)^{2/3} \\
-P_{\infty} &= 0.28 cm
+P_{\infty} &= 5.24 (0.1)^{(19/18)} (150)^{-0.25} \left(\dfrac{7.8}{2.81}\right)^{2/3} \left(\dfrac{7}{6.350}\right)^{2/3} = 0.28 cm
 \end{align*}
 
 \part{No protection case: Use Performance Equation 4-6 to estimate the required spacecraft wall thickness to avoid detached spall due to impact of the 1mm particle for the four material cases in part c.}
+
+\begin{align*}
+d_c = \left[ \dfrac{t}{k} \dfrac{BHN^{0.25} \left( \rho_t/\rho_p \right)^{0.5}}{5.24\left( V cos \theta / C_t \right)^{2/3}} \right]^{18/19}
+\implies
+t = \left[ \dfrac{d_c^{19/18}}{k} \dfrac{BHN^{0.25} \left( \rho_t/\rho_p \right)^{0.5}}{5.24\left( V cos \theta / C_t \right)^{2/3}} \right]^{-1}
+\end{align*}
+To avoid detached spall with an incidence angle of $\theta = 0$, this simplifies to:
+\begin{align*}
+t = \left[\dfrac{d_c^{19/18}}{11.528} \dfrac{\left( \rho_t/\rho_p \right)^{0.5}}{\left( V / C_t \right)^{2/3}} BHN^{0.25} \right]^{-1}
+\end{align*}
+\noindent For a silicate particle impacting 6061, we have
+\begin{align*}
+t = \left[\dfrac{(0.1)^{19/18}}{11.528} \dfrac{\left( 0.19 \right)^{0.5}}{\left( 23/5.433 \right)^{2/3}} 95^{0.25} \right]^{-1} = 251.94 cm
+\end{align*}
+\noindent For a silicate particle impacting 7075, we have
+\begin{align*}
+t = \left[\dfrac{(0.1)^{19/18}}{11.528} \dfrac{\left( 0.18 \right)^{0.5}}{\left( 23/6.350 \right)^{2/3}} 150^{0.25} \right]^{-1} = 208.11 cm
+\end{align*}
+\noindent For a steel particle impacting 6061, we have
+\begin{align*}
+t = \left[\dfrac{(0.1)^{19/18}}{11.528} \dfrac{\left( 2.9 \right)^{0.5}}{\left( 7/5.433 \right)^{2/3}} 95^{0.25} \right]^{-1} = 29.18 cm
+\end{align*}
+\noindent For a steel particle impacting 7075, we have
+\begin{align*}
+t = \left[\dfrac{(0.1)^{19/18}}{11.528} \dfrac{\left( 2.8 \right)^{0.5}}{\left( 7/6.350 \right)^{2/3}} 150^{0.25} \right]^{-1} = 23.87 cm
+\end{align*}
+
 \part{Compare your answers in part d to equation 4-4.}
+\begin{align*}
+t \leq 2.2 P_{\infty}
+\end{align*}
+
+\noindent For a silicate particle impacting 6061, we have
+\begin{align*}
+t &= 251.94 cm, P_{\infty} = 0.17 cm \\
+251.94 cm & \leq 2.2 * 0.17 cm \implies \mbox{False}
+\end{align*}
+\noindent For a silicate particle impacting 7075, we have
+\begin{align*}
+t &= 208.11 cm, P_{\infty} = 0.13 cm \\
+208.11 cm & \leq 2.2 * 0.13 cm \implies \mbox{False}
+\end{align*}
+\noindent For a steel particle impacting 6061, we have
+\begin{align*}
+t &= 29.18 cm, P_{\infty} = 0.35 cm \\
+29.18 cm, & \leq 2.2 *0.35 cm  \implies \mbox{False}
+\end{align*}
+\noindent For a steel particle impacting 7075, we have
+\begin{align*}
+t &= 23.87 cm, P_{\infty} = 0.28 cm \\
+23.87 cm, & \leq 2.2 *0.28 cm  \implies \mbox{False}
+\end{align*}
+
 \part{Whipple Shield design: For the two 1mm particle compositions/velocities in part c, use equations 4-21 and 4-22 to estimate the bumper and rear-wall thickness required to defeat the threat particles. Assume}
 \begin{enumerate}
 \item Particles are spherical
