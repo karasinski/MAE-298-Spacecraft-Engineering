@@ -14,6 +14,8 @@
 \usepackage{commath}
 \usepackage{rotating}
 \usepackage{url}
+\usepackage{multimedia}
+\usepackage{hyperref}
 
 % Default fixed font does not support bold face
 \DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
@@ -113,12 +115,16 @@ The most recent data available is from September 2015. The information for an al
 \item Exosphere temperature, 810 K
 \end{enumerate}
 
-\part{What role do each of these environmental parameters play in the mission design of your spacecraft?
-}
+\part{What role do each of these environmental parameters play in the mission design of your spacecraft?}
+
+Atomic oxygen can erode the external surfaces of polymers on spacecraft, and degrade the internal components of exposed spacecraft components\footnote{Banks, Bruce A., et al. ``Atomic oxygen effects on spacecraft materials.'' Ninth International Symposium on Materials in a Space Environment, NASA TM-212484. 2003.}. A larger atmosphere mass density will lead to additional particle collisions with the spacecraft, lower it's orbital velocity and decreasing it's orbit height. A higher exosphere temperature will cause the exosphere to expand and raise it's altitude. This has the same effect as if the spacecraft was in a lower orbit--resulting in higher density of particles.
 
 \problem{Orbital Debris and Ballistic Limit Equations (BLE)}
 \part{Using eqn 2-3 of the NASA MMOD handbook and Fig 2-4 of the NASA Orbital Debris Engineering Model (both in MMOD folder on SmartSite), determine the critical particle diameter for a Probability of No Penetration (PNP) of 0.877. Assume 1m$^2$ exposed area and
 a two-week mission.}
+\\
+\\
+\noindent \textbf{See the appendix for the software used to create the solutions for this problem.}
 
 \begin{align*}
   PNP = exp\left[- \sum^{n}_{i=1} \left(F A t\right)_i \right]
@@ -302,7 +308,7 @@ t \leq 2.2 P_{\infty}
 t_b &= c_b d \rho_p / \rho_b \\
 t_w &= c_w d^{0.5} \left( \rho_p \rho_b \right)^{1/6} \left( M_p \right)^{1/3} V_n / S^{0.5} \left( 70/\sigma \right)^{0.5}
 \end{align*}
-where $c_b$ depends on the ratio of $S/d=10.2cm/0.1cm=102 \implies c_b = 0.2$. Since the particles are spherical, $M_p = \rho_p V_p = \dfrac{4}{3} \pi \rho_p r_p^3$.
+where $c_b$ depends on the ratio of $S/d=10.2cm/0.1cm=102 \implies c_b = 0.2$. Since the particles are spherical, $M_p = \rho_p V_p = \rho_p \dfrac{4}{3} \pi r_p^3$.
 % \noindent For a silicate particle impacting 6061, we have
 % \begin{align*}
 % t_b &= 0.2 * 0.1 * (0.5 / 2.7) = 0.004 cm \\
@@ -334,7 +340,7 @@ where $c_b$ depends on the ratio of $S/d=10.2cm/0.1cm=102 \implies c_b = 0.2$. S
 \bottomrule
 \end{tabular}
 \end{center}
-\caption{$t_b$ (cm) for combinations of particles and target materials}
+\caption{$t_b$ (cm), bumper thickness, for combinations of particles and target materials}
 \end{table}
 
 \begin{table}[h]
@@ -348,18 +354,80 @@ where $c_b$ depends on the ratio of $S/d=10.2cm/0.1cm=102 \implies c_b = 0.2$. S
 \bottomrule
 \end{tabular}
 \end{center}
-\caption{$t_w$ (cm) for combinations of particles and target materials}
+\caption{$t_w$ (cm), rear wall thickness, for combinations of particles and target materials}
 \end{table}
 
 \part{Estimate the protection capability limits for your Whipple Shields: Compute the critical projectile performance diameter using equations 4-23, 4-24, and 4-25 for various relative velocities, for two types of spherical particle, one silicate, the other steel. Assume the same parameters as for part f.}
+\begin{align*}
+V_n \geq 7 \mbox{km/s} \implies d_c &= 3.918 \hspace{0.2em} t_w^{2/3} \rho_p^{-1/3} \rho_b^{-1/9} \left(V cos \theta \right)^{-2/3} S^{1/3} \left( \sigma / 70 \right)^{1/3} \\
+V_n \leq 3 \mbox{km/s} \implies d_c &= \left[ \dfrac{t_w (\sigma/40)^{0.5} + t_b}{0.6(cos^{5/3} \theta) \rho_p^{0.5} V^{2/3}} \right]^{(18/19)} \\
+3 \mbox{km/s} \leq V_n \leq 7 \mbox{km/s} \implies d_c &= \left[ \dfrac{t_w (\sigma/40)^{0.5} + t_b}{1.248 \rho_p^{0.5} (cos \theta)} \right]^{(18/19)} * \left[1.75-(V_n/4)\right] \\
+                                    &+ \left[1.071 \hspace{0.2em} t_w^{2/3} \rho_p^{-1/3} \rho_b^{-1/9} S^{1/3} \left( \sigma / 70 \right)^{1/3} \right] * (V_n/4-0.75)
+\end{align*}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{r|rr}
+\toprule
+      &   Micro-meteroid &   Orbital Debris \\
+\midrule
+ 1km/s   &            0.015 &            0.045 \\
+ 5km/s   &            0.047 &            0.055 \\
+ 10km/s  &            0.099 &            0.099 \\
+ 25km/s  &            0.099 &            0.099 \\
+ 100km/s &            0.099 &            0.099 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{$d_c$ (cm), critical projectile diameter at shield failure threshold, for combinations of particles impacting 6061-T6 Alum and a rear wall of 2219-T87 Alum}
+\end{table}
+
 
 \problem{Acoustic Shielding}
 \part{Download and install a sound-level app on your smartphone.}
+\\
+\\
+\noindent Instead of using a smartphone app, I used a portable microphone and connected it to my laptop. This allowed me to have better control over the data and analysis.
+
 \part{Measure the sound pressure level (dB) in some noisy environment (home stereo? EFL?).}
+\\
+\\
+\noindent Five seconds of recorded audio from an African chant\footnote{See \url{https://www.youtube.com/watch?v=RRgEBogpa9w}.} was recorded in front of a speaker in my living room, measuring an average volume of -13.8 db (see part c).
+\begin{figure}[tbh!]
+\begin{center}
+\includegraphics[height=.3\textheight]{level1.png}
+\end{center}
+\caption{Frequency Analysis of first 5-second block of recorded audio (no shielding).}
+\end{figure}
 \part{Remind yourself: what is the definition of the Decibel, and how is the reference soundpressure level defined?}
+\\
+\\
+\noindent The decibel (dB) is a logarithmic unit used to express the ratio of two values of a physical quantity. Sound volume can be measured by
+\begin{align*}
+L_p = 20 \log_{10}\!\left(\frac{p_{\mathrm{rms}}}{p_{\mathrm{ref}}}\right)\!~\mathrm{dB},
+\end{align*}
+where $p_{ref}$ is the standard reference sound pressure of 20 micropascals in air, and $p_{rms}$ is the RMS value of the measured sound. The reference pressure in air is approximately the threshold of hearing for an average human (dbSPL). The scale I use here, however, is decibels relative to full scale (dBFS). For dbFS, 0 is assigned to a maximum digital level, the point at which clipping occurs. For a rough comparison, a measurement of -13.8 dBFS on my system is approximately 80 dB SPL.
+
 \part{Use a Styrofoam cup (or similar) as a payload shroud for your phone. Plug the open end of the shroud with isolation (tissues?). Measure the change in dB sensed by your phone.}
+\\
+\\
+\noindent A fuzzy slipper was used as a payload shroud, and the microphone was placed the same distance away from the speaker as before. The African chant was again played for five seconds, and a volume of -24.4db was measured. The resulting difference was 10.6 db average RMS.
+\begin{figure}[tbh!]
+\begin{center}
+\includegraphics[height=.3\textheight]{level2.png}
+\includegraphics[height=.3\textheight]{level3.png}
+\end{center}
+\caption{Frequency Analysis of second (some shielding), and third (most shielding) 5-second blocks of recorded audio.}
+\end{figure}
 \part{Add some kind of insulation to the inside walls of your payload shroud and repeat part d.}
+\\
+\\
+\noindent A sweater was wrapped around the microphone, which was again placed inside the fuzzy slipper. The African chant was once again played for five seconds, and a volume of -30.2 db was measured. The resulting difference was 5.8 db average RMS.
+
 \part{Discuss results.}
+\\
+\\
+\noindent `Insulating' our `payload shroud' reduced the initial volume of -13.8 dB to -30.2 db. Higher frequency wavelengths were especially affected, and the maximum frequency observed at a volume greater than -90 dB decreased from 18000 Hz in the unshield case, to approximately 7500 Hz in the most shielded case. (Depending on your PDF reader, there may or may not be text here: \movie[inlinesound]{Play Sound}{african_chant.wav}, you can press `Play Sound' to play the three 5-second blocks of recorded audio.)
 
 \problem{Numerical Integration Review}
 Consider the first-order initial-value problem:
@@ -368,20 +436,33 @@ $\dfrac{dy}{dt} = t + y$, $y(0)=0$ with exact solution $y(t) = e^t-t-1$
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=.45\textwidth]{euler.pdf}
-\includegraphics[width=.45\textwidth]{rk4.pdf}
+\includegraphics[height=0.5\textheight]{euler.pdf}
 \label{fig:on}
 \end{center}
-\caption{Results from Euler (left) and RK4 (right) solvers.}
+\caption{Results from Euler solver.}
+\end{figure}
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=0.4\textheight]{rk4.pdf}
+\label{fig:on}
+\end{center}
+\caption{Results from RK4 solver.}
 \end{figure}
 
 \part{Repeat step a with library functions for Euler and RK4}
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=.5\textwidth]{odeint.pdf}
+\includegraphics[height=0.4\textheight]{odeint.pdf}
 \label{fig:on}
 \end{center}
 \caption{Results from scipy's RK4 solver.}
 \end{figure}
+
+\clearpage
+\appendix
+\chapter{Python Code}
+\lstinputlisting{hw2.py}
 
 \end{document}
