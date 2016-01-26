@@ -7,18 +7,19 @@ import matplotlib.pyplot as plt
 # Origin is the tip of far center of the far end of Section1
 Part = namedtuple('Part', ['mass', 'v1', 'v2', 'v3'])
 Cylinder = namedtuple('Cylinder', Part._fields + ('length', 'radius'))
-Plate = namedtuple('Plate', Part._fields + ('length', 'width', 'theta'))
+Plate = namedtuple('Plate', Part._fields + ('length', 'width'))
 
-Section1 = Cylinder(mass=9033, v1=309.25/2, v2=0, v3=0, length=309.25, radius=121.2/2)
-Section2 = Cylinder(mass=10593, v1=309.25 + 61.25/2, v2=0, v3=0, length=61.25, radius=121.2/2)
-Section3 = Cylinder(mass=3363, v1=309.25 + 61.25 + 138/2, v2=0, v3=0, length=138, radius=168.16/2)
-Solar1 = Plate(mass=735/2, v1=309.25 - 20.75, v2=129 + 113.5/2, v3=0, length=476.8, width=113.5, theta=0)
-Solar2 = Plate(mass=735/2, v1=309.25 - 20.75, v2=-129 - 113.5/2, v3=0, length=476.8, width=113.5, theta=0)
+Section1 = Cylinder(mass=2796, v1=270.75/2, v2=0, v3=0, length=270.75, radius=121.2/2)
+Section2 = Cylinder(mass=9033, v1=Section1.length + 38.5/2, v2=0, v3=0, length=38.5, radius=121.2/2)
+Section3 = Cylinder(mass=11163, v1=Section1.length + Section2.length + 199.25/2, v2=0, v3=0, length=199.25, radius=168.16/2)
+Solar1 = Plate(mass=735/2, v1=309.25 - 20.75, v2=129 + 113.5/2, v3=0, length=476.8, width=113.5)
+Solar2 = Plate(mass=735/2, v1=309.25 - 20.75, v2=-129 - 113.5/2, v3=0, length=476.8, width=113.5)
 
 parts = [Section1, Section2, Section3, Solar1, Solar2]
 r_cm = ([part.mass * np.array([part.v1, part.v2, part.v3]) for part in parts] /
         np.sum([part.mass for part in parts])).sum(axis=0)
 print(r_cm)
+
 
 def parallel_axis(part, inertia, r=[0, 0, 0]):
     # The moment of inertia about the center of mass of the body with respect
@@ -70,6 +71,23 @@ def FlatPlate(plate):
     return I
 
 
+def rotation_matrix(axis, theta):
+    """
+    Return the rotation matrix associated with counterclockwise rotation about
+    the given axis by theta radians.
+    """
+    axis = np.asarray(axis)
+    theta = np.asarray(theta)
+    axis = axis/np.sqrt(np.dot(axis, axis))
+    a = np.cos(theta)
+    b, c, d = -axis*np.sin(theta)
+    aa, bb, cc, dd = a*a, b*b, c*c, d*d
+    bc, ad, ac, ab, bd, cd = b*c, a*d, a*c, a*b, b*d, c*d
+    return np.array([[aa+bb-cc-dd, 2*(bc+ad), 2*(bd-ac)],
+                     [2*(bc-ad), aa+cc-bb-dd, 2*(cd+ab)],
+                     [2*(bd+ac), 2*(cd-ab), aa+dd-bb-cc]])
+
+
 def TotalI(r, theta=0):
     I_S1 = parallel_axis(Section1, ThinWalledCylinder, r=r)
     I_S2 = parallel_axis(Section2, ThinWalledCylinder, r=r)
@@ -91,23 +109,6 @@ print(truth)
 print(TotalI(r_cm))
 
 
-def rotation_matrix(axis, theta):
-    """
-    Return the rotation matrix associated with counterclockwise rotation about
-    the given axis by theta radians.
-    """
-    axis = np.asarray(axis)
-    theta = np.asarray(theta)
-    axis = axis/np.sqrt(np.dot(axis, axis))
-    a = np.cos(theta)
-    b, c, d = -axis*np.sin(theta)
-    aa, bb, cc, dd = a*a, b*b, c*c, d*d
-    bc, ad, ac, ab, bd, cd = b*c, a*d, a*c, a*b, b*d, c*d
-    return np.array([[aa+bb-cc-dd, 2*(bc+ad), 2*(bd-ac)],
-                     [2*(bc-ad), aa+cc-bb-dd, 2*(cd+ab)],
-                     [2*(bd+ac), 2*(cd-ab), aa+dd-bb-cc]])
-
-
 def plot1():
     plt.close('all')
     res = []
@@ -116,8 +117,9 @@ def plot1():
     pd.DataFrame(res).plot(x=0, y=[1, 2, 3])
     plt.legend(['$I_{xx}$', '$I_{yy}$', '$I_{zz}$'], loc='upper right')
     plt.ylabel('Inertia [kg·m$^2$]')
-    plt.xlabel('Solar Array Anle [rad/s]')
+    plt.xlabel('Solar Array Angle [rad/s]')
     plt.savefig('figure1.pdf')
+plot1()
 
 
 def angularMomentum(w):
@@ -125,6 +127,7 @@ def angularMomentum(w):
     I = truth
     H = np.dot(I, w)
     return H
+
 
 def plot2():
     plt.close('all')
@@ -137,5 +140,10 @@ def plot2():
     plt.ylabel('Momentum [kg·m$^2$/s]')
     plt.xlabel('$\omega$ [rad/s]')
     plt.savefig('figure2.pdf')
+plot2()
 
 
+def estimateTorque(alpha, I=truth):
+    ''' Using the true value for the inertia matrix.'''
+    torque = np.dot(I, alpha)
+    return torque

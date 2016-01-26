@@ -16,6 +16,7 @@
 \usepackage{url}
 \usepackage{multimedia}
 \usepackage{hyperref}
+\usepackage{mathtools}
 
 % Default fixed font does not support bold face
 \DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
@@ -132,13 +133,13 @@
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[height=0.45\textheight]{hst_axes.pdf}
+\includegraphics[height=0.4\textheight]{hst_axes.pdf}
 \label{fig:on}
 \end{center}
 \caption{HST Axes Definition for $V_1, V_2, V_3$, CG is located at axis origin}
 \end{figure}
 
-We model both the body (3 sections) and the solar panels (2 sections) of the Hubble Space Telescope (HST). The body sections are connected as such: Section 1 is connected to Section 2, and Section 2 is connected to Section 3. The solar arrays are connected on Section 1, along the centerline, 20.75 inches $V_1$ away from the connection point with Section 2, and the near edge of the SA is 129 inches from center of Section 1. These sections are modelled with thin walled cylinders (TWC), solid cylinders (SC), and flat plates (FP). The rough layout of the sections is shown on the previous page, and the mass and length properties of each section are listed in Table~\ref{properties}.
+We model both the body (3 sections) and the solar panels (2 sections) of the Hubble Space Telescope (HST). The body sections are connected as such: Section 1 is connected to Section 2, and Section 2 is connected to Section 3. The solar arrays are connected on Section 1, along the centerline, 20.75 inches $V_1$ away from the connection point with Section 2, and the near edge of the SA is 129 inches from center of Section 1. These sections are modeled with thin walled cylinders (TWC), solid cylinders (SC), and flat plates (FP). The rough layout of the sections is shown on the previous page, and the mass and length properties of each section are listed in Table~\ref{properties}.
 
 \begin{table}[h!]
 \begin{center}
@@ -148,57 +149,59 @@ Section & Model & $V_1$ (in) & $V_2$ (in) & Weight (lb) \\
 \midrule
 \it{Section 1} & & & & \\
 \hspace{1em} Light Shield (LS)   & - & 153.2  & 120  & - \\
-\hspace{1em} Forward Shell (FS)  & - & 156.05 & 121.2 & - \\
-\hspace{1em} Total  & TWC & 309.25 & 121.2 & 9033 \\
+\hspace{1em} Forward Shell (FS) (except OTA)  & - & 156.05 & 121.2 & - \\
+\hspace{1em} Total  & TWC & 270.75 & 121.2 & 2796 \\
 \it{Section 2} & & & & \\
-\hspace{1em} SSM Equipment Section (SSM-ES) & TWC &  61.25  &  121.2 & 10593\\
+\hspace{1em} OTA Equipment Section  & TWC & 38.5 & 121.2 & 9033 \\
 \it{Section 3} & & & & \\
-\hspace{1em} Aft Shroud (AS) & SC &  138.00  &  168.16 & 3363\\
+\hspace{1em} SSM Equipment Section (SSM-ES) & - &  61.25  &  168.16 & 10594\\
+\hspace{1em} Aft Shroud (AS) & - &  138.00  &  168.16 & 569\\
+\hspace{1em} Total  & SC & 199.25 & 168.16 & 11163 \\
 \it{Section 4} & & & & \\
 \hspace{1em} Solar Arrays (SA) & FP &  476.8$^1$  &  113.5 & 735$^2$\\
 \bottomrule
 \end{tabular}
 \end{center}
-\caption{$^1$: This length can be fully rotated into $V_3$. $^2$: Weight of both solar arrays. $V_1$ and $V_2$ indicate the measurements of the parts. All lengths taken from Hubble technical drawings,  NASA, ``Cargo Systems Manual (CSM): Hubble Space Telescope,'' February 13, 2002; all masses from Mattice, J., ``Hubble Space Telescope Systems Engineering Case Study.''}
+\caption{$^1$: This length can be fully rotated into $V_3$. $^2$: Weight of both solar arrays. $V_1$ and $V_2$ indicate the measurements of the parts. All lengths taken from Hubble technical drawings~\cite{hst}; all masses from~\cite{mil}.}
 \label{properties}
 \end{table}
 
 \clearpage
 \problem{Use this model as a basis to write a function(s) to determine the Mass Center and Inertia Matrix for any location.}
 
-Using the radial-center of the farthest tip of Section 1 as our zero point , the center of mass is located at $V = [282, 0, 0]$ inches. This makes since, as the model is symmetric about the $V_2$ and $V_3$ axes, and the center of mass of the solar arrays is calculated to be $\approx 288$ inches along $V_1$.
+Using the radial-center of the farthest tip of Section 1 as our zero point , the center of mass is located at $V = [327, 0, 0]$ inches. This makes since, as the model is symmetric about the $V_2$ and $V_3$ axes, and this value is on the boundary between Section 2 and Section 3, which is very close to where the reaction wheels are located.
 
-The HST inertia matrix\footnote{Queen, S., ``HRV GNC Peer Review, Flight Performance Analysis,'' Tech. rep., NASA Goddard Space Flight Center, 2004.}, was at one point measured as:
+The HST inertia matrix~\cite{HRV}, was at one point measured as:
 \begin{align*}
 I =
-\begin{bmatrix}
+\begin{bmatrix*}[r]
     36046       & -706  &  1491 \\
     -706        & 86868 &   449 \\
     1491        & 449   & 93848
-\end{bmatrix}
+\end{bmatrix*}
 kg \cdot m^2.
 \end{align*}
 The Python script in Appendix gives the result of:
 \begin{align*}
 I =
-\begin{bmatrix}
-   43535 &      0 &      0 \\
-       0 & 117651 &      0 \\
-       0 &      0 & 135519
-\end{bmatrix}
+\begin{bmatrix*}[r]
+   35914 &      0 &      0 \\
+       0 & 88215 &      0 \\
+       0 &      0 & 113393
+\end{bmatrix*}
 kg \cdot m^2,
 \end{align*}
 which has a relative error of:
 \begin{align*}
 I =
-\begin{bmatrix}
-  -20, 100, 100 \\
-100,   -35, 100 \\
-100, 100, -44
-\end{bmatrix}
+\begin{bmatrix*}[r]
+  0 & 100 & 100 \\
+100 &  -2 & 100 \\
+100 & 100 & -21
+\end{bmatrix*}
 \%.
 \end{align*}
-Note that while our simple, 5 part model does a very good job of predicting the $I_{V_1}$ component ($\approx20$\% error), the $I_{V_2}$ and $I_{V_3}$ components are not represented very well. This is likely due to leaving out the antenna booms, which should have the largest effect in the $V_2$ and $V_3$ directions. It should also be noted that, due to the symmetric nature of our model, all of the off-axis terms are missing.
+Note that while our simple, 5 part model does a very good job of predicting the $I_{V_1}$ and $I_{V_2}$ components, the $I_{V_3}$ component is not represented very well. This is likely due to leaving out the antenna booms, which should have the largest effect in the $V_3$ directions. It should also be noted that, due to the symmetric nature of our model, all of the off-axis terms are missing. For the rest of the analysis, the true values for the inertia matrix will be used.
 
 \begin{figure}[h!]
 \begin{center}
@@ -210,9 +213,12 @@ Note that while our simple, 5 part model does a very good job of predicting the 
 
 \clearpage
 \problem{Write a function to find the current angular momentum relative to the mass center.}
+
+$H$ increases linearly with $\omega$. See Appendix for the code used to create this plot.
+
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[height=0.45\textheight]{figure2.pdf}
+\includegraphics[height=0.5\textheight]{figure2.pdf}
 \label{fig:on}
 \end{center}
 \caption{Effects of spin on each axis}
@@ -221,10 +227,39 @@ Note that while our simple, 5 part model does a very good job of predicting the 
 \clearpage
 \problem{Choose the optimal location for a torque producing system and explain why you think is the best location.}
 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=0.5\textheight]{hst_rw.pdf}
+\end{center}
+\caption{HST's reaction wheels are located in the SSM-ES in bays 6 and 9. The pairs were installed in at a 90$^o$ offset to protect against failures~\cite{hst}.}
+\label{fig:rw}
+\end{figure}
+
+The optimal location for a torque producing system is usually on the centerline, as near to the center of mass of the spacecraft as possible. Placing the torque producing system close the the spacecraft's center of mass minimizes the amount of undesirable resultant torque when the system is activated. In HST's case, the optimal location for a torque producing system is in the SSM-ES, see Fig.~\ref{fig:rw}. The two wheels of a single SSM bay are canted off the $V_2$-$V_3$ plane by 20$^o$, one toward the +$V_1$ and one toward the -$V_1$. I think that this is likely the best location to place the system as it's the one that was actually used, and because the engineers that placed them the reaction wheels there had much greater access to information about HST than I do.
+
+As we do not have to worry about reaction wheels failing for the purposes of this homework, I will instead simplify the system to a single location of three reaction wheels, one of which is aligned with each axis. I will place these three reaction wheels at in at the exact center of the SSM-ES along the $V_1$ axis, and at 60 inches along the $V_3$ axis. ``Nominal dynamic torque range is 0.003 to 0.605 ft-lb (0.004 to 0.7 N$\cdot$m), with a maximum wheel speed of $\pm$3000 rpm'' for each of the four reaction wheels~\cite{hst}.
+
 \clearpage
 \problem{Using your previous functions, write a program to find the resulting angular acceleration produced from a given torque.}
 
+
 \clearpage
 \problem{Write what next steps you would take to develop a controller that keeps the craft pointed in a specific direction.}
+
+\bibliographystyle{IEEEtran}
+%\bibliography{IEEEabr,MyBle}
+\begin{thebibliography}{1}
+
+\bibitem{HRV}
+Queen, S., ``HRV GNC Peer Review, Flight Performance Analysis,'' Tech. rep., NASA Goddard Space Flight Center, 2004.
+
+\bibitem{hst}
+NASA, ``Cargo Systems Manual (CSM): Hubble Space Telescope,'' February 13, 2002
+
+\bibitem{mil}
+Mattice, J., ``Hubble Space Telescope Systems Engineering Case Study.''
+
+\end{thebibliography}
+
 
 \end{document}
