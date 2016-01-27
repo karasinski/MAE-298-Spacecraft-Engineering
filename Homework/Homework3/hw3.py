@@ -143,7 +143,49 @@ def plot2():
 plot2()
 
 
-def estimateTorque(alpha, I=truth):
+def estimateAlpha(torque, omega=0, I=truth):
     ''' Using the true value for the inertia matrix.'''
-    torque = np.dot(I, alpha)
-    return torque
+    alpha = np.zeros(3)
+
+    alpha[0] = (torque[0] + (I[1][1] - I[2][2]) * omega**2) / I[0][0]
+    alpha[1] = (torque[1] + (I[2][2] - I[0][0]) * omega**2) / I[1][1]
+    alpha[2] = (torque[2] + (I[0][0] - I[1][1]) * omega**2) / I[2][2]
+    return alpha
+
+
+def plot3():
+    plt.close('all')
+    res = []
+    for torque in np.linspace(0, 3000, 100):
+        torque *= np.array([1, 0, 0])
+        res.append([torque[0], *estimateAlpha(torque, omega=0)])
+    pd.DataFrame(res).plot(x=0, y=[1, 2, 3])
+    #plt.ylim(0, .05)
+    #plt.xlim(0, 5e-7)
+    plt.legend(['$\\alpha_x$', '$\\alpha_y$', '$\\alpha_z$'], loc='upper left')
+    plt.ylabel('$\\alpha$ [rad/s$^2$]')
+    plt.xlabel('Torque [N$\cdot$m]')
+    plt.margins(0.05)
+    plt.savefig('figure3.pdf')
+plot3()
+
+
+def plot4():
+    plt.close('all')
+    res = []
+    for torque in np.linspace(0, 3000, 100):
+        torque *= np.array([1, 0, 0])
+        res.append([torque[0], *estimateAlpha(torque, omega=0.1)])
+    pd.DataFrame(res).plot(x=0, y=[1, 2, 3])
+    #plt.ylim(0, .05)
+    #plt.xlim(0, 5e-7)
+    plt.legend(['$\\alpha_x$', '$\\alpha_y$', '$\\alpha_z$'], loc='upper left')
+    plt.ylabel('$\\alpha$ [rad/s$^2$]')
+    plt.xlabel('Torque [N$\cdot$m]')
+    plt.margins(0.05)
+    plt.savefig('figure4.pdf')
+plot4()
+
+
+
+
