@@ -73,39 +73,104 @@
 %\maketitle
 
 \problem{}
-Basic orbital parameters: remind yourself:
+\textit{Basic orbital parameters: remind yourself:}
 \begin{enumerate}
 \item Determine the kinetic, potential, and total energy per unit mass, and the magnitude of the moment of
 momentum (or, angular momentum due to orbital motion) for the HST
 \end{enumerate}
 
+\clearpage
 \problem{}
-Assume your spacecraft is an elliptical transfer orbit, with perigee of 150km above Earth mean surface, and apogee at HST mean altitude.
+% http://www.orbiter-forum.com/showthread.php?t=26682
+\textit{Assume your spacecraft is an elliptical transfer orbit, with perigee of 150km above Earth mean surface, and apogee at HST mean altitude.}
+
+HST mean altitude is 552.7km.
 \begin{enumerate}
 \item Compute the value (deg) of the true anomaly one hour after perigee passage.
+\begin{align*}
+R_a &= 552.7 \mbox{ km} + 6378 \mbox{ km} = 6930.7 \mbox{ km}\\
+R_p &= 150 \mbox{ km} + 6378 \mbox{ km} = 6528 \mbox{ km}\\
+a &= \dfrac{R_a + R_p}{2} = 6729.35 \mbox{ km}\\
+e &= \dfrac{R_a - R_p}{R_a + R_p} = 0.0299 \\
+M_m &= \sqrt{\dfrac{\mu}{a^3}} = \sqrt{\dfrac{398600.4}{(6729.35)^3}} = 0.0011\\
+% T &= 2 \pi \sqrt{\dfrac{a^3}{\mu}} = 2 \pi \sqrt{\dfrac{(6729.35)^3}{398600.4}} = 5493.7726 \mbox{ s}\\
+% M &= E - e \sin{E}
+M &= M_m \cdot t = 0.0011 \cdot 60 \cdot 60 = 3.96 \mbox{ rads}\\
+E &= E_o - \dfrac{E_o - e \sin{E_o} - M}{1 - e \cos{E_o}} \\
+  &= M - \dfrac{M - e \sin{M} - M}{1 - e \cos{M}} \\
+  &= 3.96 - \dfrac{3.96 - 0.299 \sin{3.96} - 3.96}{1 - 0.299 \cos{3.96}} \\
+  &= 3.7787 \mbox{ rads}\\
+\nu &= \cos^{-1}\left({\dfrac{\cos{E} - e}{1 - e \cos{E}}}\right) \\
+    &= \cos^{-1}\left({\dfrac{\cos{3.7787} - 0.0299}{1 - 0.0299 \cos{3.7787}}}\right) \\
+    &= 2.5220
+\end{align*}
 \item Compute the magnitude of the Earth-relative velocity of your spacecraft at this same point
+\begin{align*}
+\mbox{alt} &= \left( a (1-e \cos{E}) \right) - 6378 \mbox{ km} \\
+           &= \left( 6729.35 (1-0.0299 \cos{3.7787}) \right) - 6378 \\
+           &= 513.0846 \mbox{ km}\\
+\mbox{vel} &= \sqrt{\mu \left( \dfrac{2}{\mbox{alt} + 6378} - \dfrac{1}{a} \right)} \\
+           &= \sqrt{398600.4 \left( \dfrac{2}{\mbox{513.0846} + 6378} - \dfrac{1}{6729.35} \right)} \\
+           &= 7.5135 \mbox{ km/s}
+\end{align*}
 \end{enumerate}
 
+\clearpage
 \problem{}
-Obtain the Two-Line-Element for HST at an epoch of your choosing.
+\textit{Obtain the Two-Line-Element for HST at an epoch of your choosing.}
+% http://www.satellite-calculations.com/TLETracker/SatTracker.htm
+\begin{verbatim}
+HST
+1 20580U 90037B   16031.61163492  .00001273  00000-0  69179-4 0  9996
+2 20580  28.4704  87.0856 0002935 165.2440 327.6400 15.08104961214326
+
+Epoch Time: Sun Jan 31 2016 06:40:45 GMT-0800 (PST)
+\end{verbatim}
 \begin{enumerate}
-\item Write down the 6 orbital elements h, e, I, $\Omega$, $\omega$, and $\theta$
+\item Write down the 6 orbital elements h, e, I, $\Omega$, $\omega$, and $\theta$\\
+I = inclination = 28.4704 deg = 0.4969 rad\\
+$\Omega$ = right ascension of ascending node = 87.0856 deg = 1.5199 rad\\
+e = eccentricity = 0.0002935\\
+$\omega$ = argument of perigee = 165.2440 deg = 2.8841 rad\\
+M = Mean Anomaly = 327.640 deg = 5.7184 rad\\
+n = Mean Motion = 15.08104961 rev/day = 0.00109672488 rads/s
+\begin{align*}
+\theta = \mbox{true anomaly} &= \cos^{-1}\left({\dfrac{\cos{E} - e}{1 - e \cos{E}}}\right) \\
+       &= \cos^{-1}\left({\dfrac{\cos{5.71815} - 0.0002935}{1 - 0.0002935 \cos{5.71815}}}\right) \\
+       &= 0.5652 \mbox{ rad}\\
+a &= \left(\dfrac{\mu}{n^2}\right)^{1/3} \\
+  &= \left(\dfrac{398600.4}{(0.00109672488)^2}\right)^{1/3} \\
+  &= 6920 \mbox{ km}\\
+h = \mbox{angular momentum} &= \sqrt{a(1-e^2)\mu} \\
+  &= \sqrt{6920 (1-(0.0002935)^2) 398600.4} \\
+  &= 52519.6585 \mbox{ km$^2$/s}
+\end{align*}
+
 \item Also compute the eccentric anomaly E.
+\begin{align*}
+M &= E - e \sin{E} \\
+5.7184 &= E - 0.0002935 \sin{E} \\
+E &= 5.71815 \mbox{ rad, via Newton-Raphson method} \\
+\end{align*}
 \item Using class notes (Lecture 7, Thurs 1/26/16, ``Compute State Vector from Orbital Elements''), find the HST state vector at this time, in the geocentric equatorial reference frame. (Also see Curtis book, Sec 4.6 and App D2 (SmartSite).
+\lstinputlisting{sv_from_coe.py}
 \end{enumerate}
 
+\clearpage
 \problem{}
-Plot the magnitudes vs $\theta$ of the three vector components of the perturbing gravitational potential \textbf{b} for one orbit of the HST (Lecture 8, p14, Thurs 1/28/16, Curtis eqn 12.30)
+\textit{Plot the magnitudes vs $\theta$ of the three vector components of the perturbing gravitational potential \textbf{b} for one orbit of the HST (Lecture 8, p14, Thurs 1/28/16, Curtis eqn 12.30)}
 
+\clearpage
 \problem{}
-Drag forces:
+\textit{Drag forces:}
 \begin{enumerate}
 \item Estimate the drag force imposed on the HST at its actual altitude, and also as if it were at ISS altitude. Do this for two cases, solar min and solar max, using the NASA atmospheric model you used in HW \#2. Assume a non-rotating Earth. List all other assumptions.
 \item Explain why drag tends to circularize an elliptical orbit.
 \end{enumerate}
 
+\clearpage
 \problem{}
-Referring to the Gaussian form of the Lagrange Planetary Equations (eqn 4.34 in the text):
+\textit{Referring to the Gaussian form of the Lagrange Planetary Equations (eqn 4.34 in the text):}
 \begin{enumerate}
 \item For a retrograde burn, which orbital parameters will change, and by which sign?
 \item To change the orbital inclination, you must burn ``out of plane''. What other orbital parameters will this change, if any?
@@ -113,8 +178,9 @@ Referring to the Gaussian form of the Lagrange Planetary Equations (eqn 4.34 in 
 \item For a purely in-plane burn, what is the relationship between tangential and radial thrust required to leave the argument of perigee unchanged?
 \end{enumerate}
 
+\clearpage
 \problem{}
-Numerical propagation of perturbed orbits:
+\textit{Numerical propagation of perturbed orbits:}
 \begin{enumerate}
 \item Use the HST state vector found in Problem 3 as your initial conditions.
 \item Write the orbital equation of motion for perturbed orbits as two first order ODE’s in \textbf{r} and \textbf{v}:
