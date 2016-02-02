@@ -1,0 +1,146 @@
+\documentclass[onecolumn,10pt]{jhwhw}
+
+\usepackage{epsfig} %% for loading postscript figures
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{pdfpages}
+\usepackage{algpseudocode}
+\usepackage{wrapfig}
+\usepackage{pgfplots}
+\usepackage{amsfonts}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{commath}
+\usepackage{rotating}
+\usepackage{url}
+\usepackage{multimedia}
+\usepackage{hyperref}
+\usepackage{mathtools}
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+% Custom colors
+\usepackage{color}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{caption}
+\usepackage{bm}
+\captionsetup[lstlisting]{font={small,tt}}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\ttfamily\footnotesize, % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,                    % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  columns=flexible,
+  keywordstyle=\color{blue},       % keyword style
+  language=Python,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=4,                       % sets default tabsize to 2 spaces
+}
+
+\usepackage{etoolbox}
+\renewcommand{\lstlistingname}{Diagram}% Listing -> Algorithm
+\patchcmd{\thebibliography}{\chapter*}{\section*}{}{}
+
+\author{John Karasinski}
+\title{Homework 4}
+
+\begin{document}
+%\maketitle
+
+\problem{}
+Basic orbital parameters: remind yourself:
+\begin{enumerate}
+\item Determine the kinetic, potential, and total energy per unit mass, and the magnitude of the moment of
+momentum (or, angular momentum due to orbital motion) for the HST
+\end{enumerate}
+
+\problem{}
+Assume your spacecraft is an elliptical transfer orbit, with perigee of 150km above Earth mean surface, and apogee at HST mean altitude.
+\begin{enumerate}
+\item Compute the value (deg) of the true anomaly one hour after perigee passage.
+\item Compute the magnitude of the Earth-relative velocity of your spacecraft at this same point
+\end{enumerate}
+
+\problem{}
+Obtain the Two-Line-Element for HST at an epoch of your choosing.
+\begin{enumerate}
+\item Write down the 6 orbital elements h, e, I, $\Omega$, $\omega$, and $\theta$
+\item Also compute the eccentric anomaly E.
+\item Using class notes (Lecture 7, Thurs 1/26/16, ``Compute State Vector from Orbital Elements''), find the HST state vector at this time, in the geocentric equatorial reference frame. (Also see Curtis book, Sec 4.6 and App D2 (SmartSite).
+\end{enumerate}
+
+\problem{}
+Plot the magnitudes vs $\theta$ of the three vector components of the perturbing gravitational potential \textbf{b} for one orbit of the HST (Lecture 8, p14, Thurs 1/28/16, Curtis eqn 12.30)
+
+\problem{}
+Drag forces:
+\begin{enumerate}
+\item Estimate the drag force imposed on the HST at its actual altitude, and also as if it were at ISS altitude. Do this for two cases, solar min and solar max, using the NASA atmospheric model you used in HW \#2. Assume a non-rotating Earth. List all other assumptions.
+\item Explain why drag tends to circularize an elliptical orbit.
+\end{enumerate}
+
+\problem{}
+Referring to the Gaussian form of the Lagrange Planetary Equations (eqn 4.34 in the text):
+\begin{enumerate}
+\item For a retrograde burn, which orbital parameters will change, and by which sign?
+\item To change the orbital inclination, you must burn ``out of plane''. What other orbital parameters will this change, if any?
+\item To increase the argument of perigee, in which direction(s) could you generate thrust?
+\item For a purely in-plane burn, what is the relationship between tangential and radial thrust required to leave the argument of perigee unchanged?
+\end{enumerate}
+
+\problem{}
+Numerical propagation of perturbed orbits:
+\begin{enumerate}
+\item Use the HST state vector found in Problem 3 as your initial conditions.
+\item Write the orbital equation of motion for perturbed orbits as two first order ODE’s in \textbf{r} and \textbf{v}:
+\begin{align*}
+\dfrac{d}{dt} \begin{bmatrix}
+          \textbf{r} \\
+          \textbf{v} \\
+        \end{bmatrix}
+  = \begin{bmatrix}
+          \textbf{v} \\
+          \textbf{a} \\
+        \end{bmatrix}
+  = \begin{bmatrix}
+          \textbf{v} \\
+          -\mu \dfrac{\textbf{r}}{r^3} + \textbf{p} \\
+        \end{bmatrix}
+\end{align*}
+\item The perturbation vector \textbf{p} is due to drag only, $\textbf{p} = -1/2 \rho v(C_D S)v$.
+\item Using RK4, solve for \textbf{r} and \textbf{v} on the time interval of one orbit, once with drag and once without. Plot the
+difference over time for the magnitudes of \textbf{r} and \textbf{v}.
+\end{enumerate}
+
+\bibliographystyle{IEEEtran}
+
+% \appendix
+% \section{Python Code}
+% \lstinputlisting{hw3.py}
+
+\end{document}
