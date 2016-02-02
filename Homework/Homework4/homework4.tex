@@ -77,6 +77,25 @@
 \begin{enumerate}
 \item Determine the kinetic, potential, and total energy per unit mass, and the magnitude of the moment of
 momentum (or, angular momentum due to orbital motion) for the HST
+\begin{align*}
+p &= \dfrac{h^2}{\mu} = \dfrac{52519.6585^2}{398600.4} = 6920 km\\
+r &= \dfrac{p}{1 + e \cos{\theta}} = \dfrac{6920}{1 + 0.0002935 \cos{0.5652}} = 6918.285 km\\
+\\
+\mbox{alt} &= \left( a (1-e \cos{E}) \right) - 6378 \mbox{ km} \\
+           &= \left( 6920 (1-0.0002935 \cos{5.71815}) \right) - 6378 \\
+           &= 540.28 \mbox{ km} \\
+\mbox{vel} &= \sqrt{\mu \left( \dfrac{2}{\mbox{alt} + 6378} - \dfrac{1}{a} \right)} \\
+           &= \sqrt{398600.4 \left( \dfrac{2}{540.28 + 6378} - \dfrac{1}{6920} \right)} \\
+           &=13.1465 \mbox{ km/s}\\
+\\
+\epsilon_p &= - \dfrac{\mu}{r} = - \dfrac{398600.4}{6918.285} = -57.615 \dfrac{J}{kg} \\
+\epsilon_k &= \dfrac{v^2}{2} = \dfrac{13.1465^2}{2} = 86.41614 \dfrac{J}{kg} \\
+\epsilon &= \epsilon_k + \epsilon_p = \dfrac{v^2}{2} - \dfrac{\mu}{r} = 28.80114 \dfrac{J}{kg} \\
+\\
+h &= \sqrt{a(1-e^2)\mu} \\
+  &= \sqrt{6920 (1-(0.0002935)^2) 398600.4} \\
+  &= 52519.6585 \mbox{ km$^2$/s}
+\end{align*}
 \end{enumerate}
 
 \clearpage
