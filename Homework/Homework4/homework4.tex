@@ -197,8 +197,63 @@ p_h &= - \dfrac{\mu}{r^2} \dfrac{3}{2} J_2 \left( \dfrac{R}{r} \right)^2 \sin 2i
 \textit{Drag forces:}
 \begin{enumerate}
 \item Estimate the drag force imposed on the HST at its actual altitude, and also as if it were at ISS altitude. Do this for two cases, solar min and solar max, using the NASA atmospheric model you used in HW \#2. Assume a non-rotating Earth. List all other assumptions.
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{rrr}
+\toprule
+    & Low & High \\
+\midrule
+ISS & 6.370e-16 & 5.138e-15 \\
+HST & 4.362e-17 & 4.536e-16 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{$\rho$, atmospheric density, at ISS (400km) and HST (500km) altitudes during low and high solar activity (g/cm$^{-3}$).}
+\end{table}
+\begin{align*}
+D &= -\dfrac{1}{2} \rho S C_D v^2_r \left( \dfrac{v_r}{|v_r|} \right)
+\end{align*}
+
+We must assume several things to fill out this equation:
+\begin{enumerate}
+\item We guess the `exposed' surface area, as a constant $S \approx 13.2 \mbox{ m} \cdot 4.2 \mbox{ m} = 55.44 \mbox{ m}$
+\item We guess a value for the coefficient of drag, $C_D \approx 2.5$
+\item We specify an approximate velocity of HST, $v_r = 6.47 \hat{x} + 1.97 \hat{y} - 3.45 \hat{z} \mbox{ km/s}$
+\end{enumerate}
+Plugging in these values, we arrive at:
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{rrr}
+\toprule
+    & Low & High \\
+\midrule
+ISS & 2.54e-09 & 2.05e-08 \\
+HST & 1.74e-10 & 1.81e-09 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{$D$, atmospheric drag, at ISS (400km) and HST (500km) altitudes during low and high solar activity (Newtons).}
+\end{table}
+
+\begin{figure}[tbh!]
+\begin{center}
+\includegraphics[height=0.4\textheight]{p5.pdf}
+% \label{fig:on}
+\end{center}
+\caption{Atmospheric density by altitude during solar min and solar max.}
+\end{figure}
+
+\begin{figure}[tbh!]
+\begin{center}
+\includegraphics[height=0.4\textheight]{p5b.pdf}
+% \label{fig:on}
+\end{center}
+\caption{Atmospheric drag by altitude during solar min and solar max.}
+\end{figure}
+
 \item Explain why drag tends to circularize an elliptical orbit.
 \end{enumerate}
+Drag is largest at perigee, as this is when both velocity and atmospheric density are the largest. Energy is lost at lower altitudes of elliptical orbits, leaving less velocity to push back out to apogee. Velocity continues to be reduced the most at the lowest part of the orbit until drag is constant throughout the orbit, at which point the orbit is circularized.
 
 \clearpage
 \problem{}
