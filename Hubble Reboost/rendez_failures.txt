@@ -1,0 +1,42 @@
+Failure modes:
+    No sensor data during RNDZ and no visual acquisition
+    Good sensor data during RNDZ but no visual acquisition
+    Propellant quanities violate bingo numbers
+    All jets in an direction fail
+    Single jet fails on
+    Single jet fails off
+
+What I Need:
+    From Orbital:
+        How close can you get me at switch over (when do I need to start my job)?
+        What will my relative position and velocity be at switch over?
+    From Engines:
+        What sorts of engines will I have?
+        What is my minimum output/what kind of precision will I have?
+    From Mechanical:
+        How precisely do I need to dock? (1 inch? 1 cm?)
+
+
+John - Rendez Vouz
+    - develop approach strategy
+        STS-135/ISS dock strategy
+    - GNC for rendez-vous
+        Kalman filters
+    - delta V for rendez-vous
+        Greatly depends on where redezvous starts
+    - rendez-vous sensor selection
+        GPS
+        IMUs
+        Star Trackers
+        TRiDAR
+        Stereo vision cameras
+
+
+HRV should not damage the HST.
+HRV should communicate with HST during rendezvous and docking.
+HRV should dock with HST.
+HRV should have sufficient fuel to rendezvous, dock, and undock with HST.
+HRV should automatically abort docking if remaining fuel is not sufficient for docking and undocking.
+HRV should be able to successfully dock despite single jet fail on.
+HRV should be able to successfully dock despite single jet fail off.
+HRV should be able to resume docking following a single event upset.

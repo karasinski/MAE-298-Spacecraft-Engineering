@@ -1,0 +1,249 @@
+\documentclass[onecolumn,10pt]{jhwhw}
+
+\usepackage{epsfig} %% for loading postscript figures
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{pdfpages}
+\usepackage{algpseudocode}
+\usepackage{wrapfig}
+\usepackage{pgfplots}
+\usepackage{amsfonts}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{commath}
+\usepackage{rotating}
+\usepackage{url}
+\usepackage{multimedia}
+\usepackage{hyperref}
+\usepackage{mathtools}
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+% Custom colors
+\usepackage{color}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{caption}
+\usepackage{bm}
+\captionsetup[lstlisting]{font={small,tt}}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\ttfamily\footnotesize, % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,                    % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  columns=flexible,
+  keywordstyle=\color{blue},       % keyword style
+  language=Python,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=4,                       % sets default tabsize to 2 spaces
+}
+
+\usepackage{etoolbox}
+\renewcommand{\lstlistingname}{Diagram}% Listing -> Algorithm
+\patchcmd{\thebibliography}{\chapter*}{\section*}{}{}
+
+\usepackage[utf8]{inputenc}
+\usepackage{fourier}
+\usepackage{array}
+\usepackage{makecell}
+
+% \renewcommand\theadalign{cb}
+% \renewcommand\theadfont{\bfseries}
+% \renewcommand\theadgape{\Gape[1pt]}
+% \renewcommand\cellgape{\Gape[1pt]}
+
+\author{John Karasinski}
+\title{Homework 3}
+
+\begin{document}
+%\maketitle
+
+\begin{table}[t!]
+\begin{center}
+\begin{tabular}{|c |c |c |c |c|}
+% \toprule
+\hline
+Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, sec \\
+% \midrule
+\hline
+NC-1  & 00:05:27:28.9 & OMS (Both) & 98.0 & 59.2 \\ \hline
+NSR   & 01:03:43:59.7 & OMS (Both) & 49.8  & 30 \\ \hline
+NC-2  & 01:04:17:14.3 & OMS (Left) & 14.1 & 17.1 \\ \hline
+NC-3  & 01:17:55:30.1 & OMS (Right) & 12.1 & 14.8 \\ \hline
+% \bottomrule
+\end{tabular}
+\end{center}
+\caption{STS-61. The HST was grappled at 01:23:19:56 and berthed at 01:23:57:30.}
+% \label{properties}
+\end{table}
+
+
+\begin{table}[t!]
+\begin{center}
+\begin{tabular}{|c |c |c |c |c|}
+% \toprule
+\hline
+Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, sec \\
+% \midrule
+\hline
+Reboost 1  & 06:16:59 & RCS Vernier (?) & - & 61 \\ \hline
+% \bottomrule
+\end{tabular}
+\end{center}
+\caption{STS-61. The HST was grappled at 01:23:28 and berthed at 2:00:10.}
+% \label{properties}
+\end{table}
+
+\begin{table}[t!]
+\begin{center}
+\begin{tabular}{|c |c |c |c |c|}
+% \toprule
+\hline
+Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, sec \\
+% \midrule
+\hline
+NSR   & 01:03:36:21.9  & OMS         & 96  & 56.2 \\ \hline
+NC-2  & 01:05:02:00    & RCS Primary & 3.1 & 13.0 \\ \hline
+NH    & 01:17:06:04.9  & OMS         & 12  & 8.0  \\ \hline
+NC-3  & 01:17:53:00    & RCS Primary & 3.4 & 14.0 \\ \hline
+NPC-2 & 01:19:00:24    & RCS Primary & 0.5 & 2.0  \\ \hline
+NCC   & 01:20:07:46    & RCS Primary & 1.1 & 1.1  \\ \hline
+TI    & 01:21:07:52    & RCS Primary & 2.8 & 12.0 \\ \hline
+MC-1  & 01:21:34:16    & RCS Primary & 0.4 & 2.0  \\ \hline
+MC-2  & 01:22:02:40    & RCS Primary & 1.5 & 6.0  \\ \hline
+MC-3  & 01:22:12:40    & RCS Primary & 0.9 & 3.0  \\ \hline
+MC-4  & 01:22:22:40    & RCS Vernier & 0.2 & 1.0  \\ \hline
+% \bottomrule
+\end{tabular}
+\end{center}
+\caption{STS-82. The HST was grappled at 01:23:28 and berthed at 2:00:10.}
+% \label{properties}
+\end{table}
+
+\begin{table}[t!]
+\begin{center}
+\begin{tabular}{|c |c |c |c |c|}
+% \toprule
+\hline
+Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, min:sec \\
+% \midrule
+\hline
+Reboost 1 & 04:01:09:28 & RCS Vernier & 6.6  & 20:41.9 \\ \hline
+Reboost 1A$_a$ & 04:06:07:04 & RCS Vernier & 3.3  & 10:12.6 \\ \hline
+Reboost 2 & 5:01:15:03 & RCS Vernier & 6.5  & 19:46.9 \\ \hline
+Reboost 3 & 07:01:33:00 & RCS Vernier & 10.4 & 31:53.5 \\ \hline
+% \bottomrule
+\end{tabular}
+\end{center}
+\caption{STS-82. a - Manuever required for space debris avoidance. The four reboost maneuvers raised the HST orbit an average of 8 nmi.}
+% \label{properties}
+\end{table}
+
+\begin{table}[t!]
+\begin{center}
+\begin{tabular}{|c |c |c |c |c|}
+% \toprule
+\hline
+Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, sec \\
+% \midrule
+\hline
+NC-1 Trim & 01:03:42:23    & RCS Primary & 0.06 & 0.44   \\ \hline
+NC-2      & 01:04:36:49    & RCS Primary & 7.4  & 31     \\ \hline
+NSR Trim  & 01:17:36:55.1  & RCS Primary & 0.2  & 0.24   \\ \hline
+NCC       & 01:20:38:00    & RCS Primary & 0.3  & 1.0    \\ \hline
+TI        & 01:21:36:06    & RCS Primary & 4.1  & 8.7    \\ \hline
+MC-1      & 01:21:58:06    & RCS Primary & 0.3  & 0.5    \\ \hline
+MC-2      & 01:22:32:58    & RCS Primary & 0.9  & 2.9    \\ \hline
+MC-3      & 01:22:49:58    & RCS Primary & 0.4  & 1.0    \\ \hline
+MC-4      & 01:22:59:58    & RCS Vernier & 1.8  & 7.2    \\ \hline
+% \bottomrule
+\end{tabular}
+\end{center}
+\caption{STS-103. The HST was grappled at 01:23:44:01 and berthed at 2:00:52.}
+% \label{properties}
+\end{table}
+
+
+\begin{table}[t!]
+\begin{center}
+\begin{tabular}{|c |c |c |c |c|}
+% \toprule
+\hline
+Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, sec \\
+% \midrule
+\hline
+NC2  & 000:17:50:50.5 & -X RCS & 4.5 & 19.7 \\ \hline
+NC3  & 01:02:55:32    & Multi-axis RCS & 3.1 & 12.6 \\ \hline
+NC4  & 01:17:47:01    & Multi-axis RCS & 4.8 & 20.4 \\ \hline
+NCC  & 01:18:38:57    & Multi-axis RCS & 1.3 & 5.5 \\ \hline
+MC-1 & 01:19:59:04    & Multi-axis RCS & 0.8 & 3.2 \\ \hline
+MC-2 & 01:20:34:27    & Multi-axis RCS & 0.4 & 1.79 \\ \hline
+MC-3 & 01:20:34:27    & +X RCS & 1.9 & 8.1 \\ \hline
+MC-4 & 01:21:01:28    & Multi-axis RCS & 1.9 & 8.1 \\ \hline
+% \bottomrule
+\end{tabular}
+\end{center}
+\caption{STS-109. The HST was captured at 001:21:09:19.}
+% \label{properties}
+\end{table}
+
+\begin{table}[t!]
+\begin{center}
+\begin{tabular}{|c |c |c |c |c|}
+% \toprule
+\hline
+Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, min:sec \\
+% \midrule
+\hline
+Reboost 1 & 07:05:56:01.8 & RCS Vernier (?) & 11.8  & 36:00 \\ \hline
+% \bottomrule
+\end{tabular}
+\end{center}
+\caption{STS-109. The reboost maneuver raised the HST orbit an average of 3.6 nmi.}
+% \label{properties}
+\end{table}
+
+\begin{table}[t!]
+\begin{center}
+\begin{tabular}{|c |c |c |c |c|}
+% \toprule
+\hline
+Maneuver & Time, GMT & System & $\Delta$V, ft/sec & Duration, sec \\
+% \midrule
+\hline
+NC 1 & 131/21:49:54.65 & RCS & 19.5 & 90.88   \\ \hline
+NCC  & 133/13:41:50    & RCS &  1.6 & 7.0     \\ \hline
+MC 3 & 133/15:53:26.3  & RCS &  0.9 & 0.2     \\ \hline
+MC 4 & 133/16:03:26.5  & RCS &  2.1 & 8.9     \\ \hline
+% \bottomrule
+\end{tabular}
+\end{center}
+\caption{STS-125. The HST was captured at 133/17:30:52.}
+% \label{properties}
+\end{table}
+
+\end{document}
