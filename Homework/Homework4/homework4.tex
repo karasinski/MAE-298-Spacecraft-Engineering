@@ -259,10 +259,22 @@ Drag is largest at perigee, as this is when both velocity and atmospheric densit
 \problem{}
 \textit{Referring to the Gaussian form of the Lagrange Planetary Equations (eqn 4.34 in the text):}
 \begin{enumerate}
-\item For a retrograde burn, which orbital parameters will change, and by which sign?
-\item To change the orbital inclination, you must burn ``out of plane''. What other orbital parameters will this change, if any?
-\item To increase the argument of perigee, in which direction(s) could you generate thrust?
+\item For a retrograde burn, which orbital parameters will change, and by which sign? \\
+\\
+$T$ is defined along the positive direction with the spacecraft's velocity vector. Assuming a burn purely along the anti-velocity vector, and with all else being equal, this would lead to $\frac{da}{d \theta} \propto -T$, $\frac{de}{d \theta} \propto -T$, $\frac{d \omega}{d \theta} \propto -T$, and $\frac{dt}{d \theta} \propto T$. $\frac{di}{d \theta}$, and $\frac{d \Omega}{d \theta}$ would be be affected.
+\item To change the orbital inclination, you must burn ``out of plane''. What other orbital parameters will this change, if any? \\
+\\
+$W$ is defined normal to the orbit plane giving a right-handed system of accelerations. Assuming a burn purely along this direction, and with all else being equal, this would lead to changes in $\frac{di}{d \theta}$, and $\frac{d \Omega}{d \theta}$. Assuming $i \neq \pi n - \frac{\pi}{2}, n \in Z$, $\frac{d \omega}{d \theta}$ would also be changed. $\frac{da}{d \theta}$, $\frac{de}{d \theta}$, and $\frac{dt}{d \theta}$ would be unaffected.
+\item To increase the argument of perigee, in which direction(s) could you generate thrust? \\
+\\
+To increase the argument of perigee, $\omega$, you could generate thrust in the anti-radial direction, $-S$, or the $+T$ direction.
 \item For a purely in-plane burn, what is the relationship between tangential and radial thrust required to leave the argument of perigee unchanged?
+\begin{align*}
+\dfrac{d \omega}{d \theta} &= \dfrac{r^2}{\mu e} \left[ -\cos{\theta S} + \left( 1 + \dfrac{r}{p} \right) \sin{\theta T} \right] - \cos{i} \dfrac{d \Omega}{d \theta} & & \mbox{Definition.} \\
+\dfrac{d \omega}{d \theta} &= \dfrac{r^2}{\mu e} \left[ -\cos{\theta S} + \left( 1 + \dfrac{r}{p} \right) \sin{\theta T} \right]                                      & & \mbox{Purely in plane, $W=0$.} \\
+                         0 &= \dfrac{r^2}{\mu e} \left[ -\cos{\theta S} + \left( 1 + \dfrac{r}{p} \right) \sin{\theta T} \right]                                      & & \dfrac{d \omega}{d \theta} = 0 \\
+                        S  &=                    \left[                   \left( 1 + \dfrac{r}{p} \right) \tan{\theta}   \right] T                                    & & \mbox{Rearranging.} \\
+\end{align*}
 \end{enumerate}
 
 \clearpage
@@ -270,6 +282,8 @@ Drag is largest at perigee, as this is when both velocity and atmospheric densit
 \textit{Numerical propagation of perturbed orbits:}
 \begin{enumerate}
 \item Use the HST state vector found in Problem 3 as your initial conditions.
+% r = ([ 1504.15011252, -6678.50694298,  -998.86945097])
+% v = ([ 6.46890726,  1.97156421, -3.44905071])
 \item Write the orbital equation of motion for perturbed orbits as two first order ODE’s in \textbf{r} and \textbf{v}:
 \begin{align*}
 \dfrac{d}{dt} \begin{bmatrix}
@@ -285,7 +299,7 @@ Drag is largest at perigee, as this is when both velocity and atmospheric densit
           -\mu \dfrac{\textbf{r}}{r^3} + \textbf{p} \\
         \end{bmatrix}
 \end{align*}
-\item The perturbation vector \textbf{p} is due to drag only, $\textbf{p} = -1/2 \rho v(C_D S)v$.
+\item The perturbation vector \textbf{p} is due to drag only, $\textbf{p} = -1/2 \rho v(C_D S)\textbf{v}$.
 \item Using RK4, solve for \textbf{r} and \textbf{v} on the time interval of one orbit, once with drag and once without. Plot the
 difference over time for the magnitudes of \textbf{r} and \textbf{v}.
 \end{enumerate}
