@@ -7,54 +7,26 @@ from scipy.integrate import odeint
 
 
 # Constants
-mu = 398600                 # Gravitational parameter (km**3/s**2)
-RE = 6378                   # Earth's radius (km)
+mu = 398600                           # Gravitational parameter (km**3/s**2)
+RE = 6378                             # Earth's radius (km)
 wE = np.array([0, 0, 7.2921159e-5])   # Earth's angular velocity (rad/s)
 
 # Satellite data:
-CD = 2.5                    # Drag codfficient
-m = 11110                    # Mass (kg)
-A = 55.44             # Frontal area (m**2)
+CD = 2.5                              # Drag codfficient
+m = 11110                             # Mass (kg)
+A = 55.44                             # Area (m**2)
 
 
 def orbit(drag):
-    # Conversion factors:
-    hours = 3600                   # Hours to seconds
-    days = 24 * hours               # Days to seconds
-    years = 365 * days             # Years to seconds
-    deg = pi / 180                 # Degrees to radians
-
-    ## Initial orbital parameters (given):
-    #rp = RE + 215               # perigee radius (km)
-    #ra = RE + 939               # apogee radius (km)
-    #RA = 339.94 * deg             # Right ascencion of the node (radians)
-    #i = 65.1 * deg               # Inclination (radians)
-    #w = 58 * deg                 # Argument of perigee (radians)
-    #TA = 332 * deg                # True anomaly (radians)
-
-    ## Initial orbital parameters (inferred):
-    #e = (ra - rp) / (ra + rp)        # eccentricity
-    #a = (rp + ra) / 2            # Semimajor axis (km)
-    #h = np.sqrt(mu * a * (1 - e**2))     # angular momentrum (km**2/s)
-    #T = 2 * pi / np.sqrt(mu) * a**1.5    # Period (s)
-
-    # Store initial orbital elements (from above) in the vector coe0:
-    #coe0 = np.array([h, e, RA, i, w, TA])
     coe0 = np.array([52519.6585, 0.0002935, 1.5199, 0.4969, 2.8841, 0.5652])
 
-    # Obtain the initial state vector from Algorithm 4.5 (sv_from_coe):
-    R0, V0 = sv_from_coe(coe0, mu)  # R0 is the initial position vector
-                                    # V0 is the initial velocity vector
-    # Magnitudes of R0 and V0
-    r0, v0 = np.linalg.norm(R0), np.linalg.norm(V0)
+    # Obtain the initial state vector
+    R0, V0 = sv_from_coe(coe0, mu)
+    y0 = np.array([R0, V0]).flatten()
 
-    # Use ODE45 to integrate the equations of motion d/dt(R,V) = f(R,V)
-    # from t0 to tf:
-    t0, tf = 0, 5728.8       # Initial and final times (s)
-    y0 = np.array([R0, V0]).flatten()               # Initial state vector
-    nout = 10000                  # Number of solution points to output
-    tspan = np.linspace(t0, tf, nout)  # Integration time interval
-    y = odeint(rates, y0, tspan, args=(drag,)) # y is the state vector history
+    t0, tf, nout = 0, 5728.8, 10000
+    tspan = np.linspace(t0, tf, nout)
+    y = odeint(rates, y0, tspan, args=(drag,))
 
     return y, tspan
 
@@ -65,23 +37,22 @@ def rates(f, t, drag=False):
     velocity at time t.
     '''
 
-    R = f[0:3]            # Position vector (km/s)
-    r = np.linalg.norm(R)            # Distance from earth's center (km)
-    alt = r - RE             # Altitude (km)
-    rho = atmosphere(alt)    # Air density from US Standard Model (kf/m**3)
-    V = f[3:6]            # Velocity vector (km/s)
-    Vrel = V - np.cross(wE, R)    # Velocity relative to the atmosphere (km/s)
-    # Speed relative to the atmosphere (km/s)
-    vrel = np.linalg.norm(Vrel)
-    uv = Vrel / vrel          # Relative velocity unit vector
-    ap = (-CD * A / m * rho *       # Acceleration due to drag (m/s**2)
+    R = f[0:3]                        # Position vector (km/s)
+    r = np.linalg.norm(R)             # Distance from earth's center (km)
+    alt = r - RE                      # Altitude (km)
+    rho = atmosphere(alt)             # Air density from US Standard Model (kf/m**3)
+    V = f[3:6]                        # Velocity vector (km/s)
+    Vrel = V - np.cross(wE, R)        # Velocity relative to the atmosphere (km/s)
+    vrel = np.linalg.norm(Vrel)       # Speed relative to the atmosphere (km/s)
+    uv = Vrel / vrel                  # Relative velocity unit vector
+    ap = (-CD * A / m * rho *         # Acceleration due to drag (m/s**2)
           (1000 * vrel)**2 / 2 * uv)  # (converting units of vrel from km/s to m/s)
-    a0 = -mu * R / r**3          # Gravitational ecceleration (km/s**2)
+    a0 = -mu * R / r**3               # Gravitational ecceleration (km/s**2)
     if drag:
-        a = a0 + ap / 1000       # Total acceleration (km/s**2)
+        a = a0 + ap / 1000
     else:
         a = a0
-    # Velocity and the acceleraion returned to ode45
+
     dfdt = np.array([V, a]).flatten()
     return dfdt
 
@@ -131,7 +102,6 @@ def atmosphere(z):
     return density
 
 
-
 def process_orbit(drag):
     y, t = orbit(drag)
     res = pd.DataFrame(y)
@@ -149,9 +119,12 @@ res = pd.concat((drag, no_drag))
 diff = res.query('Drag') - res.query('not Drag')
 diff['T'] = res.query('Drag')['T']
 
-f, ax = plt.subplots()
-diff.plot(x='T', y='R', ax=ax)
-diff.plot(x='T', y='V', secondary_y=True, ax=ax)
+f, ax = plt.subplots(2, sharex=True)
+ax[0].set_ylabel('r, km')
+ax[1].set_ylabel('v, km/s')
+diff.plot(x='T', y='R', ax=ax[0], legend=False)
+diff.plot(x='T', y='V', ax=ax[1], legend=False)
+ax[0].ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 plt.tight_layout()
-plt.savefig('p7.pdf')
-#plt.show()
+#plt.savefig('p7.pdf')
+plt.show()
