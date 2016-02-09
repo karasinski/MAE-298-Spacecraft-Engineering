@@ -1,0 +1,148 @@
+\documentclass[onecolumn,10pt]{jhwhw}
+
+\usepackage{epsfig} %% for loading postscript figures
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{pdfpages}
+\usepackage{algpseudocode}
+\usepackage{wrapfig}
+\usepackage{pgfplots}
+\usepackage{amsfonts}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{commath}
+\usepackage{rotating}
+\usepackage{url}
+\usepackage{multimedia}
+\usepackage{hyperref}
+\usepackage{mathtools}
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+% Custom colors
+\usepackage{color}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{caption}
+\usepackage{bm}
+\captionsetup[lstlisting]{font={small,tt}}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\ttfamily\footnotesize, % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,                    % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  columns=flexible,
+  keywordstyle=\color{blue},       % keyword style
+  language=Python,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=4,                       % sets default tabsize to 2 spaces
+}
+
+\usepackage{etoolbox}
+\renewcommand{\lstlistingname}{Diagram}% Listing -> Algorithm
+\patchcmd{\thebibliography}{\chapter*}{\section*}{}{}
+
+\author{John Karasinski}
+\title{Homework 5}
+
+\begin{document}
+%\maketitle
+
+\problem{}
+\textit{Orbital Transfer Review: remind yourself: (discuss/justify decisions)}
+\begin{enumerate}
+\itemsep0em
+\item Determine the $\Delta V$ required to move from a 200km coplanar parking orbit to the HST orbit
+\item Determine the $\Delta V$ required to move from the ISS orbit to the HST orbit
+\item Determine the $\Delta V$ required to deorbit from the HST orbit (must choose your de-orbit orbital params)
+\end{enumerate}
+
+
+\problem{}
+\textit{Eclipse durations (text 5.3.2): an important design aspect of your solar array system is the relative durations of eclipse and insolation. Using the algorithm given in section 5.3.2,}
+\begin{enumerate}
+\itemsep0em
+\item Compute the eclipse period for ISS, for HST, and for a typical GPS satellite (choose one)
+\end{enumerate}
+
+\problem{}
+\textit{Let’s say we lose control of your spacecraft after it has undocked from HST, but before it has de-orbited.}
+\begin{enumerate}
+\itemsep0em
+\item Estimate the orbital lifetime of your spacecraft (text 5.3.4) following loss of communications: assume HST
+circular orbit, average solar activity.
+\item Would it make any difference to the decay timescale whether your spacecraft was tumbling or not?
+\end{enumerate}
+
+\problem{}
+\textit{Geostationary orbits (text 5.6):}
+\begin{enumerate}
+\itemsep0em
+\item Using the linearized solution to Kepler’s equation given in eqns 5.27-5.29, plot ground-track fluctuations as
+longitude vs latitude. Describe the results.
+\item Define deadband and control limit-cycle in the context of GEO station keeping.
+\item Consider a GEO satellite with nominal longitude of -100deg, and an onboard propellant system capable of
+providing a total $\Delta V$ of 200m/s. For a maximum longitudinal error magnitude of 0.22deg, for how long can the satellite station-keep?
+\end{enumerate}
+
+\problem{}
+\textit{Two spacecraft in elliptical Earth orbit with the orbital parameters as follows. Compute the relative position and velocity vectors.}
+\begin{enumerate}
+\itemsep0em
+\item h= 52,059 km$^2$/s, e=0.0257240, i=60deg, $\Omega$=40deg, $\omega$=30deg, $\theta$=40deg
+\item h= 52,362 km$^2$/s, e=0.0072696, i=50deg, $\Omega$=40deg, $\omega$=120deg, $\theta$=40deg
+\end{enumerate}
+
+\problem{}
+\textit{Fly-around relative trajectories: for the lost EVA toolbox example considered in lecture, generate the relative motion}
+plot for 1 orbital period, given initial conditions of:
+\begin{enumerate}
+\itemsep0em
+\item Release relative velocity = (-0.1, 0, 0) m/s (prolate cycloid)
+\item Release relative velocity = (0, 0, 0.1) m/s (ellipse)
+\item Release relative velocity = (-0.1, 0, 0.1) m/s (initially 45deg backwards and up; describe subsequent motion)
+\item For a and b, plot the trajectory with and without the nt$\ll$1 assumption. Discuss.
+\item How about a release relative velocity = (0, 0.1, 0) m/s? Would you see the toolbox again or not?
+\end{enumerate}
+
+\problem{}
+\textit{For your HST re-boost spacecraft, assume:}
+\begin{itemize}
+\itemsep0em
+\item[--] Launch: drop-off circular orbit at 200km, in-plane with HST, 65deg phase angle behind HST - Phasing: 4-orbit phasing to point S1, 30km behind and 10km below HST
+\item[--] Homing: Hohmann S1 to co-orbit waiting point S2, 1km behind HST
+\item[--] Closing: Cycloid close waiting point S3, 200m behind HST
+\end{itemize}
+\begin{enumerate}
+\itemsep0em
+\item compute the required $\Delta V$ and elapsed time for each phase, and for the total rendezvous to S3
+\item compute the view-angle to HST, measured from the orbit-tangent (for sensor acquisition)
+\item plot the total quantitative relative motion (like Walter Fig. 8.26)
+\end{enumerate}
+
+
+\end{document}
