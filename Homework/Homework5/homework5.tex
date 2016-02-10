@@ -73,14 +73,53 @@
 %\maketitle
 
 \problem{}
-\textit{Orbital Transfer Review: remind yourself: (discuss/justify decisions)}
+\textit{Orbital Transfer Review: remind yourself: (discuss/justify decisions)} \\
+All three of the transfers below can be accomplished with a Hohmann transfer. The amount of $\Delta V$ required for a Hohmann transfer is
+\begin{align*}
+\Delta v_1 &= \sqrt{\dfrac{\mu}{r_1}} \left(\sqrt{\dfrac{2r_2}{r_1 + r_2}} -1 \right), \\
+\Delta v_2 &= \sqrt{\dfrac{\mu}{r_2}} \left(1 - \sqrt{\dfrac{2r_1}{r_1 + r_2}} \right), \\
+\Delta v_{total} &= \Delta v_1 + \Delta v_2.
+\end{align*}
+additionally, part (b) requires an inclination change. The $\Delta V$ budget for a inclination change for a circular orbit is
+\begin{align*}
+\Delta{v_i}= 2 v \sin \left( \dfrac{\Delta i}{2} \right).
+\end{align*}
+The assumption of a circular orbit should be fine here, as both HST and ISS orbits have very low eccentricity.
+
 \begin{enumerate}
 \itemsep0em
 \item Determine the $\Delta V$ required to move from a 200km coplanar parking orbit to the HST orbit
+\begin{align*}
+r_1 &= 200 km + 6,371 km \\
+r_2 &= 569 km + 6,371 km \\
+\Delta v_{total} &= \Delta v_{Hohmann} \\
+                 &= 0.210 km/s.
+\end{align*}
 \item Determine the $\Delta V$ required to move from the ISS orbit to the HST orbit
-\item Determine the $\Delta V$ required to deorbit from the HST orbit (must choose your de-orbit orbital params)
-\end{enumerate}
+\begin{align*}
+r_{ISS} &= 414.1 km + 6,371 km \\
+r_{HST} &= 569 km + 6,371 km \\
+i_{ISS} &= 0.9014 rad \\
+i_{HST} &= 0.4969 rad \\
+v_{HST} &= 7.59 km/s \\
+\\
+\Delta v_{total} &= \Delta v_{Hohmann} + \Delta v_{Plane Change} \\
+                 &= 0.086 + 3.049 \\
+                 &= 3.135 km/s,
+\end{align*}
+where we've again assumed a circular orbit. The plane change should take place after the Hohmann transfer, as the orbital velocity is lower at HST orbit, leading to a smaller required $\Delta V$.
 
+\item Determine the $\Delta V$ required to deorbit from the HST orbit (must choose your de-orbit orbital params)
+\begin{align*}
+r_{deorbit} &= 100 km + 6,371 km \\
+r_{HST} &= 569 km + 6,371 km \\
+\Delta v &= \sqrt{\dfrac{\mu}{r_1}} \left(\sqrt{\dfrac{2r_2}{r_1 + r_2}} -1 \right), \\
+         &= 0.136 km/s,
+\end{align*}
+where a height of $100km$ should be sufficient to cause the vehicle to deorbit rapidly.
+
+\end{enumerate}
+\clearpage
 
 \problem{}
 \textit{Eclipse durations (text 5.3.2): an important design aspect of your solar array system is the relative durations of eclipse and insolation. Using the algorithm given in section 5.3.2,}
@@ -88,6 +127,7 @@
 \itemsep0em
 \item Compute the eclipse period for ISS, for HST, and for a typical GPS satellite (choose one)
 \end{enumerate}
+\clearpage
 
 \problem{}
 \textit{Let’s say we lose control of your spacecraft after it has undocked from HST, but before it has de-orbited.}
@@ -97,17 +137,18 @@
 circular orbit, average solar activity.
 \item Would it make any difference to the decay timescale whether your spacecraft was tumbling or not?
 \end{enumerate}
+\clearpage
 
 \problem{}
 \textit{Geostationary orbits (text 5.6):}
 \begin{enumerate}
 \itemsep0em
-\item Using the linearized solution to Kepler’s equation given in eqns 5.27-5.29, plot ground-track fluctuations as
-longitude vs latitude. Describe the results.
+\item Using the linearized solution to Kepler’s equation given in eqns 5.27-5.29, plot ground-track fluctuations as longitude vs latitude. Describe the results.
 \item Define deadband and control limit-cycle in the context of GEO station keeping.
 \item Consider a GEO satellite with nominal longitude of -100deg, and an onboard propellant system capable of
 providing a total $\Delta V$ of 200m/s. For a maximum longitudinal error magnitude of 0.22deg, for how long can the satellite station-keep?
 \end{enumerate}
+\clearpage
 
 \problem{}
 \textit{Two spacecraft in elliptical Earth orbit with the orbital parameters as follows. Compute the relative position and velocity vectors.}
@@ -116,10 +157,10 @@ providing a total $\Delta V$ of 200m/s. For a maximum longitudinal error magnitu
 \item h= 52,059 km$^2$/s, e=0.0257240, i=60deg, $\Omega$=40deg, $\omega$=30deg, $\theta$=40deg
 \item h= 52,362 km$^2$/s, e=0.0072696, i=50deg, $\Omega$=40deg, $\omega$=120deg, $\theta$=40deg
 \end{enumerate}
+\clearpage
 
 \problem{}
-\textit{Fly-around relative trajectories: for the lost EVA toolbox example considered in lecture, generate the relative motion}
-plot for 1 orbital period, given initial conditions of:
+\textit{Fly-around relative trajectories: for the lost EVA toolbox example considered in lecture, generate the relative motion plot for 1 orbital period, given initial conditions of:}
 \begin{enumerate}
 \itemsep0em
 \item Release relative velocity = (-0.1, 0, 0) m/s (prolate cycloid)
@@ -128,6 +169,7 @@ plot for 1 orbital period, given initial conditions of:
 \item For a and b, plot the trajectory with and without the nt$\ll$1 assumption. Discuss.
 \item How about a release relative velocity = (0, 0.1, 0) m/s? Would you see the toolbox again or not?
 \end{enumerate}
+\clearpage
 
 \problem{}
 \textit{For your HST re-boost spacecraft, assume:}
@@ -143,6 +185,5 @@ plot for 1 orbital period, given initial conditions of:
 \item compute the view-angle to HST, measured from the orbit-tangent (for sensor acquisition)
 \item plot the total quantitative relative motion (like Walter Fig. 8.26)
 \end{enumerate}
-
 
 \end{document}
