@@ -74,13 +74,14 @@
 
 \problem{}
 \textit{Orbital Transfer Review: remind yourself: (discuss/justify decisions)} \\
+\\
 All three of the transfers below can be accomplished with a Hohmann transfer. The amount of $\Delta V$ required for a Hohmann transfer is
 \begin{align*}
 \Delta v_1 &= \sqrt{\dfrac{\mu}{r_1}} \left(\sqrt{\dfrac{2r_2}{r_1 + r_2}} -1 \right), \\
 \Delta v_2 &= \sqrt{\dfrac{\mu}{r_2}} \left(1 - \sqrt{\dfrac{2r_1}{r_1 + r_2}} \right), \\
 \Delta v_{total} &= \Delta v_1 + \Delta v_2.
 \end{align*}
-additionally, part (b) requires an inclination change. The $\Delta V$ budget for a inclination change for a circular orbit is
+Additionally, part (b) requires an inclination change. The $\Delta V$ budget for a inclination change for a circular orbit is
 \begin{align*}
 \Delta{v_i}= 2 v \sin \left( \dfrac{\Delta i}{2} \right).
 \end{align*}
@@ -117,9 +118,7 @@ r_{HST} &= 569 km + 6,371 km \\
          &= 0.136 km/s,
 \end{align*}
 where a height of $100km$ should be sufficient to cause the vehicle to deorbit rapidly.
-
 \end{enumerate}
-\clearpage
 
 \problem{}
 \textit{Eclipse durations (text 5.3.2): an important design aspect of your solar array system is the relative durations of eclipse and insolation. Using the algorithm given in section 5.3.2,}
@@ -127,6 +126,27 @@ where a height of $100km$ should be sufficient to cause the vehicle to deorbit r
 \itemsep0em
 \item Compute the eclipse period for ISS, for HST, and for a typical GPS satellite (choose one)
 \end{enumerate}
+
+I ran the algorithm in section 5.3.2 over one complete orbit at 0.1 degree increments, and for sun positions of one complete year at day increments. The mean and standard error of the mean was calculated for eclipse period, as was the total time in eclipse and the total number of eclipses over the one year period. These results are presented in Table~\ref{p2table}.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{rrrrr}
+\toprule
+Satellite & Mean (min) & SEM (min) & Total (hrs) & Count \\
+\midrule
+HST & 33.97 & 0.10 & 414.45 & 732 \\
+ISS & 34.99 & 0.09 & 426.98 & 732 \\
+GPS & 46.09 & 2.55 &  90.64 & 118 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{Eclipse statistics for the HST, ISS, and a GPS satellite (Navstar 43)}
+\label{p2table}
+\end{table}
+
+
+
 \clearpage
 
 \problem{}
