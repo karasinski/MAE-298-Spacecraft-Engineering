@@ -219,27 +219,86 @@ def problem6():
     def time_history(tf=5557.2, x=0, z=0, xdot=0, zdot=0, y=0, ydot=0, small=False):
         state_old = np.array([x, z, xdot, zdot, y, ydot])
 
-        times = np.linspace(0, tf, 10000)
         n = 0.0011308  # rad/s ISS
+        t, dt = 0, 0.1
+        nt = n * dt
 
         res = []
         if not small:
-            for t in times:
-                nt = n * t
+            while t < tf:
                 state = np.array([
-                         [1,  6*(sin(nt) - nt), 4*sin(nt)/n - 3*t, 2*(cos(nt) - 1)/n, 0, 0],
-                         [0,     4 - 3*cos(nt),   2*(1-cos(nt))/n,         sin(nt)/n, 0, 0],
-                         [0, 6*n*(cos(nt) - 1),     4*cos(nt) - 3,      -2 * sin(nt), 0, 0],
-                         [0,       3*n*sin(nt),         2*sin(nt),           cos(nt), 0, 0],
-                         [0,                 0,                0, 0,    cos(nt), sin(nt)/n],
-                         [0,                 0,                0, 0, -n*sin(nt),   cos(nt)],
+                         [1,  6*(sin(nt) - nt), 4*sin(nt)/n - 3*dt, 2*(cos(nt) - 1)/n, 0, 0],
+                         [0,     4 - 3*cos(nt),    2*(1-cos(nt))/n,         sin(nt)/n, 0, 0],
+                         [0, 6*n*(cos(nt) - 1),      4*cos(nt) - 3,      -2 * sin(nt), 0, 0],
+                         [0,       3*n*sin(nt),          2*sin(nt),           cos(nt), 0, 0],
+                         [0,                 0,               0, 0,      cos(nt), sin(nt)/n],
+                         [0,                 0,               0, 0,   -n*sin(nt),   cos(nt)],
                          ]) @ state_old
                 state_old = state
                 res.append([t, *state])
+                t += dt
         else:
-            raise NotImplemented
+            while t < tf:
+                state = np.array([
+                         [1,  6*((nt - (nt**3)/6) - nt), 4*(nt - (nt**3)/6)/n - 3*dt, 2*((1-(nt**2)/2) - 1)/n, 0, 0],
+                         [0,     4 - 3*(1-(nt**2)/2),    2*(1-(1-(nt**2)/2))/n,         (nt - (nt**3)/6)/n, 0, 0],
+                         [0, 6*n*((1-(nt**2)/2) - 1),      4*(1-(nt**2)/2) - 3,      -2 * (nt - (nt**3)/6), 0, 0],
+                         [0,       3*n*(nt - (nt**3)/6),          2*(nt - (nt**3)/6),           (1-(nt**2)/2), 0, 0],
+                         [0,                 0,               0, 0,      (1-(nt**2)/2), (nt - (nt**3)/6)/n],
+                         [0,                 0,               0, 0,   -n*(nt - (nt**3)/6),   (1-(nt**2)/2)],
+                         ]) @ state_old
+                state_old = state
+                res.append([t, *state])
+                t += dt
 
         res = pd.DataFrame(res)
         res.columns = ['t', 'x', 'z', 'xdot', 'zdot', 'y', 'ydot']
         return res
+
+    plt.close('all')
+    f, ax = plt.subplots()
+    exact = time_history(xdot=-.1)
+    ax.plot(exact.x, exact.z, 'k--')
+    plt.axis('equal')
+    plt.xlabel('x (m)')
+    plt.ylabel('z (m)')
+    plt.savefig('6a.pdf')
+
+    plt.close('all')
+    f, ax = plt.subplots()
+    exact = time_history(zdot=.1)
+    ax.plot(exact.x, exact.z, 'k--')
+    plt.axis('equal')
+    plt.xlabel('x (m)')
+    plt.ylabel('z (m)')
+    plt.savefig('6b.pdf')
+
+    plt.close('all')
+    f, ax = plt.subplots()
+    exact = time_history(xdot=-.1, zdot=.1)
+    ax.plot(exact.x, exact.z, 'k--')
+    plt.axis('equal')
+    plt.xlabel('x (m)')
+    plt.ylabel('z (m)')
+    plt.savefig('6c.pdf')
+
+    plt.close('all')
+    f, ax = plt.subplots(ncols=2, figsize=(16,6))
+    exact = time_history(xdot=-.1, small=False)
+    approx = time_history(xdot=-.1, small=True)
+    ax[0].plot(approx.x, approx.z, 'r')
+    ax[0].plot(exact.x, exact.z, 'k--')
+    ax[0].axis('equal')
+    ax[0].set_xlabel('x (m)')
+    ax[0].set_ylabel('z (m)')
+
+    exact = time_history(zdot=.1, small=False)
+    approx = time_history(zdot=.1, small=True)
+    ax[1].plot(approx.x, approx.z, 'r')
+    ax[1].plot(exact.x, exact.z, 'k--')
+    ax[1].axis('equal')
+    ax[1].set_xlabel('x (m)')
+    ax[1].legend(['Approx', 'Exact'])
+    plt.savefig('6dboth.pdf')
+
 
