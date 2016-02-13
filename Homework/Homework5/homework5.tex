@@ -145,18 +145,27 @@ GPS & 46.09 & 2.55 &  90.64 & 118 \\
 \label{p2table}
 \end{table}
 
-
-
 \clearpage
 
 \problem{}
 \textit{Let’s say we lose control of your spacecraft after it has undocked from HST, but before it has de-orbited.}
 \begin{enumerate}
 \itemsep0em
-\item Estimate the orbital lifetime of your spacecraft (text 5.3.4) following loss of communications: assume HST
-circular orbit, average solar activity.
+\item Estimate the orbital lifetime of your spacecraft (text 5.3.4) following loss of communications: assume HST circular orbit, average solar activity.
+
+The lifetime of an uncontrolled space vehicle is approximately
+\begin{align*}
+\tau &\sim \dfrac{e_0^2}{2B} \left( 1 - \dfrac{11}{6}e_0 + \dfrac{29}{16}e_0^2 + \dfrac{7}{8} \dfrac{H}{a_0} \right) \\
+\end{align*}
+where $e_0$ and $a_0$ are the initial values of eccentricity and semi-major axis once control has ceased, $H$ is the scale height of the atmosphere near perigee and $B$ is given by
+\begin{align*}
+B &\sim \sqrt{\dfrac{\mu}{a_o^3}} \dfrac{A C_D}{M} \rho_{p_0} a_0 e_0 I_1 \left( \dfrac{a_0 e_0}{H} \right) exp \left(-e_0 \left(1 + \dfrac{a_0}{H} \right) \right)
+\end{align*}
+
 \item Would it make any difference to the decay timescale whether your spacecraft was tumbling or not?
 \end{enumerate}
+
+Tumbling has no affect on any of the parameters in $\tau$, except for the area, $A$. A tumbling craft would have a continuously changing $A$, which could increase or decrease the lifetime of the vehicle.
 \clearpage
 
 \problem{}
@@ -165,8 +174,21 @@ circular orbit, average solar activity.
 \itemsep0em
 \item Using the linearized solution to Kepler’s equation given in eqns 5.27-5.29, plot ground-track fluctuations as longitude vs latitude. Describe the results.
 \item Define deadband and control limit-cycle in the context of GEO station keeping.
-\item Consider a GEO satellite with nominal longitude of -100deg, and an onboard propellant system capable of
-providing a total $\Delta V$ of 200m/s. For a maximum longitudinal error magnitude of 0.22deg, for how long can the satellite station-keep?
+
+The dead band of a GEO satellite is the maximum allowable error in $\lambda$, and the control limit-cycle describes how often a burn is required in order to return this error to the opposite side of the dead band.
+
+\item Consider a GEO satellite with nominal longitude of -100deg, and an onboard propellant system capable of providing a total $\Delta V$ of 200m/s. For a maximum longitudinal error magnitude of 0.22deg, for how long can the satellite station-keep?
+
+The required $\Delta V$ required to keep the satellite within $\lambda_{max}$ degrees of error with a limit cycle of $T$ is
+\begin{align*}
+\Delta V =& 4 \sqrt{\dfrac{rf \lambda_{max}}{3}} = 0.083 \mbox{ m/s}\\
+       T =& 4 \sqrt{\dfrac{r \lambda_{max}}{3f}} = 0.326 \mbox{ years},
+\end{align*}
+where $f = +8.10$ E-9 m/s$^2$, $\lambda_{max} = 0.22$ deg, and $r = 42E6$ m. The length of time a satellite can station keep with fuel $\Delta V_{total}$ is then
+\begin{align*}
+T_{station keep} &= \Delta V_{total} / \left( \dfrac{\Delta V}{T} \right) = 782.957 \mbox{ years},
+\end{align*}
+which simply means that the lognitudinal station keeping is not the limiting factor of the satellite's lifespan.
 \end{enumerate}
 \clearpage
 
@@ -177,6 +199,49 @@ providing a total $\Delta V$ of 200m/s. For a maximum longitudinal error magnitu
 \item h= 52,059 km$^2$/s, e=0.0257240, i=60deg, $\Omega$=40deg, $\omega$=30deg, $\theta$=40deg
 \item h= 52,362 km$^2$/s, e=0.0072696, i=50deg, $\Omega$=40deg, $\omega$=120deg, $\theta$=40deg
 \end{enumerate}
+
+We can calculate the Earth-centric position and velocity vectors with the \verb|sv_from_coe()| function developed in Homework 4. They are
+\begin{enumerate}
+\itemsep0em
+\item $[\textbf{r}_1 \textbf{ v}_1] = [-266.7,  3865.7,  5426.1, -6.4 , -3.6,  2.4]$
+\item $[\textbf{r}_2 \textbf{ v}_2] = [-5890.7, -2979.7,  1792.2, 0.9, -5.2, -5.5]$,
+\end{enumerate}
+Where \textbf{r} is in km, and \textbf{v} is in km/s. To calculate \textbf{r} we can simply take the difference
+\begin{align*}
+   \textbf{r}_{rel} &= \textbf{r}_2 - \textbf{r}_1 \\
+                    &= [-5623.9, -6845.5, -3633.9] \mbox{ km}
+\end{align*}
+
+The relative velocity vector can be caluclated by
+\begin{align*}
+\textbf{v}_{2} &= \textbf{v}_1 + \textbf{$\Omega$} \times \textbf{r}_{rel} + \textbf{v}_{rel},
+\end{align*}
+where
+\begin{align*}
+\textbf{$\Omega$} &= \dfrac{\textbf{r} \times \textbf{v}}{\textbf{r}^2} \\
+ &= \left|
+ \begin{array}{ccc}
+ i & j & k \\
+ -266.7 & 3865.7 & 5426.1 \\
+ -6.4 & -3.6 &  2.4 \\
+ \end{array}
+ \right| \cdot \dfrac{1}{(6667.7)^2} \\
+ &= \dfrac{28979.7i -34536.6j + 26029.5k}{(6667.7)^2} \\
+ &= [ 0.00065, -0.00077,  0.00058] \mbox{ rad/s}
+\end{align*}
+Rearranging, we have,
+\begin{align*}
+\textbf{v}_{rel} &= \textbf{v}_{2} - \textbf{v}_1 - \textbf{$\Omega$} \times \textbf{r}_{rel} \\
+\phantom{\textbf{v}_{rel}} &= [0.9, -5.2, -5.5] - [-6.4, -3.6, 2.4] - \left|
+ \begin{array}{ccc}
+ i & j & k \\
+ 0.00065 & -0.00077 & 0.00058 \\
+ -5623.9 &  -6845.5 & -3633.9 \\
+ \end{array}
+ \right| \\
+\textbf{v}_{rel} &= [0.58855, -0.69663,  0.91435] \mbox{ km/s}.
+\end{align*}
+
 \clearpage
 
 \problem{}
