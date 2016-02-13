@@ -155,7 +155,7 @@ GPS & 46.09 & 2.55 &  90.64 & 118 \\
 
 The lifetime of an uncontrolled space vehicle is approximately
 \begin{align*}
-\tau &\sim \dfrac{e_0^2}{2B} \left( 1 - \dfrac{11}{6}e_0 + \dfrac{29}{16}e_0^2 + \dfrac{7}{8} \dfrac{H}{a_0} \right) \\
+\tau &\sim \dfrac{e_0^2}{2B} \left( 1 - \dfrac{11}{6}e_0 + \dfrac{29}{16}e_0^2 + \dfrac{7}{8} \dfrac{H}{a_0} \right)
 \end{align*}
 where $e_0$ and $a_0$ are the initial values of eccentricity and semi-major axis once control has ceased, $H$ is the scale height of the atmosphere near perigee and $B$ is given by
 \begin{align*}
@@ -163,9 +163,9 @@ B &\sim \sqrt{\dfrac{\mu}{a_o^3}} \dfrac{A C_D}{M} \rho_{p_0} a_0 e_0 I_1 \left(
 \end{align*}
 
 \item Would it make any difference to the decay timescale whether your spacecraft was tumbling or not?
-\end{enumerate}
 
 Tumbling has no affect on any of the parameters in $\tau$, except for the area, $A$. A tumbling craft would have a continuously changing $A$, which could increase or decrease the lifetime of the vehicle.
+\end{enumerate}
 \clearpage
 
 \problem{}
@@ -173,6 +173,23 @@ Tumbling has no affect on any of the parameters in $\tau$, except for the area, 
 \begin{enumerate}
 \itemsep0em
 \item Using the linearized solution to Kepler’s equation given in eqns 5.27-5.29, plot ground-track fluctuations as longitude vs latitude. Describe the results.
+\begin{figure}[tbh!]
+\begin{center}
+\includegraphics[height=0.45\textheight]{p4a-1.pdf}
+% \includegraphics[height=0.45\textheight]{p4a-2.pdf}
+\end{center}
+\caption{Ground Track Fluctuations as Longitude vs Latitude}
+\label{fig:gtf}
+\end{figure}
+
+The longitude and latitude can be calculated by
+\begin{align*}
+\lambda &= \Omega + \omega - \dfrac{3}{2} \dfrac{\delta a}{A} t \sqrt{\dfrac{\mu}{A^3}} + 2e\sin{\left(t \sqrt{\dfrac{mu}{A^3}} \right)} \\
+\theta &= i \sin{\left( \omega + t \sqrt{\dfrac{mu}{A^3}} \right)}.
+\end{align*}
+Figure~\ref{fig:gtf} shows the Longitude and Latitude for Westar 1, America's first domestic and commercially launched geostationary communications satellite. Here $i = 14.15^o, \omega = 282^o, \Omega = 336.8^o, e=7.333$E-4, $A=42164.5$km, and $\delta a=42164.5 - 42269=-104.5$km. The groundtrack is shown here for 24 hours, which is roughly equivalent to one orbit. The latitudinal variation is a simple oscillation, while the longitudinal variations include an oscillation and a small drift rate from the small $\delta a$ value.
+
+
 \item Define deadband and control limit-cycle in the context of GEO station keeping.
 
 The dead band of a GEO satellite is the maximum allowable error in $\lambda$, and the control limit-cycle describes how often a burn is required in order to return this error to the opposite side of the dead band.

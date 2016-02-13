@@ -15,7 +15,7 @@ def problem1():
         return v1 + v2
 
     def plane_change(i, v):
-        return 2 * v * np.sin(i / 2)
+        return 2 * v * sin(i / 2)
 
     print(hohmann(200, 569))
     print(hohmann(414.1, 569) + plane_change(0.9014 - 0.4969, 7.59))
@@ -70,15 +70,15 @@ def problem2():
 
         res = []
         for theta in np.deg2rad(np.linspace(0, 360, 3610)):
-            r_sun = np.array([np.cos(L_sun),
-                              np.sin(L_sun) * np.cos(np.deg2rad(23.45)),
-                              np.sin(L_sun) * np.sin(np.deg2rad(23.45))])
-            r_sat = np.array([np.cos(Omega) * np.cos(theta + w) - np.sin(Omega) * np.cos(i) * np.sin(theta + w),
-                              np.sin(Omega) * np.cos(theta + w) +
-                              np.cos(Omega) * np.cos(i) * np.sin(theta + w),
-                              np.sin(i) * np.sin(theta + w)])
+            r_sun = np.array([cos(L_sun),
+                              sin(L_sun) * cos(np.deg2rad(23.45)),
+                              sin(L_sun) * sin(np.deg2rad(23.45))])
+            r_sat = np.array([cos(Omega) * cos(theta + w) - sin(Omega) * cos(i) * sin(theta + w),
+                              sin(Omega) * cos(theta + w) +
+                              cos(Omega) * cos(i) * sin(theta + w),
+                              sin(i) * sin(theta + w)])
 
-            r = (h**2 / mu) / (1 + e * np.cos(theta))
+            r = (h**2 / mu) / (1 + e * cos(theta))
             beta = np.arcsin(R_E / r)
             eclipsed = (np.arccos(np.dot(-r_sun, r_sat)) <= beta)
             res.append([theta, *r_sun, *r_sat, r, beta, eclipsed])
@@ -97,7 +97,7 @@ def problem2():
 
     def theta_to_time(theta):
         E = 2 * np.arctan(np.tan(theta / 2) / np.sqrt((1 + e) / (1 - e)))
-        M = E - e * np.sin(E)
+        M = E - e * sin(E)
         t = M / np.sqrt(mu / a**3)
         return t
 
@@ -151,30 +151,48 @@ def problem3():
 
 
 def problem4a():
-    # Values for Navstar 43
+    # Values for Westar 1
     mu = 398600.4
-    t0 = 0
-    t = np.linspace(0, 60*60*24*7, 10000)
+    t = np.linspace(0, 60*60*24, 10000)
 
-    i = np.deg2rad(55.7)  # rad
-    Omega = np.deg2rad(246.5)  # rad
-    e = 0.004456
-    w = np.deg2rad(115)  # rad
-    A = 26560  # km
-    da = 60
+    i = np.deg2rad(14.15)  # rad
+    Omega = np.deg2rad(336.8)  # rad
+    e = 7.333E-4
+    w = np.deg2rad(282)  # rad
+    A = 42164.5  # km
+    da = 42164.5 - 42269  # km
 
-
+    mu_a = (mu/A**3)**(0.5)
     r = (A + da -
-         A * e * np.cos((t-t0) * (mu/A**3)**(0.5)))
+         A * e * cos(t * mu_a))
     lon = (Omega + w -
-           t0 * (mu/A**3)**(0.5) -
-           3/2 * da/A * (t - t0) * (mu/A**3)**(0.5) +
-           2 * e * np.sin((t-t0) * (mu/A**3)**(0.5)))
-    lat = i * np.sin(w + (t-t0) * (mu/A**3)**(0.5))
+           3/2 * (da/A) * t * mu_a +
+           2 * e * sin(t * mu_a))
+    lat = i * sin(w + t * mu_a)
     df = pd.DataFrame([t, r, lon, lat]).T
-    df.plot(x=2, y=3)
-    plt.axis('equal')
-    plt.show()
+
+    plt.close('all')
+    f, ax = plt.subplots()
+    plt.plot(df[2], df[3])
+    ax.set_xlabel('Longitude')
+    ax.set_ylabel('Latitude')
+    plt.xlim(lon[0], lon[-1])
+    plt.savefig('p4a-1.pdf')
+    #plt.show()
+
+    plt.close('all')
+    f, ax = plt.subplots(nrows=2, sharex=True)
+    #ax[0].plot(df[0], df[1])
+    #ax[0].set_ylabel('Geocentric Distance')
+    ax[0].plot(df[0], df[2])
+    ax[0].set_ylabel('Longitude')
+    ax[1].plot(df[0], df[3])
+    ax[1].set_ylabel('Latitude')
+    ax[1].set_xlabel('Time (s)')
+    plt.xlim(t[0], t[-1])
+    plt.savefig('p4a-2.pdf')
+    #plt.show()
+
 
 def problem4c():
     # Time in seconds for longitudinal station keeping at long = -100 deg
