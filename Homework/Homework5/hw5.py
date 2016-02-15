@@ -303,6 +303,9 @@ def problem7():
     a = R_E + HST_altitude
     drop_off_altitude = 200
 
+    # Catch up altitude for four orbits
+    #da = (a) * np.deg2rad(65/4)/(-3*pi)
+
     period_HST = 2*pi*((HST_altitude + R_E)**3/mu)**(0.5)  # seconds
     period_at_200km = 2*pi*((drop_off_altitude + R_E)**3/mu)**(0.5)
     period_mean = (period_HST + period_at_200km)/2
@@ -312,8 +315,7 @@ def problem7():
     distance = phase_reduction * (HST_altitude-drop_off_altitude)
     behind = np.deg2rad(65)
     n_orbits = abs(behind/phase_reduction)
-    #phasing_time = period_HST * int(n_orbits)
-    phasing_time = 2 * period_mean
+    phasing_time = period_HST * int(n_orbits)
     phasing_dv = 0
 
     # Homing
@@ -325,18 +327,14 @@ def problem7():
     k = 1
     cycloidal_burn = (2 * (.8/(6*pi*k)) * (mu/(a**3))**0.5) * 1E3
 
-    #homing = time_history(tf=period_HST/2, x=1E3, xdot=-homing_burn/2)
-    homing = time_history(tf=period_HST/2, x=30E3, z=-10E3, xdot=homing_burn/2)
+    phasing = time_history(tf=2*period_mean, z=-30E3)
+    homing = time_history(tf=period_HST/2, x=1E3, xdot=-homing_burn/2)
     closing = time_history(tf=period_HST, x=1E3, xdot=-cycloidal_burn/2)
 
     f, ax = plt.subplots()
-    #phasing.plot(x='x', y='z', label='Phasing', ax=ax, color='r')
+    ax.plot(phasing.x, phasing.z, label='Phasing', color='r')
     ax.plot(homing.x, homing.z, label='Homing', color='b')
     ax.plot(closing.x, closing.z, label='Closing', color='g')
     plt.legend(loc='best')
     #plt.gca().invert_xaxis()
     plt.show()
-
-
-
-
