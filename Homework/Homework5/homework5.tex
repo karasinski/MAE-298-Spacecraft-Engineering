@@ -162,11 +162,13 @@ where $e_0$ and $a_0$ are the initial values of eccentricity and semi-major axis
 B &\sim \sqrt{\dfrac{\mu}{a_o^3}} \dfrac{A C_D}{M} \rho_{p_0} a_0 e_0 I_1 \left( \dfrac{a_0 e_0}{H} \right) exp \left(-e_0 \left(1 + \dfrac{a_0}{H} \right) \right)
 \end{align*}
 
+Assuming a small $e \approx 0.0002468, C_D = 2.2, \rho \approx 6.5$E-13 kg/m$^3, H \approx 72500,$ m and $A = 16$m$^2$, we find a time, $\tau = 718.3$ days, or approximately 2 years.
+
+
 \item Would it make any difference to the decay timescale whether your spacecraft was tumbling or not?
 
 Tumbling has no affect on any of the parameters in $\tau$, except for the area, $A$. A tumbling craft would have a continuously changing $A$, which could increase or decrease the lifetime of the vehicle.
 \end{enumerate}
-\clearpage
 
 \problem{}
 \textit{Geostationary orbits (text 5.6):}
@@ -207,7 +209,6 @@ T_{station keep} &= \Delta V_{total} / \left( \dfrac{\Delta V}{T} \right) = 782.
 \end{align*}
 which simply means that the lognitudinal station keeping is not the limiting factor of the satellite's lifespan.
 \end{enumerate}
-\clearpage
 
 \problem{}
 \textit{Two spacecraft in elliptical Earth orbit with the orbital parameters as follows. Compute the relative position and velocity vectors.}
@@ -280,9 +281,9 @@ Rearranging, we have,
 \item Release relative velocity = (-0.1, 0, 0.1) m/s (initially 45deg backwards and up; describe subsequent motion)
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[height=0.37\textheight]{6c.pdf}
-\vspace{-1.5em}
+\includegraphics[height=0.3\textheight]{6c.pdf}
 \end{center}
+\vspace{-1.5em}
 \end{figure}
 
 This motion looks very similar to the prolate cycloid, except that altitude is gained during the very beginning of the orbit.
@@ -290,9 +291,11 @@ This motion looks very similar to the prolate cycloid, except that altitude is g
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=1\textwidth]{6dboth.pdf}
-\vspace{-1.5em}
 \end{center}
+\vspace{-1.5em}
 \end{figure}
+
+The $\cos$ and $\sin$ parts of the solution were expanded to their first two Taylor series components. Compared to the exact solutions, these approximate solutions performed very well. There is a minimal difference between the two solutions for one orbit.
 \item How about a release relative velocity = (0, 0.1, 0) m/s? Would you see the toolbox again or not?
 
 Motion along the y axis simply acts as a harmonic oscillator. If the orbit was sufficiently high enough, so that drag and and other orbit perturbations were minimal, you may indeed see the toolbox again. For ISS orbit, however, drag would dominate, and you would not see the toolbox again.
@@ -303,14 +306,64 @@ Motion along the y axis simply acts as a harmonic oscillator. If the orbit was s
 \textit{For your HST re-boost spacecraft, assume:}
 \begin{itemize}
 \itemsep0em
-\item[--] Launch: drop-off circular orbit at 200km, in-plane with HST, 65deg phase angle behind HST - Phasing: 4-orbit phasing to point S1, 30km behind and 10km below HST
+\item[--] Launch: drop-off circular orbit at 200km, in-plane with HST, 65deg phase angle behind HST
+\item[--] Phasing: 4-orbit phasing to point S1, 30km behind and 10km below HST
 \item[--] Homing: Hohmann S1 to co-orbit waiting point S2, 1km behind HST
 \item[--] Closing: Cycloid close waiting point S3, 200m behind HST
 \end{itemize}
 \begin{enumerate}
 \itemsep0em
 \item compute the required $\Delta V$ and elapsed time for each phase, and for the total rendezvous to S3
+
+To get to approximately 30km and 10km below HST, we need to phase our orbits. The amount of change in phase after each orbit is
+\begin{align*}
+\Delta \theta &= -3 \pi \dfrac{\Delta a}{a} \\
+              &= -3 \pi \dfrac{550 \mbox{ km} - 200 \mbox{ km}}{550 \mbox{ km} + 6371 \mbox{ km}} \\
+              &= -27.3 \mbox{ degree},
+\end{align*}
+so we'll begin our homing phase after two orbits. For the homing burn, we will burn from $\Delta a = -10$km to a waiting point $S1 = 1$km behind the HST. We have $\theta_f = (180^o/\pi) \cdot (10/6921) = 0.0827^o$ and $v_T = 7.591$ km s$^{-1}$. With this we get $\theta_i = \theta_f + .195^o = .278^o$. $2 \pi(\frac{0.278^o}{360^o}) \cdot 6921 = 33.58$ km, which is approximately 30km. This means we have to perform a burn with
+\begin{align*}
+\Delta v &= - \dfrac{1}{2}\dfrac{\Delta a}{a}\sqrt{\dfrac{\mu}{a}} \\
+         &= 5.482 \mbox{ m/s},
+\end{align*}
+which will take a time, $t_H$, of
+\begin{align*}
+t_H &= \pi \sqrt{\dfrac{a_H^3}{\mu}} \\
+    &= \pi \sqrt{\dfrac{\left( a \left[ 1 + \dfrac{\Delta a}{2a} \right] \right)^3}{\mu}} \\
+    &= 2862.0 \mbox{ s}.
+\end{align*}
+We use a cycloidal approach to close, with a total $\Delta v$ requirement of
+\begin{align*}
+\Delta v &= 2 \times \dfrac{\Delta x}{6 \pi \cdot k} \sqrt{\dfrac{\mu}{a^3}}\\
+         &= 0.093 \mbox{ m/s},
+\end{align*}
+where $\Delta x = 800$ m. Here $k=1$ has been chosen to minimize the required time to approach. This will take one full orbital period, for a total time of 5728.8 seconds. \\
+\\
+This brings the total $\Delta v$ requirements to 5.575 m/s, and the total time to 20048.4 seconds, or 3.5 orbits.
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{rrr}
+\toprule
+Phase    & $\Delta V$ & Time (s) \\
+\midrule
+Phasing & - & 11457.6 \\
+Homing & 5.482 & 2862.0 \\
+Closing & 0.093 & 5728.8 \\
+\midrule
+Total & 5.575 & 20048.4\\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{$\Delta V$ and time requirements for each phase of rendezvous}
+\end{table}
+
 \item compute the view-angle to HST, measured from the orbit-tangent (for sensor acquisition)
+
+The view-angle is simply calculated by
+\begin{align*}
+\theta &= \arctan{\left(\frac{10 \mbox{ km}}{30 \mbox{ km}} \right)} \\
+       &= 18.43^o
+\end{align*}
 \item plot the total quantitative relative motion (like Walter Fig. 8.26)
 \end{enumerate}
 

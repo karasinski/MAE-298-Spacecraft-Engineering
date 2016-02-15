@@ -1,5 +1,5 @@
 import numpy as np
-from numpy import sin, cos
+from numpy import sin, cos, pi
 import pandas as pd
 from scipy.special import j1
 import matplotlib.pyplot as plt
@@ -127,27 +127,19 @@ def problem2():
 
 
 def problem3():
-    res = []
-    for e in np.linspace(0, .002, 10000):
-        mu = 398600.4
-        C_D = 2.2
-        rho = (4.1E-14 + 2E-13 + 8.5E-13 + 1.53E-12)/4  # kg/m^3 (solar max, night)
+    e = 0.0002468
+    mu = 3.986e14
+    C_D = 2.2
+    rho = (4.1E-14 + 2E-13 + 8.5E-13 + 1.53E-12)/4  # kg/m^3 (solar average)
+    a = 6920.895e3 # m
+    A = 4*4 # m^2
+    M = 1000  # kg
+    H = (60.4 + 67.4 + 74.6 + 88.7)/4 * 1E3 # km (solar average)
 
-        a = 6920  # km
-        A = 1E-4  # km^2
-        M = 1000  # kg
-        H = (60.4 + 67.4 + 74.6 + 88.7)/4  # km (solar max, night)
+    B = ((mu / (a**3)) ** (0.5)) * ((A * C_D) / M) * (rho * a * e) * j1((a * e) / H) * np.exp(-e * (1 + (a / H)))
 
-        def B():
-            return ((mu / (a**3)) ** (0.5)) * ((A * C_D) / M) * (rho * a * e) * j1((a * e) / H) * np.exp(-e * (1 + (a / H)))
-
-        def tau():
-            return ((e**2) / (2 * B())) * (1 - (11 / 6) * e + (29 / 16) * e**2 + (7 / 8) * (H / a))
-
-        days = tau() / (60 * 60 * 24)
-        res.append([e, days])
-    pd.DataFrame(res).plot(x=0, y=1)
-    plt.show()
+    tau = ((e**2) / (2 * B)) * (1 - (11 / 6) * e + (29 / 16) * e**2 + (7 / 8) * (H / a))
+    print(tau/60/60/24)
 
 
 def problem4a():
@@ -225,7 +217,8 @@ def problem6():
 
         res = []
         if not small:
-            while t < tf:
+            res.append([t, *state_old])
+            while t <= tf:
                 state = np.array([
                          [1,  6*(sin(nt) - nt), 4*sin(nt)/n - 3*dt, 2*(cos(nt) - 1)/n, 0, 0],
                          [0,     4 - 3*cos(nt),    2*(1-cos(nt))/n,         sin(nt)/n, 0, 0],
@@ -238,7 +231,8 @@ def problem6():
                 res.append([t, *state])
                 t += dt
         else:
-            while t < tf:
+            res.append([t, *state_old])
+            while t <= tf:
                 state = np.array([
                          [1,  6*((nt - (nt**3)/6) - nt), 4*(nt - (nt**3)/6)/n - 3*dt, 2*((1-(nt**2)/2) - 1)/n, 0, 0],
                          [0,     4 - 3*(1-(nt**2)/2),    2*(1-(1-(nt**2)/2))/n,         (nt - (nt**3)/6)/n, 0, 0],
@@ -300,5 +294,49 @@ def problem6():
     ax[1].set_xlabel('x (m)')
     ax[1].legend(['Approx', 'Exact'])
     plt.savefig('6dboth.pdf')
+
+
+def problem7():
+    mu = 398600.4
+    R_E = 6371
+    HST_altitude = 550
+    a = R_E + HST_altitude
+    drop_off_altitude = 200
+
+    period_HST = 2*pi*((HST_altitude + R_E)**3/mu)**(0.5)  # seconds
+    period_at_200km = 2*pi*((drop_off_altitude + R_E)**3/mu)**(0.5)
+    period_mean = (period_HST + period_at_200km)/2
+
+    # Phasing
+    phase_reduction = -3 * pi * ((HST_altitude-drop_off_altitude)/(HST_altitude + R_E))
+    distance = phase_reduction * (HST_altitude-drop_off_altitude)
+    behind = np.deg2rad(65)
+    n_orbits = abs(behind/phase_reduction)
+    #phasing_time = period_HST * int(n_orbits)
+    phasing_time = 2 * period_mean
+    phasing_dv = 0
+
+    # Homing
+    da = -10
+    homing_burn = (-0.5 * (da/a) * (mu/a)**(0.5)) * 1E3
+    homing_time = pi*(((a*(1+da/(2*a)))**3)/mu)**(0.5)
+
+    # Closing
+    k = 1
+    cycloidal_burn = (2 * (.8/(6*pi*k)) * (mu/(a**3))**0.5) * 1E3
+
+    #homing = time_history(tf=period_HST/2, x=1E3, xdot=-homing_burn/2)
+    homing = time_history(tf=period_HST/2, x=30E3, z=-10E3, xdot=homing_burn/2)
+    closing = time_history(tf=period_HST, x=1E3, xdot=-cycloidal_burn/2)
+
+    f, ax = plt.subplots()
+    #phasing.plot(x='x', y='z', label='Phasing', ax=ax, color='r')
+    ax.plot(homing.x, homing.z, label='Homing', color='b')
+    ax.plot(closing.x, closing.z, label='Closing', color='g')
+    plt.legend(loc='best')
+    #plt.gca().invert_xaxis()
+    plt.show()
+
+
 
 
