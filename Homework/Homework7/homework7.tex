@@ -79,6 +79,98 @@
 \item Bi-propellant (your choice)
 \end{enumerate}
 
+The amount of $\Delta V$ required for a Hohmann transfer from a 200km to a 350km orbit, under the assumption of instantaneous impulses is
+\begin{align*}
+\Delta v_1 = \sqrt{\frac{\mu}{r_1}} \left( \sqrt{\frac{2 r_2}{r_1+r_2}} - 1 \right),
+\end{align*}
+to enter the elliptical orbit at $r=r_1$ from the $r_1$ circular orbit, and
+\begin{align*}
+\Delta v_2  = \sqrt{\frac{\mu}{r_2}} \left( 1 - \sqrt{\frac{2 r_1}{r_1+r_2}}\,\,\right),
+\end{align*}
+to leave the elliptical orbit at $r=r_2$ to the $r_2$ circular orbit. For $r_1 = 6571$km and $r_2 = 6721$km, with $\mu=398600.4$km$^3$s$^{-2}$, the total $\Delta V$ required is 87.3 m s$^{-1}$.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{*{8}{r}}
+\toprule
+Engine & Type     & Mass (kg) & Propellant & Thrust (N) & SI (s) \\
+\midrule
+MR-80B & Monoprop & 8.5 &       Hydrazine & 3,780 & 225 \\
+R-40B  & Biprop   & 6.8 & NTO (MON-3)/MMH & 4,000 & 293 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{Information on the two engines used for this analysis.}
+\end{table}
+
+To calculate our change in mass, we can use the rocket equation,
+\begin{align*}
+\dfrac{M_i}{M_f} &= exp({\dfrac{\Delta V}{g_0 \cdot \mbox{ISP}}}) \\
+\dfrac{M_{fuel} + M_f}{M_f} &= exp({\dfrac{\Delta V}{g_0 \cdot \mbox{ISP}}}) \\
+M_{fuel} &= M_f \left( exp({\dfrac{\Delta V}{g_0 \cdot \mbox{ISP}}}) -1 \right),
+\end{align*}
+which shows that the required $\Delta V$ is a function of the initial mass of the craft. For a small satellite with a mass of 500kg, the required mass for fuel is listed in Table~\ref{fuel_table}.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{*{8}{r}}
+\toprule
+Engine & SI (s) & $\Delta V$ (kg) & Volume (m$^3$)\\
+\midrule
+MR-80B & 225 & 20.19 & 0.0200 \\
+R-40B  & 293 & 15.43 & 0.0128 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{Information on the two engines used for this analysis.}
+\label{fuel_table}
+\end{table}
+
+To calculate the volume required for the burn, we can simply calculate $V = m/\rho$. Hydrazine has a density of 1011 kg m$^{-3}$, and for 20.19 kg of fuel this results in a required volume of 0.0200 $m^3$. For the bipropellant, we need to mix fuel and an oxidizer at a mass ratio of MON/MMH$ = 2.16$. This results in 10.54 kg of fuel, and 4.88 kg of oxidizer. MON has a density of 1442 kg m$^{-3}$, and MMH has a density of 880 kg m$^{-3}$. This results in tank volumes of .0073 m$^3$ and .0055 m$^3$, respectively.
+
+\begin{lstlisting}[caption={Serial and parallel valve designs for monoprop and bipropellant systems. Each x represents a valve.}]
+########################################
+#              +-----+                 #
+#              | Fuel|                 #
+#              +--+--+                 #
+#                 |                    #
+#              x--+--x                 #
+#              |     |                 #
+#              |     |                 #
+#              |     |                 #
+#              x--+--x                 #
+#                 |                    #
+#                 |                    #
+#                 |                    #
+#                 |                    #
+#                 +                    #
+#                / \                   #
+#               /   \                  #
+#              /     \                 #
+#              -------                 #
+########################################
+#      +-----+         +-----+         #
+#      | Fuel|         | Oxid|         #
+#      +--+--+         +--+--+         #
+#         |               |            #
+#      x--+--x         x--+--x         #
+#      |     |         |     |         #
+#      |     |         |     |         #
+#      |     |         |     |         #
+#      x--+--x         x--+--x         #
+#         |               |            #
+#         +-------+-------+            #
+#                 |                    #
+#                 |                    #
+#                 +                    #
+#                / \                   #
+#               /   \                  #
+#              /     \                 #
+#              -------                 #
+########################################
+\end{lstlisting}
+
+
 \problem{}
 \textit{Read ``Mission Analysis for a Micro RF Ion Thruster for CubeSat Orbital Maneuvers''}
 \begin{enumerate}
