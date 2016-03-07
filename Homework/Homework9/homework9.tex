@@ -109,6 +109,7 @@ Find the disturbance torque on the cube about the mass center for two configurat
 \problem{Part 2 – Reaction Wheel and Thruster Analysis}
 Assume a maximum constant on orbit disturbance torque of 1x10$^{-5}$ Nm on a single axis. Size a reaction wheel to keep a craft pointed despite this disturbance. Assume a saturation speed of 6000rpm for the wheel. It should be capable of eliminating the maximum on orbit disturbance without desaturating for two weeks.
 
+Given,
 \begin{align*}
 H_{{storage}} =& \int \dfrac{dH}{dt} = \int T_{{disturbance,max}} dt = T_{{disturbance,max}}t \\
 & \int \dfrac{dH}{dt} = \int I_{{wheel}} \alpha dt = I_{{wheel}} \omega_{{saturated}}
@@ -117,6 +118,43 @@ H_{{storage}} =& \int \dfrac{dH}{dt} = \int T_{{disturbance,max}} dt = T_{{distu
 \begin{align*}
 I_{{wheel}} \omega_{{saturated}} & = \int I_{{wheel}} \alpha dt = \int \dfrac{dH}{dt} \\
                                  & = \int T_{{thrusters}} dt = T_{{thrusters}} t
+\end{align*}
+as such,
+\begin{align*}
+T_{{disturbance,max}}t &= I_{{wheel}} \omega_{{saturated}} \\
+\mbox{or} \\
+I_{{wheel}} &= \dfrac{T_{{disturbance,max}}t}{\omega_{{saturated}} }\\
+\end{align*}
+selecting $T =$1x10$^{-5}$ Nm, $t=2*7*24*60*60=1209600$ s, and $\omega=6000$ rpm, gives:
+\begin{align*}
+I_{{wheel}} &= \dfrac{T_{{disturbance,max}}t}{\omega_{{saturated}} }\\
+            &= \dfrac{1E-5 \mbox{ Nm} * 1209600 \mbox{ s}}{6000\mbox{ rpm} \cdot \dfrac{0.1047\mbox{rad/s}}{1\mbox{ rpm}}} \\
+            &= 0.01925 \mbox{ kg m$^2$}
+\end{align*}
+
+To size the reaction wheel, we have:
+\begin{align*}
+I_{{wheel}} &= \dfrac{m r^2}{2} \\
+            &= \dfrac{\rho \pi r^4 h}{2}
+\end{align*}
+where the reaction wheel is modelled as a simple disc-shape. Choosing $h = r$ and $\rho = 8000$ kg m$^{-3}$ (316 stainless steel) leads to
+\begin{align*}
+r &= (\dfrac{2 I_{{wheel}}}{\pi \rho})^{1/5} \\
+  &= (\dfrac{2 \cdot 0.01925}{\pi 8000})^{1/5} \\
+  &= 0.069 \mbox { m}
+\end{align*}
+
+As such, our reaction wheels are made of 316 stainless steel, and have a radius and a height of 0.069 meters. To calculate the burn time to desaturate the thrusters, we have
+\begin{align*}
+I_{{wheel}} \omega_{{saturated}} & = T_{{thrusters}} t \\
+\mbox{or} \\
+t &= \dfrac{I_{{wheel}} \omega_{{saturated}}}{ T_{{thrusters}} }
+\end{align*}
+selecting $T =1$ Nm, $\omega=6000$ rpm, and $I=0.01925$ kg m$^2$, gives:
+\begin{align*}
+t &= \dfrac{I_{{wheel}} \omega_{{saturated}}}{ T_{{thrusters}} } \\
+  &= \dfrac{0.01925 \mbox{ kg m$^2$} \cdot 6000\mbox{ rpm} \cdot \dfrac{0.1047\mbox{ rad/s}}{1\mbox{ rpm}}}{1 \mbox{ Nm}} \\
+  &= 12.25 \mbox{ s}
 \end{align*}
 
 \problem{Part 3 – Hubble Slew Problem}
