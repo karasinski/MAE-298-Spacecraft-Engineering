@@ -77,173 +77,244 @@
 % \renewcommand\cellgape{\Gape[1pt]}
 
 \author{John Karasinski}
-\title{Homework 3}
+\title{HST Rendezvous}
 
 \begin{document}
 %\maketitle
 
-\begin{table}[t!]
-\begin{center}
-\begin{tabular}{|c |c |c |c |c|}
-% \toprule
-\hline
-Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, sec \\
-% \midrule
-\hline
-NC-1  & 00:05:27:28.9 & OMS (Both) & 98.0 & 59.2 \\ \hline
-NSR   & 01:03:43:59.7 & OMS (Both) & 49.8  & 30 \\ \hline
-NC-2  & 01:04:17:14.3 & OMS (Left) & 14.1 & 17.1 \\ \hline
-NC-3  & 01:17:55:30.1 & OMS (Right) & 12.1 & 14.8 \\ \hline
-% \bottomrule
-\end{tabular}
-\end{center}
-\caption{STS-61. The HST was grappled at 01:23:19:56 and berthed at 01:23:57:30.}
-% \label{properties}
-\end{table}
+\chapter{Rendezvous Simulation}
 
+Current orbital decay predictions place the Hubble Space Telescope (HST) at a nearly circular, 528 km altitude orbit during our proposed launch date of January 2020. After launch, we will enter a 200 km, in-plane parking orbit, then enter a 200 x 500 km phasing orbit. From our phasing orbit, we will perform a homing maneuver bring us to a holding point 15 km behind HST. When relative navigation sensors have acquired HST, we will perform a closing maneuver to bring us to 500 m below HST, after which an R-bar approach will be used to bring us to dock.
+
+For the R-bar approach, our vehicle move up towards HST along its radial vector. Our vehicle will fire thrusters radially to close towards HST, and use small burns in the orbital velocity direction to negate the effects of orbital mechanics. If the R-bar is stopped at any point (in case of loss of communication or thruster failure, for instance), our vehicle will naturally move away from HST.
+
+This approach has been adapted from the from the Space Shuttle's Optimized R-Bar Targeted Rendezvous (ORBT) profile~\footnote{Goodman, John L. ``History of Space Shuttle Rendezvous.'' (2011).}. ORBT was developed to optimally set up initial conditions for a low energy coast up the +R-bar. This profile was used from 1997 to the end of Space Shuttle program in 2011, lending more than a decade of operational flight heritage.
+
+\section{How will we rendezvous, and how long does rendezvous take?}
+\section{At what stage of the rendezvous are sensors active?}
 
 \begin{table}[t!]
 \begin{center}
-\begin{tabular}{|c |c |c |c |c|}
-% \toprule
-\hline
-Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, sec \\
-% \midrule
-\hline
-Reboost 1  & 06:16:59 & RCS Vernier (?) & - & 61 \\ \hline
-% \bottomrule
+\begin{tabular}{c c c c}
+\toprule
+Sensor & \# On-board & Range & Resolution \\
+\midrule
+Radar        & 2 & 100s of km - 100s of m & ? \\
+LIDAR        & 2 & 10s of km - 2m & ? \\
+Camera       & 2 & 100s of m - contact & ? \\
+GPS          & 2 & - & 7.8 m~\footnote{gps.gov, http://www.gps.gov/systems/gps/performance/accuracy/} \\
+\bottomrule
 \end{tabular}
 \end{center}
-\caption{STS-61. The HST was grappled at 01:23:28 and berthed at 2:00:10.}
+\caption{}
 % \label{properties}
 \end{table}
 
 \begin{table}[t!]
 \begin{center}
-\begin{tabular}{|c |c |c |c |c|}
-% \toprule
-\hline
-Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, sec \\
-% \midrule
-\hline
-NSR   & 01:03:36:21.9  & OMS         & 96  & 56.2 \\ \hline
-NC-2  & 01:05:02:00    & RCS Primary & 3.1 & 13.0 \\ \hline
-NH    & 01:17:06:04.9  & OMS         & 12  & 8.0  \\ \hline
-NC-3  & 01:17:53:00    & RCS Primary & 3.4 & 14.0 \\ \hline
-NPC-2 & 01:19:00:24    & RCS Primary & 0.5 & 2.0  \\ \hline
-NCC   & 01:20:07:46    & RCS Primary & 1.1 & 1.1  \\ \hline
-TI    & 01:21:07:52    & RCS Primary & 2.8 & 12.0 \\ \hline
-MC-1  & 01:21:34:16    & RCS Primary & 0.4 & 2.0  \\ \hline
-MC-2  & 01:22:02:40    & RCS Primary & 1.5 & 6.0  \\ \hline
-MC-3  & 01:22:12:40    & RCS Primary & 0.9 & 3.0  \\ \hline
-MC-4  & 01:22:22:40    & RCS Vernier & 0.2 & 1.0  \\ \hline
-% \bottomrule
+\begin{tabular}{c c c c}
+\toprule
+Sensor & \# On-board & Performance \\
+\midrule
+Startracker  & 2 & 0.005 deg \\
+IMU          & 2 & 0.003 deg/hr \\
+\bottomrule
 \end{tabular}
 \end{center}
-\caption{STS-82. The HST was grappled at 01:23:28 and berthed at 2:00:10.}
+\caption{}
 % \label{properties}
 \end{table}
+
+\section{Can we recover from a single sensor failure at each stage?}
+
+The most likely cause of failure for our spacecraft is a loss of attitude measurement. When the spacecraft is phasing with HST, its only sources of attitude measurement are startrackers and IMUs. Without frequent updates from the startrackers, however, the IMUs experience drift and quickly become useless. Once the spacecraft comes within a few 10s of km of HST, however, radar and LIDAR can calculate relative attitude. During final approach, the last few 100 m, stereo cameras can calculate sufficient pose estimation for docking. While there are multiple methods for relative attitude measurement, a lack of options for absolute attitude measurement is a weak point of our system.
+
+Final docking requirements
 
 \begin{table}[t!]
 \begin{center}
-\begin{tabular}{|c |c |c |c |c|}
-% \toprule
-\hline
-Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, min:sec \\
-% \midrule
-\hline
-Reboost 1 & 04:01:09:28 & RCS Vernier & 6.6  & 20:41.9 \\ \hline
-Reboost 1A$_a$ & 04:06:07:04 & RCS Vernier & 3.3  & 10:12.6 \\ \hline
-Reboost 2 & 5:01:15:03 & RCS Vernier & 6.5  & 19:46.9 \\ \hline
-Reboost 3 & 07:01:33:00 & RCS Vernier & 10.4 & 31:53.5 \\ \hline
-% \bottomrule
+\begin{tabular}{c c c c}
+\toprule
+Sensor & Displacement Error & Rate Error \\
+\midrule
+Lateral   & 11.4 cm & 1.3 cm/s \\
+Range     & 20.3 cm & 5.1 cm/s \\
+Roll      & 4 deg   & 1 deg/s \\
+Pitch/Yaw & 4 deg   & 0.25 deg/s \\
+\bottomrule
 \end{tabular}
 \end{center}
-\caption{STS-82. a - Manuever required for space debris avoidance. The four reboost maneuvers raised the HST orbit an average of 8 nmi.}
-% \label{properties}
-\end{table}
-
-\begin{table}[t!]
-\begin{center}
-\begin{tabular}{|c |c |c |c |c|}
-% \toprule
-\hline
-Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, sec \\
-% \midrule
-\hline
-NC-1 Trim & 01:03:42:23    & RCS Primary & 0.06 & 0.44   \\ \hline
-NC-2      & 01:04:36:49    & RCS Primary & 7.4  & 31     \\ \hline
-NSR Trim  & 01:17:36:55.1  & RCS Primary & 0.2  & 0.24   \\ \hline
-NCC       & 01:20:38:00    & RCS Primary & 0.3  & 1.0    \\ \hline
-TI        & 01:21:36:06    & RCS Primary & 4.1  & 8.7    \\ \hline
-MC-1      & 01:21:58:06    & RCS Primary & 0.3  & 0.5    \\ \hline
-MC-2      & 01:22:32:58    & RCS Primary & 0.9  & 2.9    \\ \hline
-MC-3      & 01:22:49:58    & RCS Primary & 0.4  & 1.0    \\ \hline
-MC-4      & 01:22:59:58    & RCS Vernier & 1.8  & 7.2    \\ \hline
-% \bottomrule
-\end{tabular}
-\end{center}
-\caption{STS-103. The HST was grappled at 01:23:44:01 and berthed at 2:00:52.}
+\caption{}
 % \label{properties}
 \end{table}
 
 
-\begin{table}[t!]
-\begin{center}
-\begin{tabular}{|c |c |c |c |c|}
-% \toprule
-\hline
-Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, sec \\
-% \midrule
-\hline
-NC2  & 000:17:50:50.5 & -X RCS & 4.5 & 19.7 \\ \hline
-NC3  & 01:02:55:32    & Multi-axis RCS & 3.1 & 12.6 \\ \hline
-NC4  & 01:17:47:01    & Multi-axis RCS & 4.8 & 20.4 \\ \hline
-NCC  & 01:18:38:57    & Multi-axis RCS & 1.3 & 5.5 \\ \hline
-MC-1 & 01:19:59:04    & Multi-axis RCS & 0.8 & 3.2 \\ \hline
-MC-2 & 01:20:34:27    & Multi-axis RCS & 0.4 & 1.79 \\ \hline
-MC-3 & 01:20:34:27    & +X RCS & 1.9 & 8.1 \\ \hline
-MC-4 & 01:21:01:28    & Multi-axis RCS & 1.9 & 8.1 \\ \hline
-% \bottomrule
-\end{tabular}
-\end{center}
-\caption{STS-109. The HST was captured at 001:21:09:19.}
-% \label{properties}
-\end{table}
-
-\begin{table}[t!]
-\begin{center}
-\begin{tabular}{|c |c |c |c |c|}
-% \toprule
-\hline
-Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, min:sec \\
-% \midrule
-\hline
-Reboost 1 & 07:05:56:01.8 & RCS Vernier (?) & 11.8  & 36:00 \\ \hline
-% \bottomrule
-\end{tabular}
-\end{center}
-\caption{STS-109. The reboost maneuver raised the HST orbit an average of 3.6 nmi.}
-% \label{properties}
-\end{table}
-
-\begin{table}[t!]
-\begin{center}
-\begin{tabular}{|c |c |c |c |c|}
-% \toprule
-\hline
-Maneuver & Time, GMT & System & $\Delta$V, ft/sec & Duration, sec \\
-% \midrule
-\hline
-NC 1 & 131/21:49:54.65 & RCS & 19.5 & 90.88   \\ \hline
-NCC  & 133/13:41:50    & RCS &  1.6 & 7.0     \\ \hline
-MC 3 & 133/15:53:26.3  & RCS &  0.9 & 0.2     \\ \hline
-MC 4 & 133/16:03:26.5  & RCS &  2.1 & 8.9     \\ \hline
-% \bottomrule
-\end{tabular}
-\end{center}
-\caption{STS-125. The HST was captured at 133/17:30:52.}
-% \label{properties}
-\end{table}
+\section{How long can we stay at each part of the orbit?}
+\section{Delta V worst case scenario?}
 
 \end{document}
+
+
+% \begin{table}[t!]
+% \begin{center}
+% \begin{tabular}{|c |c |c |c |c|}
+% % \toprule
+% \hline
+% Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, sec \\
+% % \midrule
+% \hline
+% NC-1  & 00:05:27:28.9 & OMS (Both) & 98.0 & 59.2 \\ \hline
+% NSR   & 01:03:43:59.7 & OMS (Both) & 49.8  & 30 \\ \hline
+% NC-2  & 01:04:17:14.3 & OMS (Left) & 14.1 & 17.1 \\ \hline
+% NC-3  & 01:17:55:30.1 & OMS (Right) & 12.1 & 14.8 \\ \hline
+% % \bottomrule
+% \end{tabular}
+% \end{center}
+% \caption{STS-61. The HST was grappled at 01:23:19:56 and berthed at 01:23:57:30.}
+% % \label{properties}
+% \end{table}
+
+
+% \begin{table}[t!]
+% \begin{center}
+% \begin{tabular}{|c |c |c |c |c|}
+% % \toprule
+% \hline
+% Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, sec \\
+% % \midrule
+% \hline
+% Reboost 1  & 06:16:59 & RCS Vernier (?) & - & 61 \\ \hline
+% % \bottomrule
+% \end{tabular}
+% \end{center}
+% \caption{STS-61. The HST was grappled at 01:23:28 and berthed at 2:00:10.}
+% % \label{properties}
+% \end{table}
+
+% \begin{table}[t!]
+% \begin{center}
+% \begin{tabular}{|c |c |c |c |c|}
+% % \toprule
+% \hline
+% Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, sec \\
+% % \midrule
+% \hline
+% NSR   & 01:03:36:21.9  & OMS         & 96  & 56.2 \\ \hline
+% NC-2  & 01:05:02:00    & RCS Primary & 3.1 & 13.0 \\ \hline
+% NH    & 01:17:06:04.9  & OMS         & 12  & 8.0  \\ \hline
+% NC-3  & 01:17:53:00    & RCS Primary & 3.4 & 14.0 \\ \hline
+% NPC-2 & 01:19:00:24    & RCS Primary & 0.5 & 2.0  \\ \hline
+% NCC   & 01:20:07:46    & RCS Primary & 1.1 & 1.1  \\ \hline
+% TI    & 01:21:07:52    & RCS Primary & 2.8 & 12.0 \\ \hline
+% MC-1  & 01:21:34:16    & RCS Primary & 0.4 & 2.0  \\ \hline
+% MC-2  & 01:22:02:40    & RCS Primary & 1.5 & 6.0  \\ \hline
+% MC-3  & 01:22:12:40    & RCS Primary & 0.9 & 3.0  \\ \hline
+% MC-4  & 01:22:22:40    & RCS Vernier & 0.2 & 1.0  \\ \hline
+% % \bottomrule
+% \end{tabular}
+% \end{center}
+% \caption{STS-82. The HST was grappled at 01:23:28 and berthed at 2:00:10.}
+% % \label{properties}
+% \end{table}
+
+% \begin{table}[t!]
+% \begin{center}
+% \begin{tabular}{|c |c |c |c |c|}
+% % \toprule
+% \hline
+% Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, min:sec \\
+% % \midrule
+% \hline
+% Reboost 1 & 04:01:09:28 & RCS Vernier & 6.6  & 20:41.9 \\ \hline
+% Reboost 1A$_a$ & 04:06:07:04 & RCS Vernier & 3.3  & 10:12.6 \\ \hline
+% Reboost 2 & 5:01:15:03 & RCS Vernier & 6.5  & 19:46.9 \\ \hline
+% Reboost 3 & 07:01:33:00 & RCS Vernier & 10.4 & 31:53.5 \\ \hline
+% % \bottomrule
+% \end{tabular}
+% \end{center}
+% \caption{STS-82. a - Manuever required for space debris avoidance. The four reboost maneuvers raised the HST orbit an average of 8 nmi.}
+% % \label{properties}
+% \end{table}
+
+% \begin{table}[t!]
+% \begin{center}
+% \begin{tabular}{|c |c |c |c |c|}
+% % \toprule
+% \hline
+% Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, sec \\
+% % \midrule
+% \hline
+% NC-1 Trim & 01:03:42:23    & RCS Primary & 0.06 & 0.44   \\ \hline
+% NC-2      & 01:04:36:49    & RCS Primary & 7.4  & 31     \\ \hline
+% NSR Trim  & 01:17:36:55.1  & RCS Primary & 0.2  & 0.24   \\ \hline
+% NCC       & 01:20:38:00    & RCS Primary & 0.3  & 1.0    \\ \hline
+% TI        & 01:21:36:06    & RCS Primary & 4.1  & 8.7    \\ \hline
+% MC-1      & 01:21:58:06    & RCS Primary & 0.3  & 0.5    \\ \hline
+% MC-2      & 01:22:32:58    & RCS Primary & 0.9  & 2.9    \\ \hline
+% MC-3      & 01:22:49:58    & RCS Primary & 0.4  & 1.0    \\ \hline
+% MC-4      & 01:22:59:58    & RCS Vernier & 1.8  & 7.2    \\ \hline
+% % \bottomrule
+% \end{tabular}
+% \end{center}
+% \caption{STS-103. The HST was grappled at 01:23:44:01 and berthed at 2:00:52.}
+% % \label{properties}
+% \end{table}
+
+
+% \begin{table}[t!]
+% \begin{center}
+% \begin{tabular}{|c |c |c |c |c|}
+% % \toprule
+% \hline
+% Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, sec \\
+% % \midrule
+% \hline
+% NC2  & 000:17:50:50.5 & -X RCS & 4.5 & 19.7 \\ \hline
+% NC3  & 01:02:55:32    & Multi-axis RCS & 3.1 & 12.6 \\ \hline
+% NC4  & 01:17:47:01    & Multi-axis RCS & 4.8 & 20.4 \\ \hline
+% NCC  & 01:18:38:57    & Multi-axis RCS & 1.3 & 5.5 \\ \hline
+% MC-1 & 01:19:59:04    & Multi-axis RCS & 0.8 & 3.2 \\ \hline
+% MC-2 & 01:20:34:27    & Multi-axis RCS & 0.4 & 1.79 \\ \hline
+% MC-3 & 01:20:34:27    & +X RCS & 1.9 & 8.1 \\ \hline
+% MC-4 & 01:21:01:28    & Multi-axis RCS & 1.9 & 8.1 \\ \hline
+% % \bottomrule
+% \end{tabular}
+% \end{center}
+% \caption{STS-109. The HST was captured at 001:21:09:19.}
+% % \label{properties}
+% \end{table}
+
+% \begin{table}[t!]
+% \begin{center}
+% \begin{tabular}{|c |c |c |c |c|}
+% % \toprule
+% \hline
+% Maneuver & Time, MET & System & $\Delta$V, ft/sec & Duration, min:sec \\
+% % \midrule
+% \hline
+% Reboost 1 & 07:05:56:01.8 & RCS Vernier (?) & 11.8  & 36:00 \\ \hline
+% % \bottomrule
+% \end{tabular}
+% \end{center}
+% \caption{STS-109. The reboost maneuver raised the HST orbit an average of 3.6 nmi.}
+% % \label{properties}
+% \end{table}
+
+% \begin{table}[t!]
+% \begin{center}
+% \begin{tabular}{|c |c |c |c |c|}
+% % \toprule
+% \hline
+% Maneuver & Time, GMT & System & $\Delta$V, ft/sec & Duration, sec \\
+% % \midrule
+% \hline
+% NC 1 & 131/21:49:54.65 & RCS & 19.5 & 90.88   \\ \hline
+% NCC  & 133/13:41:50    & RCS &  1.6 & 7.0     \\ \hline
+% MC 3 & 133/15:53:26.3  & RCS &  0.9 & 0.2     \\ \hline
+% MC 4 & 133/16:03:26.5  & RCS &  2.1 & 8.9     \\ \hline
+% % \bottomrule
+% \end{tabular}
+% \end{center}
+% \caption{STS-125. The HST was captured at 133/17:30:52.}
+% % \label{properties}
+% \end{table}
