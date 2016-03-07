@@ -40,7 +40,7 @@ for alt in [low, high]:
     for n in [n1, n2]:
         F = 0.5 * alt['rho'] * alt['v']**2 * CD * np.dot(n, V) * A * (-V)
         T += np.cross(r, F)
-    print(F, T, 'at altitude {}'.format(alt['alt']))
+    print(T, 'at altitude {}'.format(alt['alt']))
 
 ###############################################################################
 # Part 2
@@ -55,7 +55,7 @@ for alt in [low, high]:
     for n in [n1, n2]:
         F = a_i * s + b_i * n
         T += np.cross(r, F)
-    print(F, T, 'at altitude {}'.format(alt['alt']))
+    print(T, 'at altitude {}'.format(alt['alt']))
 
 ###############################################################################
 # Part 3
@@ -69,7 +69,7 @@ for alt in [low, high]:
         rr = r_rot + np.array([0, -6371E3, 0])
         F = ((mu * m) / np.linalg.norm(rr)**2) * (-r_earth)
         T += np.cross(r, F)
-    print(F, T, 'at altitude {}'.format(alt['alt']))
+    print(T, 'at altitude {}'.format(alt['alt']))
 
 ###############################################################################
 # Part 4
@@ -85,6 +85,6 @@ for alt in [low, high]:
     for n in [n1, n2]:
         M = n * I * A * c
         T += np.cross(M, B)
-    print(F, T, 'at altitude {}'.format(alt['alt']))
+    print(T, 'at altitude {}'.format(alt['alt']))
 
 ###############################################################################

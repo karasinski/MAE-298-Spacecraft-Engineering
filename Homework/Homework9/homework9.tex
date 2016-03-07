@@ -75,12 +75,16 @@
 \problem{Part 1 – Attitude Disturbance Analysis}
 Do calculations for the disturbances present for equatorial circular orbits at 200km and 350km. Consider a cube with two different halves. One half has twice the density (and therefore twice the mass) as the other. We will only be concerned with rotations about the axis out of the page.
 
+I define $\hat{x}$ along the velocity/sun vector, and $\hat{y}$ in the opposite direction of the Earth. $\hat{z}$ completes the right hand rule.
+
 \part{1. Drag}
 Find the disturbance torque on the cube about the mass center (use CD = 2.2)
 \begin{align*}
 \underline{T} &= \sum \underline{r_i} \times \underline{F_i} \\
 \underline{F_i} &= \dfrac{1}{2} \rho V^2 C_D \left( \hat{n}_i \hat{V} \right) A_i \left( - \hat{V} \right) \\
 \end{align*}
+
+$T = 5.45e-06 \hat{z}$ Nm at altitude 200km. $T = 5.18e-07 \hat{z}$ Nm at altitude 350km
 
 \part{2. Solar Pressure}
 Find the disturbance torque on the cube about the mass center. Assume that the entire surface is covered in solar panels (fs$\approx$0.21, fd$\approx$0.1)
@@ -92,6 +96,8 @@ a_i &= -PA_i \left(1-f_{\mbox{s,i}} \right) \cos{\theta_i} \\
 b_i &= -2PA_i \left(f_{\mbox{s,i}} \cos{\theta_i} + \dfrac{1}{3} f_{\mbox{d,i}} \right) \cos{\theta_i}
 \end{align*}
 
+$T = 5.34e-10 \hat{z}$ Nm at altitude 200km. $T = 5.34e-10 \hat{z}$ Nm at altitude 350km.
+
 \part{3. Gravity Gradient}
 Find the disturbance torque on the cube about the mass center
 \begin{align*}
@@ -99,12 +105,17 @@ Find the disturbance torque on the cube about the mass center
 \underline{F_i} &= \dfrac{\mu m_i}{r_i^2} \left(- \hat{r} \right) \\
 \end{align*}
 
+$T = -0.031 \hat{z}$ Nm at altitude 200km. $T = -0.031 \hat{z}$ Nm at altitude 350km.
+
 \part{4. Magnetic Dipole}
 Find the disturbance torque on the cube about the mass center for two configurations
 \begin{align*}
 \underline{T} &= \sum \underline{M_i} \times \underline{B} \\
 \underline{M_i} &= nIA\hat{c} \\
 \end{align*}
+
+Magnetic Dipole Torque
+$T = 5.36e-6\hat{x} -9.29e-4\hat{y}$ Nm at altitude 200km. $T = 5.36e-6\hat{x} -9.29e-4\hat{y}$ Nm at altitude 350km.
 
 \problem{Part 2 – Reaction Wheel and Thruster Analysis}
 Assume a maximum constant on orbit disturbance torque of 1x10$^{-5}$ Nm on a single axis. Size a reaction wheel to keep a craft pointed despite this disturbance. Assume a saturation speed of 6000rpm for the wheel. It should be capable of eliminating the maximum on orbit disturbance without desaturating for two weeks.
