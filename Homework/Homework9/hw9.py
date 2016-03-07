@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 ###############################################################################
 # Problem 1
@@ -88,3 +89,40 @@ for alt in [low, high]:
     print(T, 'at altitude {}'.format(alt['alt']))
 
 ###############################################################################
+# Problem 3
+# Part a
+t = np.linspace(0, 15)
+f, ax = plt.subplots()
+
+ax.plot(t, 6.56 * np.ones_like(t), 'b-', label='$T_x$')
+ax.plot(t, 157.05 * np.deg2rad(t * 1/100), 'r-', label='$T_y$')
+plt.xlim(0, 15)
+plt.legend(loc='best')
+plt.xlabel('Time (s)')
+plt.ylabel('Torque (Nm)')
+plt.tight_layout()
+plt.savefig('p3_a.pdf')
+plt.close()
+
+# Part b
+t = np.linspace(0, 15)
+f, ax = plt.subplots()
+
+tx = 36046 * 0.0001745 + 157.05 * np.deg2rad(t * 1/100 + .1)
+omega_dot_y = - np.rad2deg(np.deg2rad(157.05 * t * 1/100)/86868)
+ax.plot(t, tx, 'b-', label='$T_x$')
+ax.set_ylabel('Torque, $T_x$ (Nm)', color='b')
+for tl in ax.get_yticklabels():
+    tl.set_color('b')
+
+r_ax = ax.twinx()
+r_ax.plot(t, omega_dot_y, 'r-', label='$\dot{\Omega}_y$')
+r_ax.set_ylabel('Precession Rate, $\dot{\Omega}_y$ (deg s$^{-2}$)', color='r')
+for tl in r_ax.get_yticklabels():
+    tl.set_color('r')
+
+plt.xlim(0, 15)
+plt.xlabel('Time (s)')
+plt.tight_layout()
+plt.savefig('p3_b.pdf')
+plt.close()

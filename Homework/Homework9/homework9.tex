@@ -75,7 +75,7 @@
 \problem{Part 1 – Attitude Disturbance Analysis}
 Do calculations for the disturbances present for equatorial circular orbits at 200km and 350km. Consider a cube with two different halves. One half has twice the density (and therefore twice the mass) as the other. We will only be concerned with rotations about the axis out of the page.
 
-I define $\hat{x}$ along the velocity/sun vector, and $\hat{y}$ in the opposite direction of the Earth. $\hat{z}$ completes the right hand rule.
+I define $\hat{x}$ along the velocity/sun vector, and $\hat{y}$ in the opposite direction of the Earth. $\hat{z}$ completes the right hand rule. See the attached code for derivations of the following values.
 
 \part{1. Drag}
 Find the disturbance torque on the cube about the mass center (use CD = 2.2)
@@ -168,6 +168,7 @@ t &= \dfrac{I_{{wheel}} \omega_{{saturated}}}{ T_{{thrusters}} } \\
   &= 12.25 \mbox{ s}
 \end{align*}
 
+\clearpage
 \problem{Part 3 – Hubble Slew Problem}
 Either use published inertia values for Hubble or the estimates you made in the dynamics assignment. Assume torquers are aligned with the principle axis.
 
@@ -180,7 +181,56 @@ H_{spin} = I_{wheel} \omega_{wheel}
 \part{1. Two axis torques}
 Find the required variable torques (x and y) to constantly accelerate the angular precession by 0.1 deg/s$^2$ on the x axis while trying to keep the angular procession on the y-axis at a constant 0.1 deg/s.
 
+The HST inertia matrix~\footnote{Queen, S., ``HRV GNC Peer Review, Flight Performance Analysis,'' Tech. rep., NASA Goddard Space Flight Center, 2004.}, was at one point measured as:
+\begin{align*}
+I =
+\begin{bmatrix*}[r]
+    36046       & -706  &  1491 \\
+    -706        & 86868 &   449 \\
+    1491        & 449   & 93848
+\end{bmatrix*}
+kg \cdot m^2.
+\end{align*}
+
+Plugging in the given values of $I_{wheel} = 1$ kg m$^2$, $\omega = 1500$ rpm, $I_{xx} = 36046$ kg m$^2$ $I_{yy} = 86868$ kg m$^2$, $\dot{\Omega}_x = 0.01$ deg s$^{-2}$, $\dot{\Omega}_y = 0$ deg s$^{-2}$, $\Omega_y = 0.1$ deg s$^{-1}$ gives
+\begin{align*}
+H_{spin} &= 1 \cdot 1500 \cdot 0.1047 = 157.05 \\
+T_x &= 36046 \cdot 0.0001745 + 157.05 \cdot 0.0017453 = 6.56\\
+T_y &= 86868 \cdot 0         + 157.05 \cdot \Omega_x \\
+    &= 157.05 \cdot \Omega_x \\
+\end{align*}
+
+\begin{figure}[tbh!]
+\begin{center}
+\includegraphics[height=0.45\textheight]{p3_a.pdf}
+\end{center}
+% \caption{HST Axes Definition for $V_1, V_2, V_3$, CG is located at axis origin}
+% \label{fig:on}
+\end{figure}
+
 \part{2. Two axis torques}
 Find the required variable torque (x) to constantly accelerate the angular precession by 0.1 deg/s$^2$ on the x axis while applying no torque to the y axis.
+
+Plugging in the given values of $I_{wheel} = 1$ kg m$^2$, $\omega = 1500$ rpm, $I_{xx} = 36046$ kg m$^2$ $I_{yy} = 86868$ kg m$^2$, $\dot{\Omega}_x = 0.01$ deg s$^{-2}$, $\Omega_y = 0.1$ deg s$^{-1}$ gives
+\begin{align*}
+H_{spin} &= 1 \cdot 1500 \cdot 0.1047 = 157.05 \\
+T_x &= 36046 \cdot 0.0001745 + 157.05 \cdot \Omega_y \\
+T_y &= 86868 \cdot \dot{\Omega}_y + 157.05 \cdot \Omega_x \\
+\dot{\Omega}_y &= -\dfrac{157.05 \cdot \Omega_x}{86868} \\
+\end{align*}
+
+\begin{figure}[tbh!]
+\begin{center}
+\includegraphics[height=0.45\textheight]{p3_b.pdf}
+\end{center}
+% \caption{HST Axes Definition for $V_1, V_2, V_3$, CG is located at axis origin}
+% \label{fig:on}
+\end{figure}
+
+\clearpage
+\appendix
+\section{Python Code}
+\lstinputlisting{hw9.py}
+
 
 \end{document}
