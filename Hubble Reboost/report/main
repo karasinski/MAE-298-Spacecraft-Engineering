@@ -1,0 +1,480 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{import}
+\usepackage{filecontents}
+\usepackage{cite}
+\usepackage{caption}
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{University of California, Davis} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Active Roll and Active Torque \\ Vectoring Control \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Jefferson Packer} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+\newpage
+
+%----------------------------------------------------------------------------------------
+%	INTRO
+%----------------------------------------------------------------------------------------
+
+\section{Introduction}
+This lab is focused around designing a controller for yaw control of a vehicle during a dynamic event near the vehicle stability limits. The vehicle will be going low highways speeds and have a steering input that will cause the vehicle to turn sharply. To meet the  \lq disturbance \rq  force of the steering input the electronic differential and the active roll control must work together to generate the desired yaw rate for the turn. The desired yaw rate is determined by a single track model of the vehicle that must be turned for both understeer and oversteering models. 
+\\
+Three controller strategies were implemented for this lab to determine the best way to improve vehicle handling. The first controller is LQR that uses both lateral acceleration and yaw rate to determine actuator output. The second and third are both PID controllers tuned in separate ways. One was tuned by matching the denominator of a 3rd order butterworth filter, and the other by hand. The LQR and butterworth strategies both had difficulties being tuned, easily resulting in unstable actuation. By hand tuning it was discovered that a PI controller with high gains on the electronic differential and active roll controller 
+
+%----------------------------------------------------------------------------------------
+%	EQUATIONS OF MOTION
+%----------------------------------------------------------------------------------------
+
+\section{Controller Derivation}
+The three controllers used will be discussed in this section. First the LTI system must be defined to create two of three of the controllers.
+
+The LTI system is defined as 
+\begin{align}
+\begin{split}
+\begin{bmatrix}
+\dot{v}_y \\
+\dot{r}
+\end{bmatrix}
+= A
+\begin{bmatrix}
+v_y \\
+r
+\end{bmatrix}
++ B_w \delta + B_u
+\begin{bmatrix}
+\gamma \\
+M_{x,\psi}
+\end{bmatrix}
+\end{split}
+\end{align}
+
+Where A, $B_w$ and $B_u$ are defined as
+
+\begin{align} 
+\begin{split}
+A = 
+\begin{bmatrix}
+-\frac{K_{f2}*(d_m-c_m) + K_{r2}*(a_m-b_m)}{m*Det*V_{x0}}            & -V_{x0}+\frac{K_{r2}*(a_m-b_m)*c - K_{f2}*(d_m-c_m)*b}{m*V_{x0}*Det} \\[2ex]
+\frac{K_{r2}*(b*b_m+c*a_m)-K_{f2}*(b*d_m+c*c_m)}{i_{zz}*V_{x0}*Det} & -\frac{(c*K_{r2}*(b*b_m+c*a_m))+(b*K_{f2}*(b*d_m+c*c_m))}{i_{zz}*V_{x0}*Det}
+\end{bmatrix}
+\end{split}
+\end{align}
+
+\begin{align}
+\begin{split}
+B_u = 
+\begin{bmatrix}
+\frac{(e_m*d_m)-(b_m*f_m)+(a_m*f_m)-(e_m*c_m)}{m*Det}           & 0 \\[2ex]
+\frac{b*((e_m*d_m)-(b_m*f_m))-c*((a_m*f_m)-(e_m*c_m))}{i_{zz}*Det} & \frac{1}{i_{zz}}
+\end{bmatrix}
+\end{split}
+\end{align}
+
+\begin{align}
+\begin{split}
+B_w = 
+\begin{bmatrix}
+\frac{K_{f2}(d_m-c_m)}{m*Det} \\[2ex]
+\frac{(b*d_m+c*c_m)*K_{f2}}{i_{zz}*Det}
+\end{bmatrix}
+\end{split}
+\end{align}
+where
+\begin{align} 
+\begin{split}
+a_m = 1 - 2 \frac{K_{f1}}{m*a_{y0}} \\
+b_m = -2 \frac{K_{f1}}{m*a_{y0}} \\
+c_m = -2 \frac{K_{r1}}{m*a_{y0}} \\
+d_m = 1 - 2 \frac{K_{r1}}{m*a_{y0}} \\
+e_m = -2 \frac{K_{f1}}{0.5-\gamma_0} \\
+f_m = 2 \frac{K_{r1}}{0.5+\gamma_0} \\
+Det = (a_{22}*a_{11}) - (a_{21}*a_{12}) \\
+\end{split}
+\end{align}
+and
+\begin{align} 
+\begin{split}
+K_{f1} = -2*C_{1f}*((\frac{h_1*m}{s_{rf}})^2)*(a_{y0}^2)*((0.5 - \gamma_0)^2)*C_f*\alpha_{0f} \\
+K_{f2} = C_f*((C_{2f}*m_f*g) - (\frac{C_{1f}}{2})*((m_f*g)^2) - 2*C_{1f}*(((h_1*m/s_{rf})*(0.5 - \gamma_0)*a_{y0})^2)) \\
+K_{r1} = -2*C_{1r}*((\frac{h_1*m}{srr})^2)*(a_{y0}^2)*((0.5 + \gamma_0)^2)*C_r*\alpha_{0r} \\
+K_{r2} = C_r*(C_{2r}*(m_r*g) - (C_{1r}/2)*((mr*g)^2) - 2*C_{1r}*(((h_1*m/s_{rr})*(0.5 + \gamma_0)*a_{y0})^2))
+\end{split}
+\end{align}
+
+A root locus, step input and bode plot of the state space system were also taken for analysis and shown in figures \ref{fig:LTIBode} and \ref{fig:LTIstep}.
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=4in]{LTIBode.png}
+	\caption{LTI state space bode plot. Ediff on the left, and ARC on the right.}
+	\label{fig:LTIBode}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=4in]{LTIstep.png}
+	\caption{LTI state space step input. Ediff on the left, and ARC on the right.}
+	\label{fig:LTIstep}
+	\end{center}
+\end{figure}
+
+It can be seen that while both actuators have similar phase delay, the electronic differential has a higher magnitude meaning that its output will affect the system more than that of the ARC. These plots are further used as tools to help tune some of the following controllers.
+
+\subsection{LQR}
+
+LQR starts with the formulation of the C and D matricies based on the parameters the system is controlling to, which in this case is $a_y$ and $r$.
+
+\begin{align} 
+\begin{split}
+C_{a_y} = 
+\begin{bmatrix}
+-\frac{K_{f2}*(d_m-c_m) + K_{r2}*(a_m-b_m)}{m*Det*V_{x0}}  & -V_{x0}+\frac{K_{r2}*(a_m-b_m)*c - K_{f2}*(d_m-c_m)*b}{m*V_{x0}*Det}
+\end{bmatrix}
+\\
+C_r = 
+\begin{bmatrix}
+0 & 1
+\end{bmatrix}
+\\
+C_{\lambda} = 
+\begin{bmatrix}
+\lambda C_{a_y} \\
+C_r
+\end{bmatrix}
+\\
+D = 
+\begin{bmatrix}
+\frac{(e_m*d_m)-(b_m*f_m)+(a_m*f_m)-(e_m*c_m)}{m*Det} & 0 \\
+0 & 0
+\end{bmatrix}
+\end{split}
+\end{align}
+
+The cost function is then implemented in for form:
+
+\begin{equation}
+J = \sum\limits_{k=0}^{\infty}x_k^TQx_k+2x_k^TNu_k+u_k^TRu_k
+\end{equation}
+where
+\begin{align}
+Q &= C_{\lambda}^TC_{\lambda}\\
+N &= C_{\lambda}^TD\\
+R &= D^TD
+\end{align}
+
+The weight $\lambda$ was tuned by observation.
+
+\subsection{Butterworth PID}
+This filter was created based on a butterworth filter, which should in theory give an optimal filter given a cutoff frequency and the order of the system. First the closed loop transfer function must be calculated:
+
+\begin{equation}
+\frac{y}{u}(s) = \frac{G_p(s)G_c(s)}{1+G_p(s)G_c(s)}
+\end{equation}
+
+where $G_p(s)$ are the transfer functions for $\frac{M_{x,\psi}}{r}(s)$ and $\frac{\gamma}{r}(s)$ using cramers rule:
+
+\begin{align} 
+\begin{split}
+A_{lp} = sI - A \\
+\frac{M_{x,\psi}}{r}(s) = \frac{det(A_M)}{det(A_{lp})} \\
+\frac{\gamma}{r}(s) = \frac{det(A_r)}{det(A_{lp})} \\
+\end{split}
+\end{align}
+where
+\begin{align} 
+\begin{split}
+A_{M} = 
+\begin{bmatrix}
+s+\frac{K_{f2}*(d_m-c_m) + K_{r2}*(a_m-b_m)}{m*Det*V_{x0}}           & 0 \\[2ex]
+-\frac{K_{r2}*(b*b_m+c*a_m)-K_{f2}*(b*d_m+c*c_m)}{i_{zz}*V_{x0}*Det} & \frac{1}{i_{zz}}
+\end{bmatrix}
+\\
+A_r = 
+\begin{bmatrix}
+s+\frac{K_{f2}*(d_m-c_m) + K_{r2}*(a_m-b_m)}{m*Det*V_{x0}}           & \frac{(e_m*d_m)-(b_m*f_m)+(a_m*f_m)-(e_m*c_m)}{m*Det} \\[2ex]
+-\frac{K_{r2}*(b*b_m+c*a_m)-K_{f2}*(b*d_m+c*c_m)}{i_{zz}*V_{x0}*Det} & \frac{b*((e_m*d_m)-(b_m*f_m))-c*((a_m*f_m)-(e_m*c_m))}{i_{zz}*Det}
+\end{bmatrix}
+\end{split}
+\end{align}
+
+Since $\frac{M_{x,\psi}}{r}(s)$ and $\frac{\gamma}{r}(s)$ have the same order they will be represented with the following generic format in the following calculations knowing that the transfer functions above can be substatuted in:
+\begin{align} 
+\begin{split}
+G_p(s) = \frac{n_1s + n_0}{d_2s^2 + d_1s + d_0}
+\end{split}
+\end{align}
+
+The PID controller follows the equation:
+\begin{align} 
+\begin{split}
+G_c(s) = \frac{k_ps + k_i + k_ds^2}{s}
+\end{split}
+\end{align}
+
+The closed loop transfer function is calcualted as follows:
+\begin{align} 
+\begin{split}
+\frac{y}{u}(s) = \frac{(n_1s+n_0)(k_ps + k_i + k_ds^2)}{(d_2 + n_1k_d)s^3 + (d_1 + n_1k_p + n_0k_d)s^2 + (d_0 + n_1k_i + n_0k_p)s + n_0k_i}
+\end{split}
+\end{align}
+
+setting the denomerator to that of a third order butterworth filter yeilds the following solution for the controller gains:
+\begin{align} 
+\begin{split}
+k_i = \frac{Butter_{d_0}}{n_0} \\
+k_p = \frac{Butter_{d_1}-d_0-n_1k_i}{n_0} \\
+k_d = \frac{Butter_{d_2}-d_1-n_1k_p}{n_0}
+\end{split}
+\end{align}
+
+These gains are then used to construct an LTI controller of the following form:
+\begin{align} 
+\begin{split}
+G_c(s) = \frac{k_ps + k_i + k_ds^2}{s(s+1)}
+\end{split}
+\end{align}
+
+\subsection{Hand Tuned PI}
+After being uncontent with the previous two implementations a PI controller was hand tuned for both the understeer and oversteer cases to deliver a quick, stable response for yaw. This was tuned in matlab without an backing theory other than increasing $k_p$ to decrease rise time, and increasing $k_i$ to decrease steady state error and ensure that the actual would converge to the desired. Through iteration it was discovered that the electronic differential could handle a high gain without going unstable, while the active roll control only needed a moderate gain. Once the rise time was appropriate $k_i$ was increased, so that the actual system output would match the desired if there was a difference in steady state. The controller takes the form:
+
+\begin{align} 
+\begin{split}
+G_c(s) = \frac{k_ps + k_i}{s}
+\end{split}
+\end{align}
+
+%----------------------------------------------------------------------------------------
+%	RESULTS AND STUFF
+%----------------------------------------------------------------------------------------
+
+\section{Results}
+For understeer a value of 2.5 for $K_u$ was used while for oversteer 0.8 was used.
+
+There are a lot of plots here, so this section will follow this format: discussion, understeer reference plot followed by oversteer reference plots for each controller in turn.
+
+
+\subsection{LQR}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=4in]{lqr_us_tire.png}
+	\caption{Tire forces for an lqr controller with an understeer reference.}
+	\label{fig:lqr_us_tire}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=5in]{lqr_us_act.png}
+	\caption{Actuators for an lqr controller with an understeer reference.}
+	\label{fig:lqr_us_act}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=6in]{lqr_us_states.png}
+	\caption{States for an lqr controller with an understeer reference.}
+	\label{fig:lqr_us_states}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=4in]{lqr_os_tire.png}
+	\caption{Tire forces for an lqr controller with an oversteer reference.}
+	\label{fig:lqr_os_tire}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=5in]{lqr_os_act.png}
+	\caption{Actuators for an lqr controller with an oversteer reference.}
+	\label{fig:lqr_os_act}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=6in]{lqr_os_states.png}
+	\caption{System states for an lqr controller with an oversteer reference.}
+	\label{fig:lqr_os_states}
+	\end{center}
+\end{figure}
+
+
+\subsection{Butterworth PID}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=4in]{pid_us_tire.png}
+	\caption{Tire forces for an butterworth tuned PID controller with an understeer reference.}
+	\label{fig:pid_us_tire}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=5in]{pid_us_act.png}
+	\caption{Actuators for an butterworth tuned PID controller with an understeer reference.}
+	\label{fig:pid_us_act}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=6in]{pid_us_states.png}
+	\caption{States for an butterworth tuned PID controller with an understeer reference.}
+	\label{fig:pid_us_states}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=4in]{pid_os_tire.png}
+	\caption{Tire forces for an butterworth tuned PID controller with an oversteer reference.}
+	\label{fig:pid_os_tire}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=5in]{pid_os_act.png}
+	\caption{Actuators for an butterworth tuned PID controller with an oversteer reference.}
+	\label{fig:pid_os_act}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=6in]{pid_os_states.png}
+	\caption{System states for an butterworth tuned PID controller with an oversteer reference.}
+	\label{fig:pid_os_states}
+	\end{center}
+\end{figure}
+
+
+\subsection{Hand Tuned PI}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=4in]{hand_us_tire.png}
+	\caption{Tire forces for an hand tuned PI controller with an understeer reference.}
+	\label{fig:hand_us_tire}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=5in]{hand_us_act.png}
+	\caption{Actuators for an hand tuned PI controller with an understeer reference.}
+	\label{fig:hand_us_act}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=6in]{hand_us_states.png}
+	\caption{States for an hand tuned PI controller with an understeer reference.}
+	\label{fig:hand_us_states}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=4in]{hand_os_tire.png}
+	\caption{Tire forces for an hand tuned PI controller with an oversteer reference.}
+	\label{fig:hand_os_tire}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=5in]{hand_os_act.png}
+	\caption{Actuators for an hand tuned PI controller with an oversteer reference.}
+	\label{fig:hand_os_act}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics [width=6in]{hand_os_states.png}
+	\caption{System states for an hand tuned PI controller with an oversteer reference.}
+	\label{fig:hand_os_states}
+	\end{center}
+\end{figure}
+
+
+%----------------------------------------------------------------------------------------
+%	CONCLUSION
+%----------------------------------------------------------------------------------------
+
+\section{Conclusion}
+hi :)
+
+\newcommand{\inlinecode}{\texttt}
+%----------------------------------------------------------------------------------------
+
+\end{document}
