@@ -21,6 +21,12 @@
 \usepackage{mathtools}
 \usepackage{dirtytalk}
 
+\usepackage{makecell}
+\renewcommand\theadalign{cb}
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadgape{\Gape[4pt]}
+\renewcommand\cellgape{\Gape[4pt]}
+
 % Default fixed font does not support bold face
 \DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
 \DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
@@ -87,15 +93,15 @@
 
 \chapter{Introduction}
 
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[width=1\textwidth]{imgs/HST-SM4.jpeg}
-\caption{The Hubble Space Telescope as seen from the departing Space Shuttle Atlantis, flying Servicing Mission 4 (STS-125), the fifth and final human spaceflight to it.}
-\label{fig:density}
-\end{center}
-\end{figure}
+% \begin{figure}[h!]
+% \begin{center}
+% \includegraphics[width=1\textwidth]{imgs/HST-SM4.jpeg}
+% \caption{The Hubble Space Telescope as seen from the departing Space Shuttle Atlantis, flying Servicing Mission 4 (STS-125), the fifth and final human spaceflight to it.}
+% \label{fig:density}
+% \end{center}
+% \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[tbh]
 \begin{center}
 \includegraphics[width=1\textwidth]{imgs/hst.jpg}
 \caption{This photograph of NASA's Hubble Space Telescope was taken on the second servicing mission to the observatory in 1997.}
@@ -103,32 +109,62 @@
 \end{center}
 \end{figure}
 
+\section{Mission Purpose}
+The Hubble Reboost Vehicle (HRV) shall extend the Hubble Space Telescope's (HST) operational lifetime to 5 years beyond the James Webb Space Telescope's (JWST) October 2023 launch date. This will be achieved by reboosting HST into a circular orbit such that it's useful operation until orbit decay is extended to October of 2028.
+
+\section{Mission Timeline}
+The mission to re-boost the HST will be composed of multiple phases, as described in the table below. The entire duration of the mission will be no longer than 60 hours.
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{l r}
+\toprule
+Mission Phase & Duration (hours) \\
+\midrule
+1. Launch (delivered to parking orbit) & 0.27 \\
+2. Maintain parking orbit for necessary phasing time & up to 24 \\
+3. Transfer to HST altitude & 1.53 \\
+4. Rendezvous and dock with the HST &  \\
+5. Boost HST to new orbit & 1.60 \\
+6. Undock and separate from HST &  \\
+7. Maintain orbit for necessary phasing time & up to 24 \\
+8. De-orbit to burn up in the atmosphere & 0.77 \\
+\bottomrule
+Max time: & 52.17 \\
+\bottomrule
+\end{tabular}
+\end{center}
+% \caption{}
+% \label{properties}
+\end{table}
+
+A launch date (September 2019) was chosen to provide the most direct route to the HST. By launching when the HST is directly over the launch site (Kennedy Space Center), the re-boost vehicle will match its inclination and longitude of ascending node. This prevents the need for any costly plane changes.
 
 \section{Stakeholders}
 
-\begin{figure}[t!]
-    \centering
-    \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=\textwidth]{imgs/xtreme_deep_field.png}
-    \end{subfigure}
-    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-    %(or a blank line to force the subfigure onto a new line)
-     \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=\textwidth]{imgs/Pillars_of_creation_2014_HST_WFC3_medium_res.jpg}
-    \end{subfigure}
-    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-      %(or a blank line to force the subfigure onto a new line)
-    \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=\textwidth]{imgs/crab.jpg}
-    \end{subfigure}
-    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-    %(or a blank line to force the subfigure onto a new line)
-    \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=\textwidth]{imgs/M104_ngc4594_sombrero_galaxy_hi-res.jpg}
-    \end{subfigure}
-    \caption{Hubble has taken many photos of iconic space objects, including the Hubble Extreme Deep Field, Pillars of Creation, the Crab Nebulae, and the Sombrero Galaxy.}
-    \label{fig:animals}
-\end{figure}
+% \begin{figure}[t!]
+%     \centering
+%     \begin{subfigure}[b]{0.4\textwidth}
+%         \includegraphics[width=\textwidth]{imgs/xtreme_deep_field.png}
+%     \end{subfigure}
+%     ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+%     %(or a blank line to force the subfigure onto a new line)
+%      \begin{subfigure}[b]{0.4\textwidth}
+%         \includegraphics[width=\textwidth]{imgs/Pillars_of_creation_2014_HST_WFC3_medium_res.jpg}
+%     \end{subfigure}
+%     ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+%       %(or a blank line to force the subfigure onto a new line)
+%     \begin{subfigure}[b]{0.4\textwidth}
+%         \includegraphics[width=\textwidth]{imgs/crab.jpg}
+%     \end{subfigure}
+%     ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+%     %(or a blank line to force the subfigure onto a new line)
+%     \begin{subfigure}[b]{0.4\textwidth}
+%         \includegraphics[width=\textwidth]{imgs/M104_ngc4594_sombrero_galaxy_hi-res.jpg}
+%     \end{subfigure}
+%     \caption{Hubble has taken many photos of iconic space objects, including the Hubble Extreme Deep Field, Pillars of Creation, the Crab Nebulae, and the Sombrero Galaxy.}
+%     \label{fig:animals}
+% \end{figure}
 
 Hubble has a large number of stakeholders. Since it's launch in 1990, the Hubble Space Telescope has acted as one of the most vital research tools for astronomy, and over 9,000 papers based on Hubble data have been published in peer-reviewed journals. Hubble has made a large number of important discoveries, leading to significant changes in how we think about the universe. Among its primary mission targets was to measure distances to Cepheid variable stars more accurately than ever before. Accurate measurement of the Cepheid variable constrains the value of the Hubble constant, the measure of the rate at which the universe is expanding, which has allowed scientists to very accurately calculate the age of the universe.
 
@@ -162,15 +198,27 @@ While none of the stakeholders involved in the Hubble project would necessarily 
 % \subsection{Communication}
 % Chris will write these sections.
 
-% \subsection{What’s ground control doing}
+% \subsection{What's ground control doing}
 % The Hubble Repair Vehicle (HRV) will act as a primarily automatic vehicle. Despite this, ground control will be in continuous contact with the HRV throughout the lifetime of the mission, and will have the option of delaying or aborting orbital transfers and docking and rendezvous maneuvers. Before each orbital maneuver, ground control will
 
 
 
 % After being dropped off from the launch vehicle, HRV will communicate with ground operations. After a brief instrument and spacecraft health check, HRV will receive updated HST state information, and updated orbital rendezvous parameters. Once this information is transferred, HRV will transfer to a higher orbit. HRV will be in contact during the phasing stage of the mission, and will wait at a holding point 15 km behind HST before entering the closing phase.
 
-% \subsection{How’s it going to be used?}
+% \subsection{How's it going to be used?}
 
+\section{Concept of Operations}
+HRV mission control will be performed from NASA's Goddard Space Flight Center (GSFC). The site was chosen in order to incorporate several members of the HST team into the HRV team. Communication to both the HRV and HST will be performed primarily through the White Sands Complex and existing Tracking and Data Relay Satellite System (TDRSS). NASA's Kennedy Space Center (KSC) was selected as the launch site in order to launch into HST's orbit.
+
+Upon launch the craft will be under the control of the United Launch Alliance (ULA). Telemetry will be monitored by the GSFC ground crew but control will not be handed over until the payload fairing separation. Upon being ejected from the payload, any primary systems not running start up. The HRV “wakes up” and starts to determine its attitude and position. During this time GSFC is also making attempts for their first radio acquisition. With the system fully booted and telemetry coming in, the HRV can start its mission.
+
+The first step of the mission is to increase the HRV orbit out of the parking orbit. This requires a large burn to transfer to an orbit closer to HST then another burn to circularize. Any mission critical operation such as this requires confirmation from the ground crew. HRV telemetry and the calculated burn are relayed to the ground crew. The ground crew confirms the information and gives the HRV the go ahead to perform the burn. Any time the HRV is waiting for a critical response, a timer is also started. If an extended period of time passes without a command then end of mission deorbit procedures are started.
+
+After circularizing to an orbit below HST, the rendezvous starts. The HRV is allowed to phase towards the HST until starting the final approach. The final approach is performed in two stages depending on the distance from the target. At this point the HST starts relaying telemetry directly to HRV through the low gain antennas. In the last moments of docking the craft is given more autonomy. There is no time to check every correction therefore a standard manual abort/override is built into the system.
+
+Once the berthing has taken place, the HST's attitude control system is used to repoint the pair of craft for a prograde burn. HRV performs the burn to increase the craft's orbit. HST rotates the pair of craft for a retrograde burn. HRV performs a burn to circularize into the final target orbit. All of these are critical operations requiring the ground crew to confirm any actions.
+
+With the main goal of the mission done, HRV detaches and separates to a safe distance. Once a sufficient distance is achieved from HST a final large burn is performed to deorbit the HRV. Before this burn is performed the final entry point is recalculated to ensure entry over the Pacific Ocean.
 
 \chapter{Requirements}
 \section{Customer Requirements}
@@ -190,14 +238,123 @@ Thirteen requirements of the vehicle are taken directly from the Mission Require
 \item Send and receive state-vector, attitude, and system health telemetry to/from NASA Mission Control Center (MCC), either directly, or indirectly via HST and or TDRS satellites
 \item Be able to recover from one Single Event Upset per hour in the onboard Command and Control Computer
 \item No requirement on duration of mission
-\item Power and thermal requirements not specified – to be determined by design to meet mission objectives
+\item Power and thermal requirements not specified --- to be determined by design to meet mission objectives
 \item Main body of spacecraft bus must include MMOD shielding
 \item ADCS must be able to recover from/override both jet-fail-on, and jet-fail cases during proximity operations without collision of mission failure
 \item Loss of communications between rebooster and HST or MCC must not result in collision
 \end{enumerate}
 
+\section{Technical Requirements}
+
+\subsection{Delta V Requirements}
+The delta V requirements depend largely on the magnitude of the orbital maneuvers required. Therefore, it was necessary to first estimate where the HST will be both at the start of the mission (01/2020), and where it will be 8 1/2 years after the re-boost, i.e. what altitude is sufficient to extend the HST lifetime to 10/2028. Neither of these can be known precisely, but the latter in particular is subject to a high degree of uncertainty.
+
+To determine where the HST will be, it was necessary to study where it has been. Two Line Element (TLE) data (requested and downloaded from \url{http://www.celestrak.com/}) provided a history of orbital parameters, from the launch date (April 24, 1990) to the present (February 6, 2016). This time period includes multiple past servicing missions, some of which included small re-boosts.
+
+The parameter of greatest interest to the mission was the mean altitude (h) over time. This was calculated by using the mean motion (n), converted from revs/day to rad/s, to find the semi-major axis (a) of the ellipse:
+\begin{align*}
+h = a - r = \sqrt[3]{mu/n^2} - r
+\end{align*}
+where $\mu = \mu_{earth} = 398,600.4418$ x 10$^9$ m$^3$/s$^2$ and $r = r_{earth} = 6,378,136.49$ m. The result is shown in Figure~\ref{fig:fig1} below.
+
+\begin{figure}[tb!]
+\begin{center}
+\includegraphics[width=1\textwidth]{recustomerrequirements/1.pdf}
+\caption{Mean HST Altitude vs. Year}
+\label{fig:fig1}
+\end{center}
+\end{figure}
+
+As Figure~\ref{fig:fig1} shows\footnote{Note that the x-axis lines and labels displayed represent the midpoint of each year (approximately July 2 rather than January 1).}, the orbital decay of the satellite is not constant. The largest factor in the decay at this altitude is atmospheric drag, which itself is dependent on the solar cycle. During periods of increased solar activity, which can be approximated by the number of sunspots observed, the atmospheric density can be up to two orders of magnitude greater. This leads to a larger drag force on the satellite. As shown in Figure~\ref{fig:fig2} and Figure~\ref{fig:fig3}, the changes in number of sunspots correlates to the historical rate of change of orbital decay for the HST.
+
+\begin{figure}[tb!]
+\begin{center}
+\includegraphics[width=1\textwidth]{recustomerrequirements/2.pdf}
+\caption{Mean HST Altitude \& Solar Cycle vs. Year}
+\label{fig:fig2}
+\end{center}
+\end{figure}
+
+The rate of change of altitude can also be calculated using the TLE data, assuming that the orbit is approximately circular. Differentiating with respect to time (using the chain rule) gives the following:
+\begin{align*}
+\dfrac{d}{dt} h = \dfrac{d}{dt} a \dfrac{da}{dn} \dfrac{dn}{dt} = \dfrac{d}{dn} \mu^{\dfrac{1}{3}} n^{-\dfrac{2}{3}} \dfrac{dn}{dt} = -\dfrac{2}{3} \mu^{\dfrac{1}{3}} n^{-\dfrac{5}{3}} \dfrac{dn}{dt}
+\end{align*}
+
+where $\frac{dn}{dt}$ is also given by the TLEs. Therefore, rate of change of altitude ($\frac{dh}{dt}$) can also be plotted versus time and compared to the solar cycle data, as shown in Figure~\ref{fig:fig3}. Despite a large amount of transient error propagated through this calculation, there is a clear correlation between $\frac{dh}{dt}$ and the sunspot number.
+
+\begin{figure}[tb!]
+\begin{center}
+\includegraphics[width=1\textwidth]{recustomerrequirements/3.pdf}
+\caption{Mean Altitude Decay \& Solar Cycle vs. Year}
+\label{fig:fig3}
+\end{center}
+\end{figure}
+
+\subsubsection{2020 Prediction}
+The current solar cycle is significantly weaker than the previous two cycles, and appears to have already peaked. Therefore, it is expected that the HST orbital decay rate in the next few years will not be large. Figure~\ref{fig:fig3} shows that during periods of low solar activity, the decay rate can be as low as a kilometer per year. However, there is still a fair amount of uncertainty with regards to the future solar output and its effect on the satellite orbit, as hinted at by the amount of noise in the graph. Therefore, it would be wise to adopt a conservative approach during the preliminary design phase.
+
+The HST altitude data was fitted in a few different ways in order to project to 2020. If the current decay rate were to continue with no decrease in solar cycle, the altitude would be 528 km --- however, this is an overly conservative estimate. If the decay rate matched that of the previous low periods, the altitude would be 536 km --- however, the previous periods were at a slightly higher altitude and this may not be steep enough, since decay rate decreases with altitude. Both of these scenarios are shown in Figure~\ref{fig:fig4}.
+
+\begin{figure}[tb!]
+\begin{center}
+\includegraphics[width=1\textwidth]{recustomerrequirements/4.pdf}
+\caption{Projected change in altitude}
+\label{fig:fig4}
+\end{center}
+\end{figure}
+
+An additional analysis was performed using AGI's Systems Took Kit (STK) software. STK was used to calculate the orbital elements for the HST from the present to 2028. The STK analysis does not account for a changing solar cycle model, but instead uses a drag estimate for the mean solar output. The STK model predicted a semi-major axis of 6910 km, corresponding to an altitude of 532 km in 2020, as shown in Figure~\ref{fig:fig5}.
+
+\begin{figure}[tb!]
+\begin{center}
+\includegraphics[width=1\textwidth]{recustomerrequirements/5.png}
+\caption{STK altitude prediction}
+\label{fig:fig5}
+\end{center}
+\end{figure}
+
+The STK prediction falls neatly between the two previous predictions, therefore this altitude (532 km) was chosen for the mission.
+
+\subsubsection{2028 Prediction}
+
+The mission requirement is to re-boost the HST to a sufficient altitude so that it survives to October 2028. This involves predicting the decay rate at a number of possible re-boosted altitudes. However, future predictions become more difficult as the length of time is increased --- the solar cycle in particular is not easily predictable.
+
+Figure~\ref{fig:fig5} also shows the HST altitude if no re-boost was done, which leads to the question of whether the re-boost is even necessary. Another solar maximum is expect to occur during this time frame, and the exact change in solar output is unknown. However, even without knowing the precise solar output over the next cycle, it appears likely that the HST could survive to 2028 on its own. This is partially due to the exceptionally weak current solar cycle.
+
+Considering Hubble's history and considerable value even after the JWST is operational, it is desirable to continue HST's operation as long as possible. The HRV's sole purpose is re-boosting the HST and it must be designed large enough to interface with the HST regardless of the actual altitude. Because of these factors, it was decided to re-boost the HST as high as possible---back to its initial deployed altitude of 616 km. This will ensure the continuous operation of the HST to 2028 and well beyond.
+
+
+
+\subsection{Communications}
+\begin{enumerate}
+\item The HRV shall have the ability to communicate with HST. (f)
+\item The HRV shall have the ability to communicate with ground control through TDRS. (g)
+\item The HRV shall have multiple rad tolerant processors. (h)
+\item The HRV shall store sufficient power. (j)
+\item The HRV shall generate sufficient power. (j)
+\item The HRV shall have a failsafe to safely deorbit in case of communication loss. (m)
+\item The HRV shall have the ability to stay within acceptable thermal ranges. (j)
+\end{enumerate}
+
 \section{Systems Requirements}
-\subsection{Rendezvous and Docking}
+\subsubsection{Electronics/Power}
+\begin{enumerate}
+\item Minimum of three processors on C\&DH (h)
+\item Failsafe program to deorbit the HRV in case of communication loss (m)
+\item Solar Panels for energy generation (j)
+\item Primary and backup battery cells for power storage (j)
+\end{enumerate}
+\subsubsection{Communications}
+\begin{enumerate}
+\item S-band antenna (f)
+\item Ku-band antenna (g)
+\end{enumerate}
+\subsubsection{Thermal}
+\begin{enumerate}
+\item Thermal radiators to expel excess heat (j)
+\end{enumerate}
+
+\subsubsection{Rendezvous and Docking}
 There is one customer requirement to consider in designing the rendezvous and docking. \say{(b), Rendezvous and dock with HST}.
 
 To address this customer requirement, several system level requirements are set
@@ -208,6 +365,40 @@ To address this customer requirement, several system level requirements are set
 \item Sufficient sensors shall exist to measure the state of the HRV for both absolute and relative navigation during rendezvous and docking.
 \item Sufficient knowledge and control over the vehicle state shall be present in order to meet soft capture mechanism (SCM) docking requirements.
 \end{enumerate}
+
+\subsubsection{Propulsion}
+The propulsion requirements for the mission depend on the maneuvering required for each phase. The propulsion requirements for each phase of the mission can be summarized as follows:
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{l l r}
+\toprule
+Mission Phase & Propulsion Req'ts & $\Delta V$ (m/s) \\
+\midrule
+\makecell{1. Launch (delivered to parking \\ orbit)} & \makecell{The HRV shall carry enough \\ propellant to make up for orbital insertion inaccuracy (-30 km)}. & (included in phase 3) \\
+\makecell{2. Maintain parking orbit for necessary phasing time} & \makecell{The HRV shall carry enough propellant to overcome perturbations \& dodge debris}. & \textbackslash150 \\
+\makecell{3. Transfer to HST altitude} & \makecell{The HRV shall do a Hohmann transfer (two burns) to the HST altitude}. & 207 \\
+\makecell{4. Rendezvous and dock with the HST} & \makecell{The HRV shall use cold gas thrusters to avoid damage or contamination to HST (refer to Rendezvouz and dock section)}. & \textbackslash50 \\
+\makecell{5. Boost HST to new orbit} & \makecell{The HRV shall do a Hohmann transfer (two burns) w/ HST attached. The re-boost acceleration shall not damage the HST} & 46 \\
+\makecell{6. Undock and separate from HST} & \makecell{The HSTRV shall use docking spring and cold gas thrusters to avoid damage or contamination to HST (refer to Rendezvouz and dock section).} negligible \\
+\makecell{7. Maintain orbit for necessary phasing time & The HSTRV shall wait carry enough propellant to overcome perturbations while waiting for de-orbit window}. & negligible \\
+\makecell{8. De-orbit to burn up in the atmosphere & The HSTRV shall do a 1/2 Hohmann transfer (1 burn) to de-orbit to the upper atm (120 km) over the ocean}. & 140 \\
+\bottomrule
+& Total $\Delta V$ & 596 \\
+\bottomrule
+\end{tabular}
+\end{center}
+% \caption{}
+% \label{properties}
+\end{table}
+
+
+
+\chapter{Component Breakdown}
+\section{Product Breakdown Structure}
+
+\chapter{FMEA}
+\chapter{Propulsion}
 
 \chapter{Rendezvous and Docking}
 
@@ -528,6 +719,84 @@ MC 4 & 133/16:03:26.5  & RCS &  2.1 & 8.9     \\ \hline
 \caption{STS-125. The HST was captured at 133/17:30:52.}
 % \label{properties}
 \end{table}
+
+\chapter{Electronics}
+
+The electronics subsystem in the HRV is fairly standard for a satellite of its size. If contains the four main components necessary for operation. A Command and Data Handling (C\&DH) board is used for the majority of computations. Solar panels are used to collect solar energy. Battery cells are used to store energy until needed. An Electrical Power Subsystem (EPS) board regulates the power regulation and distribution through the satellite.
+
+Although the HRV mission will not take it to altitudes above 650km, radiation can still be a concern. Above a portion of the magnetosphere, the HRV is not as protected as electronics on the ground. Alpha, Beta, and Gamma radiation can cause errors within data storage and data processors. The inner Van Allen belts start around 700km or higher over most parts of the Earth. This means that the first layer of heavy particles should start well above the operational altitude of the HRV. However in locations such as the South Atlantic Anomaly, the radiation can dip to far lower altitudes and is highly unpredictable. Because of the importance of the reboost target, the radiation environment is exaggerated to ensure proper operation of the spacecraft and the ability to recover from single event upsets. Three processors and three memory storage devices will allow comparisons for all signals in order to determine faulty data caused by upsets.
+
+The EPS board is required to ensure proper power to all components as well as regulate battery charging. This is the hub where the power bus, solar panels, and battery cells come together. The EPS board is in charge of both operation and safety of the power system.
+
+The batteries will have internal charging circuits. These charging circuits are not software dependent and much more reliable. This internal circuit uses the battery voltage to determine the depth of discharge (DoD) of the cell. The onboard circuit will prevent possible dangers due to overcharging. However, since it is a physical circuit, the DoD required to start charging the batter cannot be changed internally. Though it cannot be changed on the internal circuit, the EPS board can be used to manipulate the system into charging early if necessary by opening up a very large resister in line with the battery. This drops the circuit voltage which makes the internal sensor think the DoD has dropped below charging threshold.
+
+The batteries will be Lithium Nickel Manganese Cobalt Oxide (NMC) Cells. Lithium Ion cells have a high energy density and NMC cells are safer relative to some other Lithium Ion cells. The only drawback is a slightly lower energy density but since we are not near the maximum launch weight for our vehicle, the additional safety is worth the additional mass. NMC batteries can achieve 150 Wh/kg easily.
+
+The solar panels will be flush mounted on all sides except the fore and aft endplates. They will cover the entirety of the sides with the exception of small thermal radiator panels. For analysis purposes, a solar panel efficiency of 30\% was used.
+
+To perform a power budget analysis all consumptions must be accounted for. There are only a couple of phases that use more power than just system overhead. At any given time the system must be monitoring its own health, position, and attitude. Major Burns require enough power to actuate the engine valve. The entire rendezvous phase has increased power usage. Beyond these factors the only other large consumption is during large data transfers. Small effects are also included such as battery heating and solar inefficiencies.
+
+Power generation was estimated using eclipse times generated using Systems Tool Kit (STK), average area to the sun, and average power available at Earth. The power available is a constant estimate for the duration of the mission. The eclipse duration is dependent on the altitude and the average area to the sun depends on what phase of the mission the HRV is on. The DoD a cell will reach is also dependent on the phase of the mission. During early phases of the mission the batteries are allowed to fall to a lower charge level to reduce the charge cycles performed. Right before and during mission critical phases, the batteries are not allowed to drop as low.
+
+Due to the inability freely point while attached to HST, power generation will be assumed to be zero for this portion of the mission.
+
+With all power generation and consumption properly simulated, the capacity of the batteries is modified until the maximum desired DoD is not exceeded. As you can see from the results presented in Figure X, a battery capacity of 500 Wh is sufficient. This would be a mass of less than 3.5kg for the primary cell and an additional 3.5kg for the backup cell. With this battery cell the maximum depth of discharge brings the batter capacity down to 47\%, but only during the rendezvous phase. Other than that specific portion of the mission, the battery capacity doesn't go below 67\% of maximum capacity.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{c c c c c c}
+\toprule
+Solar Panel Area &  Solar Panel Efficiency &  Orbit Average Power &  Battery Capacity &  Battery Mass &  Maximum DoD \\
+\midrule
+16 m$^2$ & 0.3 & 975W & 500Wh & 3.5kg & 53\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{Battery capacity for duration of mission.}
+% \label{properties}
+\end{table}
+
+
+\chapter{Communications}
+HST had two low gain and two high gain s-band antennae. The two low gain antennae (LGA) are mounted fore and aft providing two 95\% spheres of coverage with very little blackout areas. The two high gain antennae (HGA) are mounted on either side extended on booms. The LGA can transmit or receive to TDRSS, a ground station, or an orbiter, while the HGA can only transmit through TDRSS. For this reason the HRV shall have an s-band antenna capable of communicating with HST through the LGA.
+
+The HRV will be able to send up to 1000 bps of command and ranging information at 2106.4 MHz to HST while receiving up to 32 kbps of engineering data at 2287.5 MHz from HST. These are the same frequencies whether data is relayed through TDRSS or not. If HRV is communicating with the ground station, these bitrates increase to 192 kbps downlink and 72 kbps uplink [European Space Policy and Programs Handbook]. The HRV can communicate through TDRSS or directly to the ground station. TDRSS allows for continuous coverage therefore it will be the choice for mission critical operations.
+
+S-band is also a great choice for robustness. S-band can penetrate dense clouds with less energy loss. S-band also has a longer wavelength; the wider beam makes it easier to lock onto with another antenna. The only main drawback is the bitrate, but the bitrate is acceptable for our application.
+
+In order to ensure continuous communication with HST during rendezvous, a similar fore and aft LGA configuration will be used. The layout was designed to ensure HST had the widest possible antennae coverage which is the same goal of the HRV LGA antenna. While each HST LGA is 20W, each HRV LGA will be slightly higher at 25W each for ease of acquisition by receiving antennae. Each HRV HGA will be 20W while each HST HGA is only 15W.
+
+In order to send larger data dumps and telemetry during different parts of the mission a 25W Ku-band antenna will also be included. It is not capable of communicating with HST but can be used to transmit at higher bitrates directly to ground control or through TDRSS. Ku-band is a higher bitrate but more susceptible to bad weather and is harder to lock onto therefore will not be used solely for mission critical operations. It will however be used as a supplemental parallel data transfer. It will use 13.755 GHz to receive and 15.003 GHz to transmit to TDRSS. At up to 50 Mbps, much larger transfers can be performed in short amounts of time.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{c c c c c c c}
+\toprule
+Band & Gain & Tx Freq & Rx Freq & Tx Rate & Rx Rate & Power  \\
+\midrule
+S (2) & Low & 2106.4 MHz & 2287.5 MHz & 1000 bps & 32 kbps & 25 W \\
+S (2) & High & 2106.4 MHz & 2287.5 MHz & 72 kbps & 192 kbps & 20 W \\
+Ku & NA & 13.755 GHz & 15.003 GHz & 50 Mbps & 50 Mbps & 25 W \\
+
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{Antenna Summary}
+% \label{properties}
+\end{table}
+
+
+\chapter{Thermal}
+There are a few sourced of heat that need to be dissipated. The system bus and communications use a decent amount of power while even on standby mode which creates a lot of heat. The solar panels are also turned into large sources of heat while they are exposed to the sun but the power they produce is not being dissipated into batteries. This means anytime the HRV is not charging its batteries and not in eclipse, it is producing a fair amount of heat that needs to be expelled. One source of heat but not as significant is radiative heating from the plume behind the craft every time a burn is performed.
+
+In order to dispense heat from the craft, it requires external thermal radiator panels. Surfaces are also specially selected to balance the emissivity and absorbance of radiative energy between different components. Various heat pipes and silicon pads are strategically placed in order to direct the heat flow properly.
+
+
+\chapter{GNC}
+\chapter{Launch Vehicle}
+\chapter{Spacecraft Structure}
+\chapter{MMOD Shielding}
+\chapter{Conclusion}
 
 % \nocite{*}
 \bibliographystyle{IEEETran}

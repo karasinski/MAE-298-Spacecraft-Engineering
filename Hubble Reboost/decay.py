@@ -1,7 +1,5 @@
-import pandas as pd
 import numpy as np
 from numpy import pi
-
 
 def lifetime(H, M):
     A = 4     # Satellite area (m^2)
@@ -45,6 +43,3 @@ for H in np.linspace(100, 650, 5):
         T = lifetime(H, M)
         print(H, M, T)
         res.append([H, M, T])
-
-res = pd.DataFrame(res)
-res.columns = ['H', 'M', 'T']
